@@ -55,5 +55,7 @@ namespace Trails.Web.Data.DomainModels
         public IEnumerable<Team> Teams { get; set; }
 
         //TODO:ADD PHOTO TO EVENT SAVED TO LOCAL FILE SYSTEM
+
+        //TODO: OPTIONALLY ADD ABILITY TO UPLOAD GPX PREDEFINED ROUTES TO SYSTEM AND LOAD THEM TO MAP....
     }
 }
