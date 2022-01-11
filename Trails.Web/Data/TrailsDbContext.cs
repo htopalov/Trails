@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Trails.Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class TrailsDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public TrailsDbContext(DbContextOptions<TrailsDbContext> options)
             : base(options)
         {
         }
