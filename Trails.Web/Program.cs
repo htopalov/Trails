@@ -1,18 +1,66 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Trails.Web.Data;
 
-namespace Trails.Web
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder
+                        .Configuration
+                        .GetConnectionString("DefaultConnection");
+
+builder
+    .Services
+    .AddDbContext<TrailsDbContext>(options =>
+        options.UseSqlServer(connectionString));
+
+builder
+    .Services
+    .AddDatabaseDeveloperPageExceptionFilter();
+
+builder
+    .Services
+    .AddDefaultIdentity<IdentityUser>(options =>
     {
-        public static void Main(string[] args) 
-            => CreateHostBuilder(args)
-                .Build()
-                .Run();
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+    })
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<TrailsDbContext>();
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-            => Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => webBuilder
-                    .UseStartup<Startup>());
-    }
+builder
+    .Services
+    .AddControllersWithViews(options =>
+    {
+        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+    });
+
+var app = builder.Build();
+
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();
 }
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection()
+   .UseStaticFiles()
+   .UseRouting()
+   .UseAuthentication()
+   .UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
+
+app.Run();

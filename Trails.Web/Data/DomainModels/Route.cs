@@ -14,6 +14,7 @@ namespace Trails.Web.Data.DomainModels
             this.Id = Guid.NewGuid().ToString();
             this.GeoPoints = new List<GeoPoint>();
             this.Checkpoints = new List<GeoPoint>();
+            this.AidPoints = new List<GeoPoint>();
         }
 
         [Key]
@@ -38,5 +39,7 @@ namespace Trails.Web.Data.DomainModels
         public IEnumerable<GeoPoint> GeoPoints { get; set; }
 
         public IEnumerable<GeoPoint> Checkpoints { get; set; }
+
+        public IEnumerable<GeoPoint> AidPoints { get; set; }
     }
 }
