@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 using static Trails.Web.Data.DataConstants.Common;
 
@@ -12,9 +9,7 @@ namespace Trails.Web.Data.DomainModels
         public Route()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.GeoPoints = new List<GeoPoint>();
-            this.Checkpoints = new List<GeoPoint>();
-            this.AidPoints = new List<GeoPoint>();
+            this.RoutePoints = new List<RoutePoint>();
         }
 
         [Key]
@@ -32,14 +27,9 @@ namespace Trails.Web.Data.DomainModels
         [MaxLength(NameMaxLength)]
         public string FinishLocationName { get; set; }
 
-        [ForeignKey(nameof(Event))]
         public string EventId { get; set; }
         public Event Event { get; set; }
 
-        public IEnumerable<GeoPoint> GeoPoints { get; set; }
-
-        public IEnumerable<GeoPoint> Checkpoints { get; set; }
-
-        public IEnumerable<GeoPoint> AidPoints { get; set; }
+        public ICollection<RoutePoint> RoutePoints { get; set; }
     }
 }

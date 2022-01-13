@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trails.Web.Data;
+using Trails.Web.Data.DomainModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder
 
 builder
     .Services
-    .AddDefaultIdentity<IdentityUser>(options =>
+    .AddDefaultIdentity<User>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
         options.Password.RequireDigit = false;
