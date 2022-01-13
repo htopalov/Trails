@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Trails.Web.Data.Enums;
 
 using static Trails.Web.Data.DataConstants.Common;
@@ -45,6 +46,7 @@ namespace Trails.Web.Data.DomainModels
 
         public bool IsDeleted { get; set; }
 
+        [ForeignKey(nameof(Route))]
         public string RouteId { get; set; }
         public Route Route { get; set; }
 

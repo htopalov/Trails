@@ -27,9 +27,6 @@ namespace Trails.Web.Data.DomainModels
         [MaxLength(NameMaxLength)]
         public string FinishLocationName { get; set; }
 
-        public string EventId { get; set; }
-        public Event Event { get; set; }
-
         public ICollection<RoutePoint> RoutePoints { get; set; }
     }
 }

@@ -17,5 +17,12 @@
             public const int LastNameMaxLength = 50;
             public const int CountryNameMaxLength = 50;
         }
+
+        public class Beacon
+        {
+            public const int ImeiLength = 15;
+            public const int SimCardNumberLength = 13;
+            public const int DescriptionMaxLength = 100;
+        }
     }
 }

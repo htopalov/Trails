@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using static Trails.Web.Data.DataConstants.Common;
 
@@ -18,8 +19,9 @@ namespace Trails.Web.Data.DomainModels
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        public int UsersCount { get; set; }
+        public int UsersMaxCount { get; set; }
 
+        [ForeignKey(nameof(Event))]
         public string EventId { get; set; }
         public Event Event { get; set; }
 

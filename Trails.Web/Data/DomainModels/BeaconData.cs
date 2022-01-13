@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Trails.Web.Data.DomainModels
 {
-    public class RoutePoint
+    public class BeaconData
     {
-        public RoutePoint()
+        public BeaconData()
         {
             this.Id = Guid.NewGuid().ToString();
         }
@@ -13,14 +13,18 @@ namespace Trails.Web.Data.DomainModels
         [Key]
         public string Id { get; set; }
 
+        public DateTime Timestamp { get; set; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
 
-        //route need to be created first and after that add points to it in order to work
-        [ForeignKey(nameof(Route))]
-        public string RouteId { get; set; } 
-        public Route Route { get; set; }
+        public double Altitude { get; set; }
 
+        public double Speed { get; set; }
+
+        [ForeignKey(nameof(Beacon))]
+        public string BeaconId { get; set; }
+        public Beacon Beacon { get; set; }
     }
 }

@@ -20,27 +20,13 @@ namespace Trails.Web.Data
 
         public DbSet<RoutePoint> RoutePoints { get; set; }
 
+        public DbSet<Beacon> Beacons { get; set; }
+
+        public DbSet<BeaconData> BeaconData { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder
-                .Entity<Event>()
-                .HasOne(e => e.Route)
-                .WithOne(r => r.Event)
-                .HasForeignKey<Route>(r => r.Id);
-
-            builder
-                    .Entity<Team>()
-                    .HasOne(t => t.Event)
-                    .WithMany(e => e.Teams)
-                    .HasForeignKey(t => t.EventId);
-
-            builder
-                    .Entity<User>()
-                    .HasOne(u => u.Team)
-                    .WithMany(t => t.Users)
-                    .HasForeignKey(u => u.TeamId);
 
             builder
                 .Entity<UserEvent>()
@@ -58,13 +44,12 @@ namespace Trails.Web.Data
                     .WithMany(e => e.UsersEvents)
                     .HasForeignKey(ue => ue.EventId);
 
-            builder
-                .Entity<RoutePoint>()
-                .HasOne(rp => rp.Route)
-                .WithMany(r => r.RoutePoints)
-                .HasForeignKey(rp => rp.RouteId);
+            var dbRelations = builder
+                .Model
+                .GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys());
 
-            foreach (var relation in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            foreach (var relation in dbRelations)
             {
                 relation.DeleteBehavior = DeleteBehavior.Restrict;
             }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Trails.Web.Data.Enums;
 
 using static Trails.Web.Data.DataConstants.User;
@@ -33,8 +34,13 @@ namespace Trails.Web.Data.DomainModels
         //no matter volunteer or participant he should be added to UserEvents collection
         public bool IsVolunteering { get; set; }
 
+        [ForeignKey(nameof(Team))]
         public string TeamId { get; set; }
         public Team Team { get; set; }
+
+        [ForeignKey(nameof(Beacon))]
+        public string BeaconId { get; set; }
+        public Beacon Beacon { get; set; }
 
         public ICollection<UserEvent> UsersEvents { get; set; }
     }
