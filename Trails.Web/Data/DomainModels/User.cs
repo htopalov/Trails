@@ -8,8 +8,8 @@ namespace Trails.Web.Data.DomainModels
 {
     public class User : IdentityUser
     {
-        public User() => 
-            this.UsersEvents = new List<UserEvent>();
+        public User()
+            => this.UsersEvents = new List<UserEvent>();
 
         [Required]
         [MaxLength(FirstNameMaxLength)]
