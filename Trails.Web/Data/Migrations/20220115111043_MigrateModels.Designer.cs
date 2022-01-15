@@ -12,8 +12,8 @@ using Trails.Web.Data;
 namespace Trails.Web.Data.Migrations
 {
     [DbContext(typeof(TrailsDbContext))]
-    [Migration("20220113103520_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220115111043_MigrateModels")]
+    partial class MigrateModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,6 +161,66 @@ namespace Trails.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Beacon", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Imei")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("KeyHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SimCardNumber")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Beacons");
+                });
+
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.BeaconData", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Altitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("BeaconId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Speed")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeaconId");
+
+                    b.ToTable("BeaconData");
+                });
+
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Event", b =>
                 {
                     b.Property<string>("Id")
@@ -196,8 +256,7 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("RouteId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -210,6 +269,8 @@ namespace Trails.Web.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RouteId");
+
                     b.ToTable("Events");
                 });
 
@@ -217,10 +278,6 @@ namespace Trails.Web.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EventId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FinishLocationName")
                         .IsRequired()
@@ -278,7 +335,7 @@ namespace Trails.Web.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("UsersCount")
+                    b.Property<int>("UsersMaxCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -298,6 +355,9 @@ namespace Trails.Web.Data.Migrations
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<string>("BeaconId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -323,7 +383,7 @@ namespace Trails.Web.Data.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsVolunteering")
+                    b.Property<bool?>("IsVolunteering")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -358,7 +418,6 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -369,6 +428,8 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BeaconId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -449,15 +510,25 @@ namespace Trails.Web.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.Route", b =>
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.BeaconData", b =>
                 {
-                    b.HasOne("Trails.Web.Data.DomainModels.Event", "Event")
-                        .WithOne("Route")
-                        .HasForeignKey("Trails.Web.Data.DomainModels.Route", "Id")
+                    b.HasOne("Trails.Web.Data.DomainModels.Beacon", "Beacon")
+                        .WithMany("BeaconData")
+                        .HasForeignKey("BeaconId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Event");
+                    b.Navigation("Beacon");
+                });
+
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Event", b =>
+                {
+                    b.HasOne("Trails.Web.Data.DomainModels.Route", "Route")
+                        .WithMany()
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Route");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.RoutePoint", b =>
@@ -484,11 +555,17 @@ namespace Trails.Web.Data.Migrations
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.User", b =>
                 {
+                    b.HasOne("Trails.Web.Data.DomainModels.Beacon", "Beacon")
+                        .WithMany()
+                        .HasForeignKey("BeaconId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Trails.Web.Data.DomainModels.Team", "Team")
                         .WithMany("Users")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Beacon");
 
                     b.Navigation("Team");
                 });
@@ -512,11 +589,13 @@ namespace Trails.Web.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Beacon", b =>
+                {
+                    b.Navigation("BeaconData");
+                });
+
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Event", b =>
                 {
-                    b.Navigation("Route")
-                        .IsRequired();
-
                     b.Navigation("Teams");
 
                     b.Navigation("UsersEvents");

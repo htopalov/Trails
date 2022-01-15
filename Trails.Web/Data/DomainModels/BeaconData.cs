@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Trails.Web.Data.DomainModels
 {
     public class BeaconData
     {
-        public BeaconData()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public BeaconData() => 
+            this.Id = Guid
+                .NewGuid()
+                .ToString();
 
         [Key]
         public string Id { get; set; }
@@ -23,7 +22,6 @@ namespace Trails.Web.Data.DomainModels
 
         public double Speed { get; set; }
 
-        [ForeignKey(nameof(Beacon))]
         public string BeaconId { get; set; }
         public Beacon Beacon { get; set; }
     }

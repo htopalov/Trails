@@ -1,32 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Trails.Web.Models;
 
 namespace Trails.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IWebHostEnvironment env;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        public HomeController(IWebHostEnvironment env) 
+            => this.env = env;
 
         public IActionResult Index()
         {
-            return View();
+            var imageFileNames = Directory
+                .GetFiles(env.WebRootPath + "\\images")
+                .Select(f=> Path.GetFileName(f))
+                .ToArray();
+            return View(imageFileNames);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() => View();
     }
 }

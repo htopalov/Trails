@@ -5,10 +5,10 @@ namespace Trails.Web.Data.DomainModels
 {
     public class RoutePoint
     {
-        public RoutePoint()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public RoutePoint() =>
+            this.Id = Guid
+                    .NewGuid()
+                    .ToString();
 
         [Key]
         public string Id { get; set; }
@@ -19,7 +19,7 @@ namespace Trails.Web.Data.DomainModels
 
         //route need to be created first and after that add points to it in order to work
         [ForeignKey(nameof(Route))]
-        public string RouteId { get; set; } 
+        public string RouteId { get; set; }
         public Route Route { get; set; }
 
     }

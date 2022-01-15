@@ -254,7 +254,6 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("RouteId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
@@ -356,7 +355,6 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BeaconId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -383,7 +381,7 @@ namespace Trails.Web.Data.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsVolunteering")
+                    b.Property<bool?>("IsVolunteering")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -418,7 +416,6 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -527,8 +524,7 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Route");
                 });
@@ -560,14 +556,12 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.Beacon", "Beacon")
                         .WithMany()
                         .HasForeignKey("BeaconId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Trails.Web.Data.DomainModels.Team", "Team")
                         .WithMany("Users")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Beacon");
 

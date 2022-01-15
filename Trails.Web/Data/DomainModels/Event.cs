@@ -46,8 +46,7 @@ namespace Trails.Web.Data.DomainModels
 
         public bool IsDeleted { get; set; }
 
-        [ForeignKey(nameof(Route))]
-        public string RouteId { get; set; }
+        public string? RouteId { get; set; }
         public Route Route { get; set; }
 
         public ICollection<UserEvent> UsersEvents { get; set; }

@@ -34,6 +34,10 @@ builder
 
 builder
     .Services
+    .AddAutoMapper(typeof(Program));
+
+builder
+    .Services
     .AddControllersWithViews(options =>
     {
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
@@ -63,5 +67,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
+app.UseAuthentication();
 app.Run();
