@@ -37,50 +37,52 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "Username is required")]
-            [StringLength(UsernameMaxLength, ErrorMessage = "Username must be at least {2} and at max {1} characters long.", MinimumLength = UsernameMinLength)]
+            [StringLength(UsernameMaxLength, ErrorMessage = "Username must be between {2} and {1} characters long.", MinimumLength = UsernameMinLength)]
             [Display(Name = "Username")]
             public string Username { get; set; }
 
             [Required(ErrorMessage = "First name is required")]
-            [StringLength(FirstNameMaxLength, ErrorMessage = "First name must be at least {2} and at max {1} characters long.", MinimumLength = FirstNameMinLength)]
+            [StringLength(FirstNameMaxLength, ErrorMessage = "First name must be between {2} and {1} characters long.", MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
             [Required(ErrorMessage = "Last name is required")]
-            [StringLength(LastNameMaxLength, ErrorMessage = "Last name must be at least {2} and at max {1} characters long.", MinimumLength = LastNameMinLength)]
+            [StringLength(LastNameMaxLength, ErrorMessage = "Last name must be between {2} and {1} characters long.", MinimumLength = LastNameMinLength)]
             [Display(Name = "LastName")]
             public string LastName { get; set; }
 
             [Required(ErrorMessage = "Country name is required")]
-            [StringLength(CountryNameMaxLength, ErrorMessage = "Country name must be at least {2} and at max {1} characters long.", MinimumLength = CountryNameMinLength)]
+            [StringLength(CountryNameMaxLength, ErrorMessage = "Country name must be between {2} and {1} characters long.", MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
-            [Range(MinAge,MaxAge, ErrorMessage = "Age must be at least {2} and at max {1} characters long.")]
+            [Required(ErrorMessage = "Age is required")]
+            [Range(MinAge,MaxAge, ErrorMessage = "Age must be between {1} and {2}.")]
             [Display(Name = "Age")]
             public int Age { get; set; }
 
             [Required(ErrorMessage = "Gender is required")]
             [Display(Name = "Gender")]
-            [Range(ValidMaleGender,ValidFemaleGender, ErrorMessage = "You are trying to select gender which is not listed!")]
+            [EnumDataType(typeof(Gender), ErrorMessage = "You are trying to select gender which is not listed!")]
             public int Gender { get; set; }
 
             [Required(ErrorMessage = "Email is required")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Email format not valid")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Phone number is required")]
-            [StringLength(PhoneNumberMaxLength, ErrorMessage = "Phone number must be at least {2} and at max {1} characters long.", MinimumLength = PhoneNumberMinLength)]
+            [RegularExpression(PhonePattern, ErrorMessage = "Phone number format not correct")]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Password is required")]
             [StringLength(PasswordMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "Confirm password is required")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

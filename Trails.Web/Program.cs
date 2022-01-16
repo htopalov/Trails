@@ -23,11 +23,15 @@ builder
     .Services
     .AddDefaultIdentity<User>(options =>
     {
+        options.User.RequireUniqueEmail = true;
+        options.SignIn.RequireConfirmedEmail = false;
         options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedPhoneNumber = false;
         options.Password.RequireDigit = false;
         options.Password.RequireLowercase = false;
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequireUppercase = false;
+        options.Password.RequiredUniqueChars = 0;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TrailsDbContext>();

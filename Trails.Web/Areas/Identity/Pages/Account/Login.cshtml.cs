@@ -13,10 +13,15 @@ namespace Trails.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
 
-        public LoginModel(SignInManager<User> signInManager) 
-            => _signInManager = signInManager;
+        public LoginModel(SignInManager<User> signInManager,
+            UserManager<User> userManager)
+        {
+            this.signInManager = signInManager;
+            this.userManager = userManager;
+        }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -29,14 +34,14 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "Email is required")]
-            [EmailAddress(ErrorMessage = "Email is not valid")]
+            [EmailAddress(ErrorMessage = "Email format not valid")]
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Password is required")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Remember Me?")]
             public bool RememberMe { get; set; }
         }
 
@@ -60,21 +65,34 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var user = await this.userManager
+                    .FindByEmailAsync(Input.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("No user", "User does not exist.");
+                    return Page();
+                }
+
+                var result = await this.signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     return LocalRedirect(returnUrl);
                 }
+
                 if (result.IsLockedOut)
                 {
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid credentials!");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
                     return Page();
                 }
             }
+
             return Page();
         }
     }

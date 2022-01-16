@@ -29,6 +29,7 @@
             public const int PhoneNumberMinLength = 9;
             public const int ValidMaleGender = 0;
             public const int ValidFemaleGender = 1;
+            public const string PhonePattern = @"^\+[0-9]{12}$";
         }
 
         public class Beacon
