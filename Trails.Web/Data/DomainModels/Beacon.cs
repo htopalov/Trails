@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using static Trails.Web.Data.DataConstants.Beacon;
+using static Trails.Web.Data.DataValidationConstants.Beacon;
 
 namespace Trails.Web.Data.DomainModels
 {

@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Trails.Web.Data.Enums;
 
-using static Trails.Web.Data.DataConstants.Common;
-using static Trails.Web.Data.DataConstants.Event;
+using static Trails.Web.Data.DataValidationConstants.Common;
+using static Trails.Web.Data.DataValidationConstants.Event;
 
 namespace Trails.Web.Data.DomainModels
 {

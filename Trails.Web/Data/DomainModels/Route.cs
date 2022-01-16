@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using static Trails.Web.Data.DataConstants.Common;
+using static Trails.Web.Data.DataValidationConstants.Common;
 
 namespace Trails.Web.Data.DomainModels
 {

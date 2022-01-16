@@ -1,6 +1,6 @@
 ﻿namespace Trails.Web.Data
 {
-    public class DataConstants
+    public class DataValidationConstants
     {
         public class Common
         {
@@ -25,10 +25,6 @@
             public const int MaxAge = 100;
             public const int PasswordMinLength = 6;
             public const int PasswordMaxLength = 50;
-            public const int PhoneNumberMaxLength = 20;
-            public const int PhoneNumberMinLength = 9;
-            public const int ValidMaleGender = 0;
-            public const int ValidFemaleGender = 1;
             public const string PhonePattern = @"^\+[0-9]{12}$";
         }
 

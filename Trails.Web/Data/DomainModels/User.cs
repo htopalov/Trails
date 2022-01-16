@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Trails.Web.Data.Enums;
 
-using static Trails.Web.Data.DataConstants.User;
+using static Trails.Web.Data.DataValidationConstants.User;
 
 namespace Trails.Web.Data.DomainModels
 {

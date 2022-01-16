@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Data.Enums;
 
-using static Trails.Web.Data.DataConstants.User;
+using static Trails.Web.Data.DataValidationConstants.User;
+using static Trails.Web.Areas.IdentityValidationConstants.RegisterModelErrorMessages;
 
 namespace Trails.Web.Areas.Identity.Pages.Account
 {
@@ -36,56 +37,56 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Username is required")]
-            [StringLength(UsernameMaxLength, ErrorMessage = "Username must be between {2} and {1} characters long.", MinimumLength = UsernameMinLength)]
+            [Required(ErrorMessage = UsernameRequiredError)]
+            [StringLength(UsernameMaxLength, ErrorMessage = StringLengthError, MinimumLength = UsernameMinLength)]
             [Display(Name = "Username")]
             public string Username { get; set; }
 
-            [Required(ErrorMessage = "First name is required")]
-            [StringLength(FirstNameMaxLength, ErrorMessage = "First name must be between {2} and {1} characters long.", MinimumLength = FirstNameMinLength)]
+            [Required(ErrorMessage = FirstNameRequiredError)]
+            [StringLength(FirstNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
-            [Required(ErrorMessage = "Last name is required")]
-            [StringLength(LastNameMaxLength, ErrorMessage = "Last name must be between {2} and {1} characters long.", MinimumLength = LastNameMinLength)]
-            [Display(Name = "LastName")]
+            [Required(ErrorMessage = LastNameRequiredError)]
+            [StringLength(LastNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = LastNameMinLength)]
+            [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
-            [Required(ErrorMessage = "Country name is required")]
-            [StringLength(CountryNameMaxLength, ErrorMessage = "Country name must be between {2} and {1} characters long.", MinimumLength = CountryNameMinLength)]
+            [Required(ErrorMessage = CountryNameRequired)]
+            [StringLength(CountryNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
-            [Required(ErrorMessage = "Age is required")]
-            [Range(MinAge,MaxAge, ErrorMessage = "Age must be between {1} and {2}.")]
+            [Required(ErrorMessage = AgeRequiredError)]
+            [Range(MinAge,MaxAge, ErrorMessage = AgeRangeError)]
             [Display(Name = "Age")]
             public int Age { get; set; }
 
-            [Required(ErrorMessage = "Gender is required")]
+            [Required(ErrorMessage = GenderRequiredError)]
             [Display(Name = "Gender")]
-            [EnumDataType(typeof(Gender), ErrorMessage = "You are trying to select gender which is not listed!")]
+            [EnumDataType(typeof(Gender), ErrorMessage = GenderTypeError)]
             public int Gender { get; set; }
 
-            [Required(ErrorMessage = "Email is required")]
-            [EmailAddress(ErrorMessage = "Email format not valid")]
+            [Required(ErrorMessage = EmailRequiredError)]
+            [EmailAddress(ErrorMessage = InvalidEmailFormatError)]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Phone number is required")]
-            [RegularExpression(PhonePattern, ErrorMessage = "Phone number format not correct")]
+            [Required(ErrorMessage = PhoneNumberRequiredError)]
+            [RegularExpression(PhonePattern, ErrorMessage = IncorrectPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
-            [Required(ErrorMessage = "Password is required")]
-            [StringLength(PasswordMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = PasswordMinLength)]
+            [Required(ErrorMessage = PasswordRequiredError)]
+            [StringLength(PasswordMaxLength, ErrorMessage = StringLengthError, MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [Required(ErrorMessage = "Confirm password is required")]
+            [Required(ErrorMessage = ConfirmPasswordRequiredError)]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = ComparePasswordsError)]
             public string ConfirmPassword { get; set; }
         }
 

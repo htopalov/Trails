@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Trails.Web.Data.DomainModels;
 
+using static Trails.Web.Areas.IdentityValidationConstants.InputModelErrorMessages;
+
 namespace Trails.Web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -33,11 +35,11 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Email is required")]
-            [EmailAddress(ErrorMessage = "Email format not valid")]
+            [Required(ErrorMessage = EmailRequiredError)]
+            [EmailAddress(ErrorMessage = EmailInvalidFormatError)]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Password is required")]
+            [Required(ErrorMessage = PasswordRequiredError)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -70,11 +72,12 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("No user", "User does not exist.");
+                    ModelState.AddModelError(ModelStateNullUserKey, ModelStateNullUserValue);
                     return Page();
                 }
 
-                var result = await this.signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await this.signInManager
+                    .PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
@@ -87,7 +90,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, ModelStateInvalidLoginValue);
 
                     return Page();
                 }
