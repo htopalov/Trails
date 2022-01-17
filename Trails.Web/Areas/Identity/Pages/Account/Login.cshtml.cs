@@ -39,7 +39,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
             [EmailAddress(ErrorMessage = EmailInvalidFormatError)]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = PasswordRequiredError)]
+            [Required(ErrorMessage = PasswordRequiredError, AllowEmptyStrings = false)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

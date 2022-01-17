@@ -77,7 +77,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
-            [Required(ErrorMessage = PasswordRequiredError)]
+            [Required(ErrorMessage = PasswordRequiredError, AllowEmptyStrings = false)]
             [StringLength(PasswordMaxLength, ErrorMessage = StringLengthError, MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
