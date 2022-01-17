@@ -38,7 +38,7 @@ builder
 
 builder
     .Services
-    .AddAutoMapper(typeof(Program));
+    .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder
     .Services
