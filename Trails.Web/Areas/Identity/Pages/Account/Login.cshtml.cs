@@ -35,11 +35,11 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = EmailRequiredError)]
+            [Required]
             [EmailAddress(ErrorMessage = EmailInvalidFormatError)]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = PasswordRequiredError, AllowEmptyStrings = false)]
+            [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

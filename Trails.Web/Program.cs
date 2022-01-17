@@ -45,6 +45,8 @@ builder
     .AddControllersWithViews(options =>
     {
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+        options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+            _ => "The field is required.");
     });
 
 var app = builder.Build();

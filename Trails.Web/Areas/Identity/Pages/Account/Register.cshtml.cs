@@ -37,53 +37,53 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = UsernameRequiredError)]
+            [Required]
             [StringLength(UsernameMaxLength, ErrorMessage = StringLengthError, MinimumLength = UsernameMinLength)]
             [Display(Name = "Username")]
             public string Username { get; set; }
 
-            [Required(ErrorMessage = FirstNameRequiredError)]
+            [Required]
             [StringLength(FirstNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
-            [Required(ErrorMessage = LastNameRequiredError)]
+            [Required]
             [StringLength(LastNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = LastNameMinLength)]
             [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
-            [Required(ErrorMessage = CountryNameRequired)]
+            [Required]
             [StringLength(CountryNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
-            [Required(ErrorMessage = AgeRequiredError)]
+            [Required]
             [Range(MinAge,MaxAge, ErrorMessage = AgeRangeError)]
             [Display(Name = "Age")]
             public int Age { get; set; }
 
-            [Required(ErrorMessage = GenderRequiredError)]
+            [Required]
             [Display(Name = "Gender")]
             [EnumDataType(typeof(Gender), ErrorMessage = GenderTypeError)]
             public int Gender { get; set; }
 
-            [Required(ErrorMessage = EmailRequiredError)]
+            [Required]
             [EmailAddress(ErrorMessage = InvalidEmailFormatError)]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = PhoneNumberRequiredError)]
+            [Required]
             [RegularExpression(PhonePattern, ErrorMessage = IncorrectPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
-            [Required(ErrorMessage = PasswordRequiredError, AllowEmptyStrings = false)]
+            [Required]
             [StringLength(PasswordMaxLength, ErrorMessage = StringLengthError, MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [Required(ErrorMessage = ConfirmPasswordRequiredError)]
+            [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = ComparePasswordsError)]

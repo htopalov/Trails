@@ -25,7 +25,7 @@
             public const int MaxAge = 100;
             public const int PasswordMinLength = 6;
             public const int PasswordMaxLength = 50;
-            public const string PhonePattern = @"^\+[0-9]{12}$";
+            public const string PhonePattern = @"(\+359|0)[0-9]{9}";
         }
 
         public class Beacon
