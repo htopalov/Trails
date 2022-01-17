@@ -65,9 +65,12 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await this.userManager
+                return Page();
+            }
+
+            var user = await this.userManager
                     .FindByEmailAsync(Input.Email);
 
                 if (user == null)
@@ -94,9 +97,6 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
                     return Page();
                 }
-            }
-
-            return Page();
         }
     }
 }

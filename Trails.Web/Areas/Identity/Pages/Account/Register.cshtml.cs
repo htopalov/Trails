@@ -3,7 +3,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Trails.Web.Data.DomainModels;
@@ -22,9 +21,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public RegisterModel(
             UserManager<User> userManager,
-            IUserStore<User> userStore,
-            SignInManager<User> signInManager,
-            IEmailSender emailSender)
+            SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -98,32 +95,34 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new User
-                {
-                    UserName = Input.Username,
-                    FirstName = Input.Firstname,
-                    LastName = Input.LastName,
-                    CountryName = Input.CountryName,
-                    Age = Input.Age,
-                    Gender = (Gender)Input.Gender,
-                    Email = Input.Email,
-                    PhoneNumber = Input.PhoneNumber
-                };
+                return Page();
+            }
 
-                var result = await this.userManager.CreateAsync(user, Input.Password);
+            var user = new User
+            {
+                UserName = Input.Username,
+                FirstName = Input.Firstname,
+                LastName = Input.LastName,
+                CountryName = Input.CountryName,
+                Age = Input.Age,
+                Gender = (Gender)Input.Gender,
+                Email = Input.Email,
+                PhoneNumber = Input.PhoneNumber
+            };
 
-                if (result.Succeeded)
-                {
-                    await this.signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
-                }
+            var result = await this.userManager.CreateAsync(user, Input.Password);
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+            if (result.Succeeded)
+            {
+                await this.signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
             return Page();

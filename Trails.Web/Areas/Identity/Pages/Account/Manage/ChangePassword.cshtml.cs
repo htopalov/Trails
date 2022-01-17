@@ -1,0 +1,82 @@
+﻿#nullable disable
+
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Web.Data.DomainModels;
+
+using static Trails.Web.Data.DataValidationConstants.User;
+using static Trails.Web.Areas.IdentityValidationConstants.RegisterModelErrorMessages;
+
+namespace Trails.Web.Areas.Identity.Pages.Account.Manage
+{
+    [Authorize]
+    public class ChangePasswordModel : PageModel
+    {
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
+
+        public ChangePasswordModel(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+        }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        [TempData]
+        public string StatusMessage { get; set; }
+
+        public class InputModel
+        {
+            [Required]
+            [DataType(DataType.Password)]
+            [Display(Name = "Current password")]
+            public string OldPassword { get; set; }
+
+            [Required]
+            [StringLength(PasswordMaxLength, ErrorMessage = StringLengthError, MinimumLength = PasswordMinLength)]
+            [DataType(DataType.Password)]
+            [Display(Name = "New password")]
+            public string NewPassword { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm new password")]
+            [Compare("NewPassword", ErrorMessage = ComparePasswordsError)]
+            public string ConfirmPassword { get; set; }
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var user = await userManager
+                .GetUserAsync(User);
+
+            var changePasswordResult = await userManager
+                .ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
+
+            if (!changePasswordResult.Succeeded)
+            {
+                foreach (var error in changePasswordResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return Page();
+            }
+
+            await signInManager.RefreshSignInAsync(user);
+            StatusMessage = "Your password has been changed.";
+
+            return RedirectToPage();
+        }
+    }
+}
