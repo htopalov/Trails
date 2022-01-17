@@ -8,8 +8,7 @@
             public const string EmailInvalidFormatError = "Email format not valid";
             public const string PasswordRequiredError = "Password is required";
             public const string ModelStateNullUserKey = "No user";
-            public const string ModelStateNullUserValue = "User does not exist.";
-            public const string ModelStateInvalidLoginValue = "Invalid login attempt.";
+            public const string ModelStateInvalidLoginError = "Invalid login attempt.";
         }
 
         public class RegisterModelErrorMessages

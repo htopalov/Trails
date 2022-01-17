@@ -72,7 +72,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(ModelStateNullUserKey, ModelStateNullUserValue);
+                    ModelState.AddModelError(ModelStateNullUserKey, ModelStateInvalidLoginError);
                     return Page();
                 }
 
@@ -90,7 +90,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, ModelStateInvalidLoginValue);
+                    ModelState.AddModelError(string.Empty, ModelStateInvalidLoginError);
 
                     return Page();
                 }

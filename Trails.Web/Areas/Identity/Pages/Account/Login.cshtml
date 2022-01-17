@@ -6,45 +6,40 @@
     ViewData["Title"] = "Log in ";
 }
 
-<section>
-    <div class="row d-flex justify-content-center col-12">
-        <div class="col-4">
-            <form id="account" method="post" class="py-3">
-                <div class="d-flex justify-content-center">
-                    <i class="icon-map-marker icon-4x text-success"></i>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <h1 class="h3 mb-3 font-weight-normal text-center">Please log in</h1>
-                </div>
-                <div class="form-group mb-1 ">
-                    <input asp-for="Input.Email" class="form-control" placeholder="Email address" />
-                </div>
-                <div class="form-group mb-1 ">
-                    <input asp-for="Input.Password" class="form-control" placeholder="Password" />
-                </div>
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label class="text-center" asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
+<section class="page-section mt-3" id="login">
+            <div class="container">
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mt-5">Login</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <form id="accountLogin" method="post">
+                            <div class="form-floating mb-2">
+                                <input asp-for="Input.Email" class="form-control" placeholder="Email address"/>
+                                <label asp-for="Input.Email">Email address</label>
+                            </div>
+                            <div class="form-floating mb-2">
+                                <input asp-for="Input.Password" class="form-control" placeholder="Password"/>
+                                <label asp-for="Input.Password">Your password</label>
+                            </div>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label class="text-center" asp-for="Input.RememberMe">
+                                    <input asp-for="Input.RememberMe" />
+                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send</button>
+                        </form>
+                    </div>
+                    <div class="row col-12 mt-2" >
+                       <p class="lead col-12 col-md-12 text-center">
+                       <a class="text-muted" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a></p>
+                       <p class="lead col-12 col-md-12 text-center text-muted">
+                       <a class="text-muted" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a></p>
                     </div>
                 </div>
-                <div class="form-group col-md-12 text-center">
-                    <button type="submit" class="btn btn-lg btn-success btn-block">Log in</button>
-                </div>
-            </form>
-        </div>
-        <div class="row col-12" >
-            <p class="col-12 col-md-12 text-center">
-                <a class="text-muted" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-            </p>
-            <p class="col-12 col-md-12 text-center text-muted">
-                <a class="text-muted" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-            </p>
-        </div>
-    </div>
+            </div>
 </section>
 
 @section Scripts {
