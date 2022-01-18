@@ -113,18 +113,18 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
         private User AssignUserProperties(User user)
         {
+            //get only properties of entity User which should be edited if needed
             var userProps = typeof(User)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.PropertyType.IsValueType == true || p.PropertyType == typeof(string))
+                .Where(p => (p.PropertyType.IsValueType == true || p.PropertyType == typeof(string)) &&
+                    p.DeclaringType == typeof(User)
+                    || p.Name == "PhoneNumber")
                 .ToArray();
 
             for (int i = 0; i < userProps.Length; i++)
             {
                 switch (userProps[i].Name)
                 {
-                    case "UserName":
-                        user.UserName = user.UserName;
-                        break;
                     case "FirstName":
                         user.FirstName = Input.Firstname;
                         break;
