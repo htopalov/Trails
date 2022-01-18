@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Web.Areas.Identity.Pages.Account.Contracts;
 using Trails.Web.Data.DomainModels;
 
 using static Trails.Web.Data.DataValidationConstants.User;
@@ -39,20 +40,29 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public class InputModel
+        public class InputModel : IUserInputModel
         {
             [Required]
-            [StringLength(FirstNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = FirstNameMinLength)]
+            [StringLength(
+                FirstNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
             [Required]
-            [StringLength(LastNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = LastNameMinLength)]
+            [StringLength(
+                LastNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = LastNameMinLength)]
             [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
             [Required]
-            [StringLength(CountryNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = CountryNameMinLength)]
+            [StringLength(
+                CountryNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
@@ -62,20 +72,24 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
             public int Age { get; set; }
 
             [Required]
-            [RegularExpression(PhonePattern, ErrorMessage = IncorrectPhoneNumberFormatError)]
+            [RegularExpression(
+                PhonePattern,
+                ErrorMessage = IncorrectPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
         }
 
         private async Task LoadAsync(User user)
         {
-            Input = mapper.Map<InputModel>(user);
+            Input = this.mapper
+                .Map<InputModel>(user);
+
             Username = user.UserName;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await userManager
+            var user = await this.userManager
                 .GetUserAsync(User);
 
             await LoadAsync(user);
@@ -84,7 +98,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         { 
-            var user = await userManager
+            var user = await this.userManager
                 .GetUserAsync(User);
 
             user = AssignUserProperties(user);
@@ -95,7 +109,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var result = await userManager
+            var result = await this.userManager
                 .UpdateAsync(user);
 
             if (!result.Succeeded)
@@ -104,7 +118,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
                 return RedirectToPage();
             }
 
-            await signInManager
+            await this.signInManager
                 .RefreshSignInAsync(user);
 
             StatusMessage = "Your profile has been updated";

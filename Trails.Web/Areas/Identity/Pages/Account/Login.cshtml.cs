@@ -56,14 +56,15 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
             returnUrl ??= Url.Content("~/");
 
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            await this.HttpContext
+                .SignOutAsync(IdentityConstants.ExternalScheme);
 
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= this.Url.Content("~/");
 
             if (!ModelState.IsValid)
             {

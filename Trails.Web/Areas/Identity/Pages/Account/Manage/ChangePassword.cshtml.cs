@@ -40,7 +40,10 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
             public string OldPassword { get; set; }
 
             [Required]
-            [StringLength(PasswordMaxLength, ErrorMessage = StringLengthError, MinimumLength = PasswordMinLength)]
+            [StringLength(
+                PasswordMaxLength, 
+                ErrorMessage = StringLengthError,
+                MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
@@ -58,10 +61,10 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var user = await userManager
+            var user = await this.userManager
                 .GetUserAsync(User);
 
-            var changePasswordResult = await userManager
+            var changePasswordResult = await this.userManager
                 .ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
 
             if (!changePasswordResult.Succeeded)
@@ -73,7 +76,9 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            await signInManager.RefreshSignInAsync(user);
+            await this.signInManager
+                .RefreshSignInAsync(user);
+
             StatusMessage = "Your password has been changed.";
 
             return RedirectToPage();

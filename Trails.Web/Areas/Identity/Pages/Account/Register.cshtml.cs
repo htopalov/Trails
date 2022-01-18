@@ -1,10 +1,12 @@
 ﻿#nullable disable
 
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Web.Areas.Identity.Pages.Account.Contracts;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Data.Enums;
 
@@ -18,13 +20,16 @@ namespace Trails.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly IMapper mapper;
 
         public RegisterModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.mapper = mapper;
         }
 
         [BindProperty]
@@ -32,25 +37,37 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public class InputModel
+        public class InputModel : IUserInputModel
         {
             [Required]
-            [StringLength(UsernameMaxLength, ErrorMessage = StringLengthError, MinimumLength = UsernameMinLength)]
+            [StringLength(
+                UsernameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = UsernameMinLength)]
             [Display(Name = "Username")]
             public string Username { get; set; }
 
             [Required]
-            [StringLength(FirstNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = FirstNameMinLength)]
+            [StringLength(
+                FirstNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
             [Required]
-            [StringLength(LastNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = LastNameMinLength)]
+            [StringLength(
+                LastNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = LastNameMinLength)]
             [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
             [Required]
-            [StringLength(CountryNameMaxLength, ErrorMessage = StringLengthError, MinimumLength = CountryNameMinLength)]
+            [StringLength(
+                CountryNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
@@ -70,12 +87,17 @@ namespace Trails.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [RegularExpression(PhonePattern, ErrorMessage = IncorrectPhoneNumberFormatError)]
+            [RegularExpression(
+                PhonePattern, 
+                ErrorMessage = IncorrectPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
             [Required]
-            [StringLength(PasswordMaxLength, ErrorMessage = StringLengthError, MinimumLength = PasswordMinLength)]
+            [StringLength(
+                PasswordMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -93,30 +115,24 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= this.Url.Content("~/");
 
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var user = new User
-            {
-                UserName = Input.Username,
-                FirstName = Input.Firstname,
-                LastName = Input.LastName,
-                CountryName = Input.CountryName,
-                Age = Input.Age,
-                Gender = (Gender)Input.Gender,
-                Email = Input.Email,
-                PhoneNumber = Input.PhoneNumber
-            };
+            var user = this.mapper
+                .Map<User>(Input);
 
-            var result = await this.userManager.CreateAsync(user, Input.Password);
+            var result = await this.userManager
+                .CreateAsync(user, Input.Password);
 
             if (result.Succeeded)
             {
-                await this.signInManager.SignInAsync(user, isPersistent: false);
+                await this.signInManager
+                    .SignInAsync(user, isPersistent: false);
+
                 return LocalRedirect(returnUrl);
             }
 
