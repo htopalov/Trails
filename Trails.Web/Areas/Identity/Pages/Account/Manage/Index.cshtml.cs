@@ -2,6 +2,8 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using AgeCalculator;
+using AgeCalculator.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +35,8 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+
+        public int Age { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -67,11 +71,6 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
             public string CountryName { get; set; }
 
             [Required]
-            [Range(MinAge, MaxAge, ErrorMessage = AgeRangeError)]
-            [Display(Name = "Age")]
-            public int Age { get; set; }
-
-            [Required]
             [RegularExpression(
                 PhonePattern,
                 ErrorMessage = IncorrectPhoneNumberFormatError)]
@@ -85,6 +84,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
                 .Map<InputModel>(user);
 
             Username = user.UserName;
+            Age = CalculateAge(user.BirthDate);
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -130,9 +130,9 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
             //get only properties of entity User which should be edited if needed
             var userProps = typeof(User)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => (p.PropertyType.IsValueType == true || p.PropertyType == typeof(string)) &&
-                    p.DeclaringType == typeof(User)
-                    || p.Name == "PhoneNumber")
+                .Where(p=> p.DeclaringType == typeof(User) &&
+                           p.PropertyType == typeof(string) ||
+                           p.Name == "PhoneNumber")
                 .ToArray();
 
             for (int i = 0; i < userProps.Length; i++)
@@ -148,9 +148,6 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
                     case "CountryName":
                         user.CountryName = Input.CountryName;
                         break;
-                    case "Age":
-                        user.Age = Input.Age;
-                        break;
                     case "PhoneNumber":
                         user.PhoneNumber = Input.PhoneNumber;
                         break;
@@ -160,5 +157,8 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             return user;
         }
+
+        private static int CalculateAge(DateTime birthDate) 
+            => birthDate.CalculateAge(DateTime.Today).Years;
     }
 }

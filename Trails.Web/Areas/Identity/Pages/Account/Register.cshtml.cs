@@ -71,10 +71,9 @@ namespace Trails.Web.Areas.Identity.Pages.Account
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
-            [Required]
-            [Range(MinAge,MaxAge, ErrorMessage = AgeRangeError)]
-            [Display(Name = "Age")]
-            public int Age { get; set; }
+            [DataType(DataType.DateTime)]
+            [Display(Name = "BirthDate")]
+            public DateTime BirthDate { get; set; }
 
             [Required]
             [Display(Name = "Gender")]

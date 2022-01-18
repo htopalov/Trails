@@ -21,7 +21,6 @@ namespace Trails.Web.Data.DomainModels
 
         public int UsersMaxCount { get; set; }
 
-        [ForeignKey(nameof(Event))]
         public string EventId { get; set; }
         public Event Event { get; set; }
 

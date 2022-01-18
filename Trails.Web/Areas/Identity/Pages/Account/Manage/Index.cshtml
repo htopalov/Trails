@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Edit profile";
+    ViewData["Title"] = "Edit profile ";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
@@ -14,6 +14,10 @@
             <div class="form-floating">
                 <input asp-for="Username" class="form-control" disabled />
                 <label asp-for="Username" class="form-label"></label>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Age" class="form-control" disabled />
+                <label asp-for="Age" class="form-label"></label>
             </div>
             <div class="form-floating">
                   <input asp-for="Input.Firstname" class="form-control" placeholder="Firstname" />
@@ -29,11 +33,6 @@
                   <input asp-for="Input.CountryName" class="form-control" placeholder="Country" />
                   <label asp-for="Input.CountryName">Country</label>
                   <span asp-validation-for="Input.CountryName" class="text-danger"></span>
-              </div>
-              <div class="form-floating">
-                  <input asp-for="Input.Age" class="form-control" placeholder="Age" />
-                  <label asp-for="Input.Age">Age</label>
-                  <span asp-validation-for="Input.Age" class="text-danger"></span>
               </div>
             <div class="form-floating">
                   <input asp-for="Input.PhoneNumber" class="form-control" placeholder="PhoneNumber" />

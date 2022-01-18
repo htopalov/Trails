@@ -18,7 +18,6 @@ namespace Trails.Web.Data.DomainModels
         public double Longitude { get; set; }
 
         //route need to be created first and after that add points to it in order to work
-        [ForeignKey(nameof(Route))]
         public string RouteId { get; set; }
         public Route Route { get; set; }
 
