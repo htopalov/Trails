@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
+using Trails.Web.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,8 @@ builder
 
 var app = builder.Build();
 
+//TODO: UNCOMMENT WHEN DEPLOYING 
+//app.DatabaseSetup();
 
 if (app.Environment.IsDevelopment())
 {
