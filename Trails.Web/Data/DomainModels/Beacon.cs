@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-using static Trails.Web.Data.DataValidationConstants.Beacon;
+using Trails.Web.Common;
 
 namespace Trails.Web.Data.DomainModels
 {
@@ -16,15 +15,15 @@ namespace Trails.Web.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(ImeiLength)]
+        [MaxLength(ValidationConstants.ImeiLength)]
         public string Imei { get; set; }
 
         [Required]
-        [MaxLength(SimCardNumberLength)]
+        [MaxLength(ValidationConstants.SimCardNumberLength)]
         public string SimCardNumber { get; set; }
 
         [Required]
-        [MaxLength(DescriptionMaxLength)]
+        [MaxLength(ValidationConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public string KeyHash { get; set; }

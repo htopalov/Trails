@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Beacon\**" />
+    <Content Remove="Models\Beacon\**" />
+    <EmbeddedResource Remove="Models\Beacon\**" />
+    <None Remove="Models\Beacon\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AgeCalculator" Version="1.2.2" />
     <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
@@ -24,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Models\Beacon\" />
   </ItemGroup>
 
   <ItemGroup>

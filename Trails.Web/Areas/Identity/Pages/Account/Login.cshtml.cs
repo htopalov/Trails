@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Web.Common;
 using Trails.Web.Data.DomainModels;
 
-using static Trails.Web.Areas.IdentityValidationConstants.InputModelErrorMessages;
 
 namespace Trails.Web.Areas.Identity.Pages.Account
 {
@@ -36,7 +36,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress(ErrorMessage = EmailInvalidFormatError)]
+            [EmailAddress(ErrorMessage = ErrorMessages.InvalidEmailFormatError)]
             public string Email { get; set; }
 
             [Required]
@@ -76,7 +76,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(ModelStateNullUserKey, ModelStateInvalidLoginError);
+                    ModelState.AddModelError(ErrorMessages.ModelStateNullUserKey, ErrorMessages.ModelStateInvalidLoginError);
                     return Page();
                 }
 
@@ -94,7 +94,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, ModelStateInvalidLoginError);
+                    ModelState.AddModelError(string.Empty, ErrorMessages.ModelStateInvalidLoginError);
 
                     return Page();
                 }

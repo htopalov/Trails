@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Trails.Web.Common;
 using Trails.Web.Data.Enums;
 
-using static Trails.Web.Data.DataValidationConstants.Common;
-using static Trails.Web.Data.DataValidationConstants.Event;
 
 namespace Trails.Web.Data.DomainModels
 {
@@ -20,11 +18,11 @@ namespace Trails.Web.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(DescriptionMaxLength)]
+        [MaxLength(ValidationConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public DateTime StartDate { get; set; }

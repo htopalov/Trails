@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using Trails.Web.Common;
 using Trails.Web.Data.Enums;
-
-using static Trails.Web.Data.DataValidationConstants.User;
 
 namespace Trails.Web.Data.DomainModels
 {
@@ -12,15 +11,15 @@ namespace Trails.Web.Data.DomainModels
             => this.UsersEvents = new List<UserEvent>();
 
         [Required]
-        [MaxLength(FirstNameMaxLength)]
+        [MaxLength(ValidationConstants.FirstNameMaxLength)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(LastNameMaxLength)]
+        [MaxLength(ValidationConstants.LastNameMaxLength)]
         public string LastName { get; set; }
 
         [Required]
-        [MaxLength(CountryNameMaxLength)]
+        [MaxLength(ValidationConstants.CountryNameMaxLength)]
         public string CountryName { get; set; }
 
         public DateTime BirthDate { get; set; }

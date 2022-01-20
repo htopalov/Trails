@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using static Trails.Web.Data.DataValidationConstants.Common;
+using Trails.Web.Common;
 
 namespace Trails.Web.Data.DomainModels
 {
@@ -16,7 +14,7 @@ namespace Trails.Web.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
         public int UsersMaxCount { get; set; }

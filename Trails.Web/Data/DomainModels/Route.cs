@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-using static Trails.Web.Data.DataValidationConstants.Common;
+using Trails.Web.Common;
 
 namespace Trails.Web.Data.DomainModels
 {
@@ -16,15 +15,15 @@ namespace Trails.Web.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string StartLocationName { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string FinishLocationName { get; set; }
 
         public ICollection<RoutePoint> RoutePoints { get; set; }

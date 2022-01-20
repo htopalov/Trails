@@ -2,7 +2,6 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using AgeCalculator;
 using AgeCalculator.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -10,10 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Trails.Web.Areas.Identity.Pages.Account.Contracts;
+using Trails.Web.Common;
 using Trails.Web.Data.DomainModels;
-
-using static Trails.Web.Data.DataValidationConstants.User;
-using static Trails.Web.Areas.IdentityValidationConstants.RegisterModelErrorMessages;
 
 namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -48,32 +45,32 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [StringLength(
-                FirstNameMaxLength,
-                ErrorMessage = StringLengthError,
-                MinimumLength = FirstNameMinLength)]
+                ValidationConstants.FirstNameMaxLength,
+                ErrorMessage = ErrorMessages.StringLengthError,
+                MinimumLength = ValidationConstants.FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
             [Required]
             [StringLength(
-                LastNameMaxLength,
-                ErrorMessage = StringLengthError,
-                MinimumLength = LastNameMinLength)]
+                ValidationConstants.LastNameMaxLength,
+                ErrorMessage = ErrorMessages.StringLengthError,
+                MinimumLength = ValidationConstants.LastNameMinLength)]
             [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
             [Required]
             [StringLength(
-                CountryNameMaxLength,
-                ErrorMessage = StringLengthError,
-                MinimumLength = CountryNameMinLength)]
+                ValidationConstants.CountryNameMaxLength,
+                ErrorMessage = ErrorMessages.StringLengthError,
+                MinimumLength = ValidationConstants.CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
             [Required]
             [RegularExpression(
-                PhonePattern,
-                ErrorMessage = IncorrectPhoneNumberFormatError)]
+                ValidationConstants.PhonePattern,
+                ErrorMessage = ErrorMessages.IncorrectPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
         }

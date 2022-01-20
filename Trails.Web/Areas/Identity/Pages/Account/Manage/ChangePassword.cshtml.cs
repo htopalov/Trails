@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Web.Common;
 using Trails.Web.Data.DomainModels;
-
-using static Trails.Web.Data.DataValidationConstants.User;
-using static Trails.Web.Areas.IdentityValidationConstants.RegisterModelErrorMessages;
 
 namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -41,16 +39,16 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [StringLength(
-                PasswordMaxLength, 
-                ErrorMessage = StringLengthError,
-                MinimumLength = PasswordMinLength)]
+                ValidationConstants.PasswordMaxLength, 
+                ErrorMessage = ErrorMessages.StringLengthError,
+                MinimumLength = ValidationConstants.PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = ComparePasswordsError)]
+            [Compare("NewPassword", ErrorMessage = ErrorMessages.ComparePasswordsError)]
             public string ConfirmPassword { get; set; }
         }
 
