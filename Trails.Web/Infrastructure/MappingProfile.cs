@@ -2,6 +2,7 @@
 using Trails.Web.Areas.Identity.Pages.Account;
 using Trails.Web.Areas.Identity.Pages.Account.Manage;
 using Trails.Web.Data.DomainModels;
+using Trails.Web.Models.Beacon;
 
 namespace Trails.Web.Infrastructure
 {
@@ -14,7 +15,8 @@ namespace Trails.Web.Infrastructure
             this.CreateMap<IndexModel.InputModel, User>()
                 .ReverseMap();
 
-            //this.CreateMap<Beacon, BeaconGet>();
+            this.CreateMap<BeaconFormModel, Beacon>()
+                .ForMember(dest=>dest.KeyHash, opt=>opt.MapFrom(s=>s.Key));
         }
     }
 }
