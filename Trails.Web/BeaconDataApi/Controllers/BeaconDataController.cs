@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Trails.Web.BeaconApi.Controllers
+namespace Trails.Web.BeaconDataApi.Controllers
 {
     [ApiController]
     [Route("beacon/data")]

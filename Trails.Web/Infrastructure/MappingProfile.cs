@@ -13,6 +13,8 @@ namespace Trails.Web.Infrastructure
 
             this.CreateMap<IndexModel.InputModel, User>()
                 .ReverseMap();
+
+            //this.CreateMap<Beacon, BeaconGet>();
         }
     }
 }

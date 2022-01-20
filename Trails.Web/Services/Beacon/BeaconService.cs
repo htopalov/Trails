@@ -1,4 +1,4 @@
-﻿namespace Trails.Web.BeaconApi.Services.BeaconService
+﻿namespace Trails.Web.Services.Beacon
 {
     public class BeaconService : IBeaconService
     {

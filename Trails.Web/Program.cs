@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Trails.Web.BeaconApi.Services.BeaconDataService;
-using Trails.Web.BeaconApi.Services.BeaconService;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Infrastructure.Extensions;
@@ -42,14 +40,6 @@ builder
 builder
     .Services
     .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder
-    .Services
-    .AddTransient<IBeaconService, BeaconService>();
-
-builder
-    .Services
-    .AddTransient<IBeaconDataService, BeaconDataService>();
 
 builder
     .Services
