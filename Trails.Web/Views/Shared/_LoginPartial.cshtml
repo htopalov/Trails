@@ -14,20 +14,19 @@
     }
     else if(SignInManager.IsSignedIn(User))
     {
-        if (User.IsInRole("Administrator"))
+        if (!User.IsInRole("Administrator"))
         { 
-            @*change asp-page tag helpers to their appropriate locations when implemented*@
-            <li class="nav-item">
-                <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Administrator</a>
-            </li>
-        }
-        else
-        {
             <li class="nav-item">
                 <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Create Event</a>
             </li>
             <li class="nav-item">
                 <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Events</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Administration" asp-controller="Administration" asp-action="Index" title="Manage">Administration</a>
             </li>
         }
         <li class="nav-item">
