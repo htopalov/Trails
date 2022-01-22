@@ -1,4 +1,4 @@
-﻿using Trails.Web.Models.Beacon;
+﻿using Trails.Web.Areas.Administration.Models.Beacon;
 
 namespace Trails.Web.Areas.Administration.Services.Beacon
 {

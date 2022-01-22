@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Trails.Web.Areas.Administration.Services.Administration;
 using Trails.Web.Areas.Administration.Services.Beacon;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
@@ -45,6 +46,10 @@ builder
 builder
     .Services
     .AddTransient<IBeaconService, BeaconService>();
+
+builder
+    .Services
+    .AddTransient<IAdministrationService, AdministrationService>();
 
 builder
     .Services

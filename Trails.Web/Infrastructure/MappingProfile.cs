@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Areas.Identity.Pages.Account;
 using Trails.Web.Areas.Identity.Pages.Account.Manage;
 using Trails.Web.Data.DomainModels;
-using Trails.Web.Models.Beacon;
 
 namespace Trails.Web.Infrastructure
 {

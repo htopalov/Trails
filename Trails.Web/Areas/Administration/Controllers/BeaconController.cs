@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Areas.Administration.Services.Beacon;
-using Trails.Web.BeaconSecurity;
+using Trails.Web.Infrastructure;
 
 namespace Trails.Web.Areas.Administration.Controllers
 {
-
+    [Area(AdministratorConstants.AreaName)]
+    [Authorize(Roles = AdministratorConstants.AdministratorRoleName)]
     public class BeaconController : Controller
     {
         private readonly IBeaconService beaconService;
@@ -12,9 +15,37 @@ namespace Trails.Web.Areas.Administration.Controllers
         public BeaconController(IBeaconService beaconService)
             => this.beaconService = beaconService;
 
-        public IActionResult GetKey()
-        {
-            return Json(new {Key = SecurityProvider.RandomBeaconKeyGenerator()});
-        }
+        public IActionResult All() 
+            => View(/*allbeaconsmodelwithpaging*/);
+
+        //[HttpPost]
+        //public IActionResult Create(BeaconFormModel beaconFormModel)
+        //{
+        //}
+
+
+        //public IActionResult Edit(string id)
+        //{
+        //}
+
+        //[HttpPost]
+        //public IActionResult Edit(string id, BeaconFormModel beaconFormModel)
+        //{
+        //}
+
+        //public IActionResult Details(string id)
+        //{
+
+        //}
+
+        //[HttpPost]
+        //public IActionResult Delete(string id)
+        //{
+        //}
+
+
+
+        public IActionResult GetKey() 
+            => Json(new {Key = SecurityProvider.RandomBeaconKeyGenerator()});
     }
 }

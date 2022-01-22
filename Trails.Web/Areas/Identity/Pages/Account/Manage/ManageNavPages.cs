@@ -4,7 +4,7 @@ namespace  Trails.Web.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {
-        public static string Index => "Index";
+        public static string Index => "All";
 
         public static string ChangePassword => "ChangePassword";
 

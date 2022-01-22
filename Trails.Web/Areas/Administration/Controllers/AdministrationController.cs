@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Trails.Web.Areas.Administration.Services.Administration;
 
 namespace Trails.Web.Areas.Administration.Controllers
 {
@@ -7,9 +8,12 @@ namespace Trails.Web.Areas.Administration.Controllers
     [Authorize(Roles = AdministratorConstants.AdministratorRoleName)]
     public class AdministrationController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        private readonly IAdministrationService adminService;
+
+        public AdministrationController(IAdministrationService adminService) 
+            => this.adminService = adminService;
+
+        public async Task<IActionResult> Index()
+            => View(await this.adminService.GetUnapprovedEventsCount());
     }
 }

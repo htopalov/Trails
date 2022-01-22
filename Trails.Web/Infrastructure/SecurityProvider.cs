@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Trails.Web.BeaconSecurity
+namespace Trails.Web.Infrastructure
 {
     public static class SecurityProvider
     {

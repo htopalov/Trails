@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Trails.Web.Common;
 
-namespace Trails.Web.Models.Beacon
+namespace Trails.Web.Areas.Administration.Models.Beacon
 {
     public class BeaconFormModel
     {

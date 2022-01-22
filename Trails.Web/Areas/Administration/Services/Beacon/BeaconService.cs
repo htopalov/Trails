@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Trails.Web.BeaconSecurity;
+using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Data;
-using Trails.Web.Models.Beacon;
+using Trails.Web.Infrastructure;
 
 namespace Trails.Web.Areas.Administration.Services.Beacon
 {
