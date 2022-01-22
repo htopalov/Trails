@@ -1,0 +1,68 @@
+﻿@model BeaconFormModel
+
+
+@{
+    ViewData["Title"] = "New Beacon ";
+}
+<section class="page-section mt-3">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mt-5">Add Beacon</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <form method="post">
+                    <div class="form-floating">
+                        <input asp-for="Imei" class="form-control" placeholder="Imei" />
+                        <label asp-for="Imei">Imei</label>
+                        <span asp-validation-for="Imei" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="SimCardNumber" class="form-control" placeholder="Sim card number" />
+                        <label asp-for="SimCardNumber">Sim card number</label>
+                        <span asp-validation-for="SimCardNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <textarea asp-for="Description" class="form-control" placeholder="LastName"></textarea>
+                        <label asp-for="Description">Description</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3 mt-3">
+                        <div class="input-group-prepend">
+                            <button id="gen-btn" class="btn btn-danger" type="button">Generate</button>
+                            <button id="copy-key" class="btn btn-warning" type="button">Copy</button>
+                        </div>
+                        <input asp-for="Key" type="text" id="key-field" class="form-control" style="margin-left: 10px;" placeholder="Generate or enter new beacon access key">
+                    </div>
+                    <div class="container">
+                        <span asp-validation-for="Key" class="text-danger"></span>
+                        <span id="info-label" class="text-danger"></span>
+                    </div>
+                    <button class="btn btn-primary btn-xl mt-3" id="submitButton" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.getElementById('gen-btn').addEventListener('click', async () => {
+            let keyField = document.getElementById('key-field');
+            let infoLabel = document.getElementById('info-label');
+            let response = await fetch('/Administration/Beacon/getkey');
+            if (response.ok) {
+                let result = await response.json();
+                keyField.value = result.key;
+            } else {
+                infoLabel.textContent = 'Error getting key from server! Type strong key by yourself or try again later...';
+            }
+        });
+
+        document.getElementById('copy-key').addEventListener('click', () =>
+        {
+            navigator.clipboard.writeText(document.getElementById("key-field").value);
+            document.getElementById('info-label').textContent = 'Copied!';
+        });
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}

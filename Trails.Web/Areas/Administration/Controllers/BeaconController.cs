@@ -18,10 +18,32 @@ namespace Trails.Web.Areas.Administration.Controllers
         public IActionResult All() 
             => View(/*allbeaconsmodelwithpaging*/);
 
-        //[HttpPost]
-        //public IActionResult Create(BeaconFormModel beaconFormModel)
-        //{
-        //}
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(BeaconFormModel beaconFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(beaconFormModel);
+            }
+
+            var created = await this.beaconService
+                .CreateBeaconAsync(beaconFormModel);
+
+            if (!created)
+            {
+                //need to find suitable notification library to explicitly say whats going on
+                return View(beaconFormModel);
+            }
+
+            return RedirectToAction(nameof(All));
+        }
 
 
         //public IActionResult Edit(string id)
@@ -33,17 +55,10 @@ namespace Trails.Web.Areas.Administration.Controllers
         //{
         //}
 
-        //public IActionResult Details(string id)
-        //{
-
-        //}
-
         //[HttpPost]
         //public IActionResult Delete(string id)
         //{
         //}
-
-
 
         public IActionResult GetKey() 
             => Json(new {Key = SecurityProvider.RandomBeaconKeyGenerator()});

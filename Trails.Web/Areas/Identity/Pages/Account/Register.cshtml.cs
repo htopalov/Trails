@@ -86,7 +86,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
             [Required]
             [RegularExpression(
                 ValidationConstants.PhonePattern, 
-                ErrorMessage = ErrorMessages.IncorrectPhoneNumberFormatError)]
+                ErrorMessage = ErrorMessages.InvalidPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 

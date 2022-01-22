@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Data;
 using Trails.Web.Infrastructure;
@@ -18,6 +19,15 @@ namespace Trails.Web.Areas.Administration.Services.Beacon
 
         public async Task<bool> CreateBeaconAsync(BeaconFormModel beaconFormModel)
         {
+            var isExisting = await dbContext
+                .Beacons
+                .AnyAsync(b => b.Imei == beaconFormModel.Imei);
+
+            if (isExisting)
+            {
+                return false;
+            }
+
             beaconFormModel.Key = SecurityProvider
                 .KeyHasher(beaconFormModel.Key);
 
