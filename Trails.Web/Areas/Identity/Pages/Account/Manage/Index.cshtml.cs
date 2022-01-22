@@ -35,9 +35,6 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
         public int Age { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -111,14 +108,17 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             if (!result.Succeeded)
             {
-                StatusMessage = "Unexpected error while trying to update your data. Please try again.";
+                //TODO:May need to change requirements so phone be unique...
+                //probably will never have this case since validation doesn't check
+                //for current input fields...only requirement is unique email address for now
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.UserProfileEditFail;
                 return RedirectToPage();
             }
 
             await this.signInManager
                 .RefreshSignInAsync(user);
 
-            StatusMessage = "Your profile has been updated";
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.UserProfileEditSuccess;
             return RedirectToPage();
         }
 

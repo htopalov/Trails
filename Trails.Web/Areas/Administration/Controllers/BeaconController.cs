@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Areas.Administration.Services.Beacon;
+using Trails.Web.Common;
 using Trails.Web.Infrastructure;
 
 namespace Trails.Web.Areas.Administration.Controllers
@@ -38,10 +39,11 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!created)
             {
-                //need to find suitable notification library to explicitly say whats going on
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.BeaconExists;
                 return View(beaconFormModel);
             }
 
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.BeaconCreated;
             return RedirectToAction(nameof(All));
         }
 

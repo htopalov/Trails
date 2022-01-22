@@ -27,9 +27,6 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
         public class InputModel
         {
             [Required]
@@ -39,7 +36,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [StringLength(
-                ValidationConstants.PasswordMaxLength, 
+                ValidationConstants.PasswordMaxLength,
                 ErrorMessage = ErrorMessages.StringLengthError,
                 MinimumLength = ValidationConstants.PasswordMinLength)]
             [DataType(DataType.Password)]
@@ -67,17 +64,14 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             if (!changePasswordResult.Succeeded)
             {
-                foreach (var error in changePasswordResult.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.UserPasswordChangedFail;
                 return Page();
             }
 
             await this.signInManager
                 .RefreshSignInAsync(user);
 
-            StatusMessage = "Your password has been changed.";
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.UserPasswordChangedSuccess;
 
             return RedirectToPage();
         }
