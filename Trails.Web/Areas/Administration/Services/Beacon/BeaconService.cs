@@ -17,6 +17,15 @@ namespace Trails.Web.Areas.Administration.Services.Beacon
             this.mapper = mapper;
         }
 
+        public async Task<BeaconFormModel> GetBeaconToEditByIdAsync(string id)
+        {
+            var beacon = await this.dbContext
+                .Beacons
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            return this.mapper.Map<BeaconFormModel>(beacon);
+        }
+
         public async Task<AllBeaconsModel> GetAllBeaconsAsync(
             int currentPage = 1,
             int beaconsPerPage = int.MaxValue)
@@ -70,6 +79,29 @@ namespace Trails.Web.Areas.Administration.Services.Beacon
                 .SaveChangesAsync();
 
             return created > 0;
+        }
+
+        public async Task<bool> EditBeaconAsync(string id, BeaconFormModel beaconFormModel)
+        {
+            var beacon = await this.dbContext
+                .Beacons
+                .FindAsync(id);
+
+            if (beacon == null)
+            {
+                return false;
+            }
+
+            this.mapper.Map(beaconFormModel, beacon);
+
+            this.dbContext
+                .Beacons
+                .Update(beacon);
+
+            var updated = await this.dbContext
+                .SaveChangesAsync();
+
+            return updated > 0;
         }
 
 

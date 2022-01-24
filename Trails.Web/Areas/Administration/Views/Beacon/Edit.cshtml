@@ -1,0 +1,17 @@
+﻿@model BeaconFormModel
+
+@{
+    ViewData["Title"] = "Edit Beacon ";
+    Model.Key = string.Empty;
+}
+
+<section class="page-section mt-3">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mt-5">Edit Beacon</h2>
+        <partial name="_BeaconFormPartial" model="@Model"/>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

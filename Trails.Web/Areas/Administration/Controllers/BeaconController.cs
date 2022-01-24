@@ -50,14 +50,37 @@ namespace Trails.Web.Areas.Administration.Controllers
         }
 
 
-        //public IActionResult Edit(string id)
-        //{
-        //}
+        public async Task<IActionResult> Edit(string id)
+        {
+            var beaconToEdit = await this.beaconService
+                .GetBeaconToEditByIdAsync(id);
 
-        //[HttpPost]
-        //public IActionResult Edit(string id, BeaconFormModel beaconFormModel)
-        //{
-        //}
+            return View(beaconToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, BeaconFormModel beaconFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(beaconFormModel);
+            }
+
+            var updated = await this.beaconService
+                .EditBeaconAsync(id, beaconFormModel);
+
+            if (!updated)
+            {
+                //most likely will never hit this case because it is mandatory to generate new key and it
+                //will never be the same as the old one so change tracker will detect this and will update entity
+
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.BeaconEditedFail;
+                return View(beaconFormModel);
+            }
+
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.BeaconEditedSuccess;
+            return RedirectToAction(nameof(All));
+        }
 
         public async Task<IActionResult> Delete([FromQuery] string id)
         {

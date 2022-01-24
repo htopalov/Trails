@@ -57,7 +57,7 @@
                     <td><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target=@($"#beaconDescription{i}")>More...</button></td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a class="btn btn-warning">Edit</a>
+                            <a asp-area="Administration" asp-controller="Beacon" asp-action="Edit" asp-route-id="@beaconModel.Id" class="btn btn-warning">Edit</a>
                             <a asp-area="Administration" asp-controller="Beacon" asp-action="Delete" asp-route-id="@beaconModel.Id" class="btn btn-danger">Delete</a>
                         </div>
                     </td>

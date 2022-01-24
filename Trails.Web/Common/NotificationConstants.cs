@@ -14,5 +14,7 @@
         public const string BeaconCreated = "Beacon created successfully.";
         public const string BeaconNotExisting = "Beacon you tried to delete does not exist.";
         public const string BeaconDeletedSuccess = "Beacon deleted successfully.";
+        public const string BeaconEditedSuccess = "Beacon edited successfully.";
+        public const string BeaconEditedFail = "Beacon is either not existing or it has the same parameters as the input.";
     }
 }

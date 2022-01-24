@@ -16,7 +16,8 @@ namespace Trails.Web.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<BeaconFormModel, Beacon>()
-                .ForMember(dest=>dest.KeyHash, opt=>opt.MapFrom(s=>s.Key));
+                .ForMember(dest => dest.KeyHash, opt => opt.MapFrom(s => s.Key))
+                .ReverseMap();
 
             this.CreateMap<BaseBeaconModel, Beacon>()
                 .ReverseMap();
