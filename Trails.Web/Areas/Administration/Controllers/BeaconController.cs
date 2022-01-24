@@ -59,10 +59,19 @@ namespace Trails.Web.Areas.Administration.Controllers
         //{
         //}
 
-        //[HttpPost]
-        //public IActionResult Delete(string id)
-        //{
-        //}
+        public async Task<IActionResult> Delete([FromQuery] string id)
+        {
+            var deleted =await this.beaconService
+                .DeleteBeaconAsync(id);
+
+            if (!deleted)
+            {
+                TempData[NotificationConstants.TempDataKeyWarning] = NotificationConstants.BeaconNotExisting;
+            }
+
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.BeaconDeletedSuccess;
+            return RedirectToAction(nameof(All));
+        }
 
         public IActionResult GetKey() 
             => Json(new {Key = SecurityProvider.RandomBeaconKeyGenerator()});

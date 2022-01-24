@@ -51,7 +51,7 @@ namespace Trails.Web.Data
 
             foreach (var relation in dbRelations)
             {
-                relation.DeleteBehavior = DeleteBehavior.Restrict;
+                relation.DeleteBehavior = DeleteBehavior.SetNull;
             }
 
         }

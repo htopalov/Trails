@@ -12,5 +12,7 @@
         public const string UserProfileEditFail = "Unexpected error while trying to update your data. Please try again.";
         public const string BeaconExists = "Beacon already exists.";
         public const string BeaconCreated = "Beacon created successfully.";
+        public const string BeaconNotExisting = "Beacon you tried to delete does not exist.";
+        public const string BeaconDeletedSuccess = "Beacon deleted successfully.";
     }
 }

@@ -71,5 +71,27 @@ namespace Trails.Web.Areas.Administration.Services.Beacon
 
             return created > 0;
         }
+
+
+        public async Task<bool> DeleteBeaconAsync(string beaconId)
+        {
+            var beacon = await this.dbContext
+                .Beacons
+                .FirstOrDefaultAsync(b => b.Id == beaconId);
+
+            if (beacon == null)
+            {
+                return false;
+            }
+
+            this.dbContext
+                .Beacons
+                .Remove(beacon);
+
+             var deleted = await this.dbContext
+                 .SaveChangesAsync();
+
+             return deleted > 0;
+        }
     }
 }
