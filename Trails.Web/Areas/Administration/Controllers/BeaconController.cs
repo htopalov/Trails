@@ -16,14 +16,16 @@ namespace Trails.Web.Areas.Administration.Controllers
         public BeaconController(IBeaconService beaconService)
             => this.beaconService = beaconService;
 
-        public IActionResult All() 
-            => View(/*allbeaconsmodelwithpaging*/);
-
-
-        public IActionResult Create()
+        public async Task<IActionResult> All([FromQuery] AllBeaconsModel query)
         {
-            return View();
+            var allBeacons = await this.beaconService
+                .GetAllBeaconsAsync(query.CurrentPage, query.BeaconsPerPage);
+
+            return View(allBeacons);
         }
+
+        public IActionResult Create() 
+            => View();
 
 
         [HttpPost]

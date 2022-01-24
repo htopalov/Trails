@@ -3,7 +3,7 @@ using Trails.Web.Common;
 
 namespace Trails.Web.Areas.Administration.Models.Beacon
 {
-    public class BeaconFormModel
+    public class BeaconFormModel : IBeaconModel
     {
         [Required]
         [RegularExpression(
