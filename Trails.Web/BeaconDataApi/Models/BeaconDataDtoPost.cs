@@ -1,4 +1,7 @@
-﻿namespace Trails.Web.BeaconDataApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+using Trails.Web.Common;
+
+namespace Trails.Web.BeaconDataApi.Models
 {
     public class BeaconDataDtoPost
     {
@@ -12,6 +15,9 @@
 
         public double Speed { get; set; }
 
-        public string BeaconId { get; set; }
+        [RegularExpression(
+            ValidationConstants.ImeiPattern,
+            ErrorMessage = ErrorMessages.InvalidImeiFormatError)]
+        public string BeaconImei { get; set; }
     }
 }

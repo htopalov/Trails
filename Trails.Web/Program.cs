@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trails.Web.Areas.Administration.Services.Administration;
 using Trails.Web.Areas.Administration.Services.Beacon;
+using Trails.Web.BeaconDataApi.Filters;
 using Trails.Web.BeaconDataApi.Services.BeaconDataService;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
-using Trails.Web.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +43,10 @@ builder
 builder
     .Services
     .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder
+    .Services
+    .AddTransient<AuthKeyFilter>();
 
 builder
     .Services

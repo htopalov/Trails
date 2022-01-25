@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BeaconDataApi\ActionFilters\" />
     <Folder Include="Data\Migrations\" />
     <Folder Include="Models\Event\" />
     <Folder Include="Models\BeaconData\" />

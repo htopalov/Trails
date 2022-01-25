@@ -22,6 +22,8 @@ namespace Trails.Web.Data.DomainModels
 
         public double Speed { get; set; }
 
+        public string BeaconImei { get; set; }
+
         public string BeaconId { get; set; }
         public Beacon Beacon { get; set; }
     }
