@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trails.Web.Areas.Administration.Services.Administration;
 using Trails.Web.Areas.Administration.Services.Beacon;
+using Trails.Web.BeaconDataApi.Services.BeaconDataService;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Infrastructure.Extensions;
@@ -50,6 +51,10 @@ builder
 builder
     .Services
     .AddTransient<IAdministrationService, AdministrationService>();
+
+builder
+    .Services
+    .AddTransient<IBeaconDataService, BeaconDataService>();
 
 builder
     .Services

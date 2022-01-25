@@ -27,6 +27,8 @@ namespace Trails.Web.Data.DomainModels
 
         public DateTime StartDate { get; set; }
 
+        public DateTime EndDate { get; set; }
+
         public TimeSpan TotalDuration { get; set; }
 
         public EventType Type { get; set; }
