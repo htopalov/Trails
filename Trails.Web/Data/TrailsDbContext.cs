@@ -16,9 +16,9 @@ namespace Trails.Web.Data
 
         public DbSet<Route> Routes { get; set; }
 
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Image> Images { get; set; }
 
-        public DbSet<RoutePoint> RoutePoints { get; set; }
+        public DbSet<Participant> Participants { get; set; }
 
         public DbSet<Beacon> Beacons { get; set; }
 
@@ -27,22 +27,6 @@ namespace Trails.Web.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder
-                .Entity<UserEvent>()
-                .HasKey(ue => new {ue.UserId, ue.EventId});
-
-            builder
-                .Entity<UserEvent>()
-                .HasOne(ue => ue.User)
-                .WithMany(e => e.UsersEvents)
-                .HasForeignKey(eu => eu.UserId);
-
-            builder
-                    .Entity<UserEvent>()
-                    .HasOne(ue => ue.Event)
-                    .WithMany(e => e.UsersEvents)
-                    .HasForeignKey(ue => ue.EventId);
 
             var dbRelations = builder
                 .Model

@@ -25,9 +25,6 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Models\Event\" />
-    <Folder Include="Models\BeaconData\" />
-    <Folder Include="Models\RoutePoint\" />
-    <Folder Include="Models\Team\" />
     <Folder Include="Models\Route\" />
     <Folder Include="Services\" />
   </ItemGroup>

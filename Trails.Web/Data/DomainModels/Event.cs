@@ -10,8 +10,7 @@ namespace Trails.Web.Data.DomainModels
         public Event()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Teams = new List<Team>();
-            this.UsersEvents = new List<UserEvent>();
+            this.Participants = new List<Participant>();
         }
 
         [Key]
@@ -29,32 +28,25 @@ namespace Trails.Web.Data.DomainModels
 
         public DateTime EndDate { get; set; }
 
-        public TimeSpan TotalDuration { get; set; }
-
         public EventType Type { get; set; }
 
         public DifficultyLevel DifficultyLevel { get; set; }
 
         public double Length { get; set; }
 
-        [Required]
         public string CreatorId { get; set; }
+        public User Creator { get; set; }
 
-        public bool IsTeamEvent { get; set; }
+        public bool IsApproved { get; set; }
 
-        public bool IsPublic { get; set; }
-
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } //?? or just set to null everywhere ??
 
         public string? RouteId { get; set; }
         public Route Route { get; set; }
 
-        public ICollection<UserEvent> UsersEvents { get; set; }
+        public string? ImageId { get; set; }
+        public Image Image { get; set; }
 
-        public ICollection<Team> Teams { get; set; }
-
-        //TODO:ADD PHOTO TO EVENT SAVED TO LOCAL FILE SYSTEM
-
-        //TODO: OPTIONALLY ADD ABILITY TO UPLOAD GPX PREDEFINED ROUTES TO SYSTEM AND LOAD THEM TO MAP....
+        public ICollection<Participant> Participants { get; set; }
     }
 }

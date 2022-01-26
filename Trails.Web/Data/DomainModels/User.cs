@@ -7,9 +7,6 @@ namespace Trails.Web.Data.DomainModels
 {
     public class User : IdentityUser
     {
-        public User()
-            => this.UsersEvents = new List<UserEvent>();
-
         [Required]
         [MaxLength(ValidationConstants.FirstNameMaxLength)]
         public string FirstName { get; set; }
@@ -25,17 +22,5 @@ namespace Trails.Web.Data.DomainModels
         public DateTime BirthDate { get; set; }
 
         public Gender Gender { get; set; }
-
-        //if user is volunteering to event he can't be participant...so need to check for that when applying for event!!!
-        //no matter volunteer or participant he should be added to UserEvents collection
-        public bool? IsVolunteering { get; set; }
-
-        public string? TeamId { get; set; }
-        public Team Team { get; set; }
-
-        public string? BeaconId { get; set; }
-        public Beacon Beacon { get; set; }
-
-        public ICollection<UserEvent> UsersEvents { get; set; }
     }
 }

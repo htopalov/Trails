@@ -8,7 +8,7 @@ namespace Trails.Web.Data.DomainModels
         public Route()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.RoutePoints = new List<RoutePoint>();
+            this.RoutePoints = new List<double[]>();
         }
 
         [Key]
@@ -26,6 +26,11 @@ namespace Trails.Web.Data.DomainModels
         [MaxLength(ValidationConstants.NameMaxLength)]
         public string FinishLocationName { get; set; }
 
-        public ICollection<RoutePoint> RoutePoints { get; set; }
+        public double Length { get; set; }
+
+        public ICollection<double[]> RoutePoints { get; set; }
+
+
+        //TODO: OPTIONALLY ADD ABILITY TO UPLOAD GPX PREDEFINED ROUTES TO SYSTEM AND LOAD THEM TO MAP.... IMPLEMENT GPX PARSER
     }
 }
