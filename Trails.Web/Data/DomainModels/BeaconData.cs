@@ -24,7 +24,7 @@ namespace Trails.Web.Data.DomainModels
 
         public string BeaconImei { get; set; }
 
-        public string BeaconId { get; set; }
+        public string? BeaconId { get; set; }
         public Beacon Beacon { get; set; }
     }
 }

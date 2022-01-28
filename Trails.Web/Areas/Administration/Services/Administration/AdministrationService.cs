@@ -13,7 +13,7 @@ namespace Trails.Web.Areas.Administration.Services.Administration
         public async Task<int> GetUnapprovedEventsCount() =>
             await this.dbContext
                 .Events
-                .Where(e => e.IsPublic == false)
+                .Where(e => e.IsApproved == false)
                 .CountAsync();
     }
 }

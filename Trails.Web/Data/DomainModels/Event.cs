@@ -34,12 +34,12 @@ namespace Trails.Web.Data.DomainModels
 
         public double Length { get; set; }
 
-        public string CreatorId { get; set; }
-        public User Creator { get; set; }
-
         public bool IsApproved { get; set; }
 
-        public bool IsDeleted { get; set; } //?? or just set to null everywhere ??
+        public bool IsDeleted { get; set; }
+
+        public string? CreatorId { get; set; }
+        public User Creator { get; set; }
 
         public string? RouteId { get; set; }
         public Route Route { get; set; }

@@ -196,8 +196,11 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("BeaconId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BeaconImei")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -224,8 +227,7 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -235,13 +237,16 @@ namespace Trails.Web.Data.Migrations
                     b.Property<int>("DifficultyLevel")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublic")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsTeamEvent")
                         .HasColumnType("bit");
 
                     b.Property<double>("Length")
@@ -258,17 +263,72 @@ namespace Trails.Web.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("TotalDuration")
-                        .HasColumnType("time");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("ImageId");
+
                     b.HasIndex("RouteId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Image", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte[]>("DataBytes")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Participant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BeaconId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TeamName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeaconId");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Route", b =>
@@ -280,6 +340,9 @@ namespace Trails.Web.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -308,38 +371,13 @@ namespace Trails.Web.Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("RouteId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RouteId");
 
-                    b.ToTable("RoutePoints");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.Team", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EventId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("UsersMaxCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("Teams");
+                    b.ToTable("RoutePoint");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.User", b =>
@@ -349,9 +387,6 @@ namespace Trails.Web.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("BeaconId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -379,9 +414,6 @@ namespace Trails.Web.Data.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("IsVolunteering")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -414,9 +446,6 @@ namespace Trails.Web.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeamId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -426,8 +455,6 @@ namespace Trails.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeaconId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -436,24 +463,7 @@ namespace Trails.Web.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("TeamId");
-
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.UserEvent", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "EventId");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("UserEvent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -461,7 +471,7 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -470,7 +480,7 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -479,7 +489,7 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -488,13 +498,13 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Trails.Web.Data.DomainModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -503,7 +513,7 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -512,20 +522,67 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.Beacon", "Beacon")
                         .WithMany("BeaconData")
                         .HasForeignKey("BeaconId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Beacon");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Event", b =>
                 {
+                    b.HasOne("Trails.Web.Data.DomainModels.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Trails.Web.Data.DomainModels.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Trails.Web.Data.DomainModels.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Route");
+                });
+
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Image", b =>
+                {
+                    b.HasOne("Trails.Web.Data.DomainModels.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Trails.Web.Data.DomainModels.Participant", b =>
+                {
+                    b.HasOne("Trails.Web.Data.DomainModels.Beacon", "Beacon")
+                        .WithMany()
+                        .HasForeignKey("BeaconId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Trails.Web.Data.DomainModels.Event", "Event")
+                        .WithMany("Participants")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Trails.Web.Data.DomainModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Beacon");
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.RoutePoint", b =>
@@ -533,57 +590,9 @@ namespace Trails.Web.Data.Migrations
                     b.HasOne("Trails.Web.Data.DomainModels.Route", "Route")
                         .WithMany("RoutePoints")
                         .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Route");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.Team", b =>
-                {
-                    b.HasOne("Trails.Web.Data.DomainModels.Event", "Event")
-                        .WithMany("Teams")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.User", b =>
-                {
-                    b.HasOne("Trails.Web.Data.DomainModels.Beacon", "Beacon")
-                        .WithMany()
-                        .HasForeignKey("BeaconId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Trails.Web.Data.DomainModels.Team", "Team")
-                        .WithMany("Users")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Beacon");
-
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.UserEvent", b =>
-                {
-                    b.HasOne("Trails.Web.Data.DomainModels.Event", "Event")
-                        .WithMany("UsersEvents")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("Trails.Web.Data.DomainModels.User", "User")
-                        .WithMany("UsersEvents")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Beacon", b =>
@@ -593,24 +602,12 @@ namespace Trails.Web.Data.Migrations
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Event", b =>
                 {
-                    b.Navigation("Teams");
-
-                    b.Navigation("UsersEvents");
+                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.Route", b =>
                 {
                     b.Navigation("RoutePoints");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.Team", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.User", b =>
-                {
-                    b.Navigation("UsersEvents");
                 });
 #pragma warning restore 612, 618
         }
