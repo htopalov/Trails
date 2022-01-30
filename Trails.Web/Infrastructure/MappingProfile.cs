@@ -3,6 +3,7 @@ using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Areas.Identity.Pages.Account;
 using Trails.Web.Areas.Identity.Pages.Account.Manage;
 using Trails.Web.Data.DomainModels;
+using Trails.Web.Models.Event;
 
 namespace Trails.Web.Infrastructure
 {
@@ -20,6 +21,10 @@ namespace Trails.Web.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<BaseBeaconModel, Beacon>()
+                .ReverseMap();
+
+            this.CreateMap<EventFormModel, Event>()
+                .ForMember(dest=>dest.Image, opt=>opt.Ignore())
                 .ReverseMap();
         }
     }

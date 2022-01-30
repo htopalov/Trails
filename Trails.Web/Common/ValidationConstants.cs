@@ -16,6 +16,8 @@
         public const int PasswordMinLength = 6;
         public const int PasswordMaxLength = 50;
         public const int SimCardNumberLength = 13;
+        public const int EventNameMinLength = 5;
+        public const int EventNameMaxLength = 50;
         public const string PhonePattern = @"(\+359|0)[0-9]{9}";
         public const string ImeiPattern = @"[0-9]{15}";
     }

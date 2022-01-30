@@ -1,0 +1,16 @@
+﻿@model EventFormModel
+
+@{
+    ViewData["Title"] = "New Event ";
+}
+
+<section class="page-section mt-1">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mt-5">Add Event</h2>
+        <partial name="_EventFormPartial"/>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

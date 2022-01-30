@@ -25,9 +25,7 @@
   <ItemGroup>
     <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Models\Event\" />
     <Folder Include="Models\Route\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

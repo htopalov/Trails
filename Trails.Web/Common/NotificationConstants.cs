@@ -16,5 +16,6 @@
         public const string BeaconDeletedSuccess = "Beacon deleted successfully.";
         public const string BeaconEditedSuccess = "Beacon edited successfully.";
         public const string BeaconEditedFail = "Beacon is either not existing or it has the same parameters as the input.";
+        public const string EventExists = "Event with the same name already exists.";
     }
 }

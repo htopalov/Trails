@@ -7,6 +7,7 @@ using Trails.Web.BeaconDataApi.Filters;
 using Trails.Web.BeaconDataApi.Services.BeaconDataService;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
+using Trails.Web.Services.Event;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +60,10 @@ builder
 builder
     .Services
     .AddTransient<IBeaconDataService, BeaconDataService>();
+
+builder
+    .Services
+    .AddTransient<IEventService, EventService>();
 
 builder
     .Services
