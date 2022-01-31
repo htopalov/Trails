@@ -17,5 +17,8 @@
         public const string BeaconEditedSuccess = "Beacon edited successfully.";
         public const string BeaconEditedFail = "Beacon is either not existing or it has the same parameters as the input.";
         public const string EventExists = "Event with the same name already exists.";
+        public const string RouteCreateError = "A problem occured while trying to create route. Please try again.";
+        public const string EventCreateSuccess = "Event created successfully.";
+        public const string MissingEventImageError = "Please provide image for event.";
     }
 }

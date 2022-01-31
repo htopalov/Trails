@@ -4,6 +4,8 @@ using Trails.Web.Areas.Identity.Pages.Account;
 using Trails.Web.Areas.Identity.Pages.Account.Manage;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Event;
+using Trails.Web.Models.Route;
+using Route = Trails.Web.Data.DomainModels.Route;
 
 namespace Trails.Web.Infrastructure
 {
@@ -25,6 +27,10 @@ namespace Trails.Web.Infrastructure
 
             this.CreateMap<EventFormModel, Event>()
                 .ForMember(dest=>dest.Image, opt=>opt.Ignore())
+                .ReverseMap();
+
+            this.CreateMap<RouteCreateModel, Route>()
+                .ForMember(dest => dest.RoutePoints, opt => opt.Ignore())
                 .ReverseMap();
         }
     }

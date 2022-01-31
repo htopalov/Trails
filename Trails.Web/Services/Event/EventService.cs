@@ -18,7 +18,7 @@ namespace Trails.Web.Services.Event
             this.mapper = mapper;
         }
 
-        public async Task<bool> CreateEventAsync(EventFormModel eventFormModel,string currentUserId, IFormFile imgFile)
+        public async Task<string> CreateEventAsync(EventFormModel eventFormModel,string currentUserId, IFormFile imgFile)
         {
             var isExisting = await this.dbContext
                 .Events
@@ -26,7 +26,7 @@ namespace Trails.Web.Services.Event
 
             if (isExisting)
             {
-                return false;
+                return string.Empty;
             }
 
             var @event = this.mapper
@@ -47,14 +47,19 @@ namespace Trails.Web.Services.Event
 
             @event.Image = img;
 
-            await this.dbContext
+            var result = await this.dbContext
                 .Events
                 .AddAsync(@event);
 
             var created = await this.dbContext
                 .SaveChangesAsync();
 
-            return created > 0;
+            if (created > 0)
+            {
+                return result.Entity.Id;
+            }
+
+            return string.Empty;
         }
     }
 }

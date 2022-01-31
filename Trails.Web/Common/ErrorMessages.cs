@@ -15,5 +15,6 @@
         public const string DifficultyLevelError = "Please select difficulty level from the list.";
         public const string ImageFileExtensionError = "Allowed type of images: jpg, jpeg, png";
         public const string InvalidStartEndDate = "End of the event must be after its start.";
+        public const string RouteLengthError = "Route length must be positive number.";
     }
 }

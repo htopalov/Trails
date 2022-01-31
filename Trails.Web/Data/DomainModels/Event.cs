@@ -17,7 +17,7 @@ namespace Trails.Web.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.NameMaxLength)]
+        [MaxLength(ValidationConstants.EventNameMaxLength)]
         public string Name { get; set; }
 
         [Required]

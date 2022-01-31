@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Trails.Web.Common;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Event;
+using Trails.Web.Models.Route;
 using Trails.Web.Services.Event;
 
 namespace Trails.Web.Controllers
@@ -20,10 +21,8 @@ namespace Trails.Web.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() 
+            => View();
 
         [HttpPost]
         public async Task<IActionResult> Create(EventFormModel eventFormModel)
@@ -38,6 +37,12 @@ namespace Trails.Web.Controllers
 
             var imgFile = Request.Form.Files.First();
 
+            if (imgFile == null)
+            {
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingEventImageError;
+                return View(eventFormModel);
+            }
+
             if (!ValidateImageExtension(imgFile))
             {
                 TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.ImageFileExtensionError;
@@ -50,16 +55,17 @@ namespace Trails.Web.Controllers
                 return View(eventFormModel);
             }
 
-            var created = await this.eventService
+            var resultId = await this.eventService
                 .CreateEventAsync(eventFormModel, currentUserId, imgFile);
 
-            if (!created)
+            if (resultId == string.Empty)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventExists;
                 return View(eventFormModel);
             }
 
-            return RedirectToAction(nameof(Create)); //need to redirect to route create action to finish event
+            //TempData["EventId"] = resultId;
+            return RedirectToAction("Create","Route", new {id = resultId});
         }
 
         private bool ValidateImageExtension(IFormFile imgFile)

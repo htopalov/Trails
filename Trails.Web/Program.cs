@@ -8,6 +8,7 @@ using Trails.Web.BeaconDataApi.Services.BeaconDataService;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Services.Event;
+using Trails.Web.Services.Route;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,10 @@ builder
 builder
     .Services
     .AddTransient<IEventService, EventService>();
+
+builder
+    .Services
+    .AddTransient<IRouteService, RouteService>();
 
 builder
     .Services

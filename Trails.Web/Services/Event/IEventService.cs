@@ -4,6 +4,6 @@ namespace Trails.Web.Services.Event
 {
     public interface IEventService
     {
-        Task<bool> CreateEventAsync(EventFormModel eventFormModel, string currentUserId, IFormFile imgFile);
+        Task<string> CreateEventAsync(EventFormModel eventFormModel, string currentUserId, IFormFile imgFile);
     }
 }

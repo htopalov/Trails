@@ -1,0 +1,65 @@
+﻿@model RouteCreateModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<link rel="stylesheet" href="/css/leaflet.css"/>
+<link rel="stylesheet" href="/css/Control.FullScreen.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+
+@{
+    ViewData["Title"] = "New Route ";
+
+    string GetAntiForgeryToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<section class="page-section bg-primary">
+    <div class="container mx-auto mt-4">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Create route for your event</h2>
+     <partial name="_RouteFormPartial"/>
+    </div>
+</section>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+    <script src="/js/leaflet.js"></script>
+    <script src="/js/leaflet-src.js"></script>
+    <script src="/js/leaflet.draw.js"></script>
+    <script src="/js/Control.FullScreen.js"></script>
+    <script src="/js/setupMap.js"></script>
+
+    <script>
+        let routePoints = [];
+
+        map.on('click',
+            function(e) {
+                routePoints.push([e.latlng.lat, e.latlng.lng]);
+            });
+
+        document.getElementById('submitButton').addEventListener('click',
+            async (e) => {
+                e.preventDefault();
+                let form = document.getElementById('routeForm');
+                let formData = new FormData(form);
+                let name = formData.get('Name');
+                let startLocationName = formData.get('StartLocation');
+                let finishLocationName = formData.get('FinishLocation');
+                await fetch('/Route/Create',
+                    {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': '@GetAntiForgeryToken()'
+                        },
+                        body: JSON.stringify({
+                            name,
+                            startLocationName,
+                            finishLocationName,
+                            routePoints
+                        })
+                    });
+            });
+    </script>
+}

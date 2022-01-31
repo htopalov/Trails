@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Models\Route\" />
   </ItemGroup>
 
   <ItemGroup>
