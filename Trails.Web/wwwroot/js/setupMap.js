@@ -20,8 +20,8 @@ var drawPluginOptions = {
     draw: {
         polyline: {
             shapeOptions: {
-                color: '#000000',
-                weight: 3
+                color: '#c700ac',
+                weight: 4
             }
         },
         polygon: false,
@@ -43,8 +43,5 @@ var editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
 
 map.on('draw:created', function (e) {
-    var type = e.layerType,
-        layer = e.layer;
-
-    editableLayers.addLayer(layer);
+    editableLayers.addLayer(e.layer);
 });

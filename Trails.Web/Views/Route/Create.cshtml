@@ -31,11 +31,37 @@
     <script src="/js/setupMap.js"></script>
 
     <script>
+        map.on('draw:created', function (e) {
+            editableLayers.addLayer(e.layer);
+        });
+
         let routePoints = [];
 
         map.on('click',
             function(e) {
                 routePoints.push([e.latlng.lat, e.latlng.lng]);
+                if (routePoints.length !== 0) {
+                    L.circle(routePoints[0], 100,
+                        {
+                            color: '#000000',
+                            fillColor: '#00d948',
+                            weight: 0.5,
+                            fillOpacity: 0.2
+                        }).addTo(map).bindPopup('Start');
+                }
+            });
+
+        map.on('draw:drawstop',
+            function() {
+                if (routePoints.length !== 0) {
+                    L.circle(routePoints[routePoints.length - 1], 100,
+                        {
+                            color: '#000000',
+                            fillColor: '#e8000f',
+                            weight: 0.5,
+                            fillOpacity: 0.2
+                        }).addTo(map).bindPopup('Finish');
+                }
             });
 
         document.getElementById('submitButton').addEventListener('click',
