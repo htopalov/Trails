@@ -17,7 +17,8 @@
 <section class="page-section bg-primary">
     <div class="container mx-auto mt-4">
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Create route for your event</h2>
-     <partial name="_RouteFormPartial"/>
+        <partial name="_MapPartial"/>
+        <partial name="_RouteFormPartial"/>
     </div>
 </section>
 
@@ -29,41 +30,9 @@
     <script src="/js/leaflet.draw.js"></script>
     <script src="/js/Control.FullScreen.js"></script>
     <script src="/js/setupMap.js"></script>
+    <script src="/js/mapDrawRoute.js"></script>
 
     <script>
-        map.on('draw:created', function (e) {
-            editableLayers.addLayer(e.layer);
-        });
-
-        let routePoints = [];
-
-        map.on('click',
-            function(e) {
-                routePoints.push([e.latlng.lat, e.latlng.lng]);
-                if (routePoints.length !== 0) {
-                    L.circle(routePoints[0], 100,
-                        {
-                            color: '#000000',
-                            fillColor: '#00d948',
-                            weight: 0.5,
-                            fillOpacity: 0.2
-                        }).addTo(map).bindPopup('Start');
-                }
-            });
-
-        map.on('draw:drawstop',
-            function() {
-                if (routePoints.length !== 0) {
-                    L.circle(routePoints[routePoints.length - 1], 100,
-                        {
-                            color: '#000000',
-                            fillColor: '#e8000f',
-                            weight: 0.5,
-                            fillOpacity: 0.2
-                        }).addTo(map).bindPopup('Finish');
-                }
-            });
-
         document.getElementById('submitButton').addEventListener('click',
             async (e) => {
                 e.preventDefault();
