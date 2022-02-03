@@ -3,7 +3,9 @@
 var map = L.map('map', {
     fullscreenControl: true, fullscreenControlOptions: {
         position: 'topleft'
-    }
+    },
+    visualClick: true,
+    visualClickPane: 'shadowPane'
 }).setView(center, 7);
 
 
@@ -38,6 +40,9 @@ var drawPluginOptions = {
 
 var drawControl = new L.Control.Draw(drawPluginOptions);
 map.addControl(drawControl);
+
+L.control.mousePosition().addTo(map);
+L.control.scale().addTo(map);
 
 var editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);

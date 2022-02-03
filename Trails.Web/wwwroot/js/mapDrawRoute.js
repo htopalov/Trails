@@ -12,6 +12,7 @@ map.on('draw:created',
         editableLayers.addLayer(e.layer);
         routePoints = e.layer.getLatLngs().map(el => [el.lat, el.lng]);
         e.layer.bindPopup('Route for your event');
+        e.layer
 
         L.circle(routePoints[0],
             100,
