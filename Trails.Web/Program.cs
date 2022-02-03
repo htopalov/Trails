@@ -70,6 +70,13 @@ builder
     .Services
     .AddTransient<IRouteService, RouteService>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.MaxAge = TimeSpan.FromDays(1);
+    options.SlidingExpiration = true;
+});
+
 builder
     .Services
     .AddControllersWithViews(options =>
