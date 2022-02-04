@@ -7,8 +7,6 @@ namespace Trails.Web.GPXProcessor
 {
     public static class RouteProcessor
     {
-
-
         public static string SerializeRoute(Route route)
         {
             var builder = new StringBuilder();
@@ -18,7 +16,7 @@ namespace Trails.Web.GPXProcessor
             serializerNamespaces.Add("xsi", ProcessorConstants.SchemaInstanceNamespace);
             serializerNamespaces.Add("schemaLocation", ProcessorConstants.SchemaLocationNamespace);
             var xmlSerializer = new XmlSerializer(typeof(ExportGPXRouteModel),xmlRootAttribute);
-            using var stringWriter = new StringWriter(builder);
+            using var stringWriter = new Utf8StringWriter(builder);
 
             var routePointsList = route.RoutePoints.ToList();
 
