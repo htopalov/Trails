@@ -28,7 +28,7 @@ namespace Trails.Web.Services.Route
             }
 
             var route = this.mapper
-                .Map<Data.DomainModels.Route>(routeCreateModel); //presume we have length
+                .Map<Data.DomainModels.Route>(routeCreateModel);
 
             eventForRoute.Route = route;
 

@@ -9,7 +9,7 @@ var map = L.map('map', {
 }).setView(center, 7);
 
 
-L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> | &copy; <a href="https://opentopomap.org/about">OpenTopoMap</a> | &copy; <a href="/">Trails</a>'
 }).addTo(map);

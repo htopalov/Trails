@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Trails.Web.Common;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Event;
-using Trails.Web.Models.Route;
 using Trails.Web.Services.Event;
 
 namespace Trails.Web.Controllers
@@ -64,7 +63,6 @@ namespace Trails.Web.Controllers
                 return View(eventFormModel);
             }
 
-            //TempData["EventId"] = resultId;
             return RedirectToAction("Create","Route", new {id = resultId});
         }
 
