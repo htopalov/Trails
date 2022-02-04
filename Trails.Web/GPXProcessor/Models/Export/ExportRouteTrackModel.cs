@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Serialization;
-using Trails.Web.Common;
+﻿using System.Xml.Serialization;
 
 namespace Trails.Web.GPXProcessor.Models.Export
 {
@@ -8,11 +6,6 @@ namespace Trails.Web.GPXProcessor.Models.Export
     public class ExportRouteTrackModel
     {
         [XmlElement("name")]
-        [Required]
-        [StringLength(
-            ValidationConstants.RouteNameMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.RouteNameMinLength)]
         public string Name { get; set; }
 
         [XmlArray("trkseg")]
