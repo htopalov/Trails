@@ -5,11 +5,11 @@ using Route = Trails.Web.Data.DomainModels.Route;
 
 namespace Trails.Web.GPXProcessor
 {
-    public static class CoordinatesProcessor
+    public static class RouteProcessor
     {
 
 
-        public static string SerializeCoordinates(Route route)
+        public static string SerializeRoute(Route route)
         {
             var builder = new StringBuilder();
             var xmlRootAttribute = new XmlRootAttribute("gpx");
