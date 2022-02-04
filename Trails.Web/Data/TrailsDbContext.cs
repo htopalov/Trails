@@ -24,6 +24,8 @@ namespace Trails.Web.Data
 
         public DbSet<BeaconData> BeaconData { get; set; }
 
+        public DbSet<RoutePoint> RoutePoints { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
