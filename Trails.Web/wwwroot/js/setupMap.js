@@ -31,10 +31,6 @@ var drawPluginOptions = {
         rectangle: false,
         circlemarker: false,
         marker: false
-    },
-    edit: {
-        featureGroup: editableLayers,
-        remove: false
     }
 };
 
@@ -43,6 +39,21 @@ map.addControl(drawControl);
 
 L.control.mousePosition().addTo(map);
 L.control.scale().addTo(map);
+
+L.Control.Watermark = L.Control.extend({
+    onAdd: function (map) {
+        var img = L.DomUtil.create('img');
+        img.src = '/images/watermark.png';
+        img.style.width = '130px';
+        return img;
+    }
+});
+
+L.control.watermark = function (opts) {
+    return new L.Control.Watermark(opts);
+}
+
+L.control.watermark({ position: 'topright' }).addTo(map);
 
 var editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
