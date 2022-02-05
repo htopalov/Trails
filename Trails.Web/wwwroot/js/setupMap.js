@@ -23,7 +23,9 @@ var drawPluginOptions = {
         polyline: {
             shapeOptions: {
                 color: '#c700ac',
-                weight: 4
+                weight: 4,
+                smoothFactor: 1,
+                fillOpacity: 0.5
             }
         },
         polygon: false,

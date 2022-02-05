@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
 
 @{
     ViewData["Title"] = "New Route ";
@@ -21,6 +22,7 @@
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Create route for your event</h2>
         <partial name="_MapPartial"/>
         <partial name="_RouteFormPartial"/>
+        <input type="file" id="gpxFileUploadElement" style="display:none"/> 
     </div>
 </section>
 
@@ -32,10 +34,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.2.0/Control.FullScreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
     <script src="/js/setupMap.js"></script>
     <script src="/js/mapDrawRoute.js"></script>
+    <script src="/js/gpxFileProcessor.js"></script>
+    <script src="/js/mapDrawRouteFromGPX.js"></script>
 
     <script>
+        let routePointsFromGPX = [];
+        let isUploadButtonClicked = false;
         document.getElementById('submitButton').addEventListener('click',
             async (e) => {
                 e.preventDefault();
@@ -55,10 +62,34 @@
                             name,
                             startLocationName,
                             finishLocationName,
-                            routePoints,
+                            routePoints: isUploadButtonClicked 
+                                ? routePointsFromGPX 
+                                : routePoints,
                             length: routeTotalLength
                         })
                     });
             });
+
+        var gpxBtnUpload = L.easyButton({
+            states: [{
+                icon: 'fas fa-file-upload',
+                title: 'Plot GPX File',
+                onClick:  () => {
+                    let fileSelector = document.getElementById('gpxFileUploadElement');
+                    fileSelector.click();
+                    fileSelector.addEventListener('change', async (e) => {
+                        let file = e.target.files[0];
+                        let res = await processGPXAsync(file);
+                        if (res === undefined) {
+                            return;
+                        }
+                        routePointsFromGPX = res;
+                        isUploadButtonClicked = true;
+                        drawImportedRoute(routePointsFromGPX);
+                    });
+                }
+            }]
+        });
+        gpxBtnUpload.addTo(map);
     </script>
 }
