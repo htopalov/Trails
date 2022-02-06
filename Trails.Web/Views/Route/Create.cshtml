@@ -40,6 +40,7 @@
     <script src="/js/gpxFileProcessor.js"></script>
     <script src="/js/mapDrawRouteFromGPX.js"></script>
 
+
     <script>
         let routePointsFromGPX = [];
         let isUploadButtonClicked = false;
@@ -51,7 +52,12 @@
                 let name = formData.get('Name');
                 let startLocationName = formData.get('StartLocation');
                 let finishLocationName = formData.get('FinishLocation');
-                await fetch('/Route/Create',
+                let queryParams = new Proxy(new URLSearchParams(window.location.search),
+                    {
+                        get: (searchParams, prop) => searchParams.get(prop)
+                    });
+                let eventId = queryParams.forEventId;
+                let response = await fetch('/Route/Create',
                     {
                         method: 'post',
                         headers: {
@@ -59,33 +65,36 @@
                             'RequestVerificationToken': '@GetAntiForgeryToken()'
                         },
                         body: JSON.stringify({
+                            eventId,
                             name,
                             startLocationName,
                             finishLocationName,
                             routePoints: isUploadButtonClicked 
-                                ? routePointsFromGPX 
-                                : routePoints,
-                            length: routeTotalLength
+                                ? importedRoutePoints 
+                                : drawnRoutePoints,
+                            length: isUploadButtonClicked 
+                                ? importedRouteTotalLength 
+                                : drawnRouteTotalLength
                         })
                     });
+                if (response.ok) {
+                    window.location = '/Home/Index';
+                }
             });
 
-        var gpxBtnUpload = L.easyButton({
+        let gpxBtnUpload = L.easyButton({
             states: [{
                 icon: 'fas fa-file-upload',
                 title: 'Plot GPX File',
                 onClick:  () => {
                     let fileSelector = document.getElementById('gpxFileUploadElement');
+                    fileSelector.value = '';
                     fileSelector.click();
                     fileSelector.addEventListener('change', async (e) => {
+                        e.stopImmediatePropagation();
                         let file = e.target.files[0];
-                        let res = await processGPXAsync(file);
-                        if (res === undefined) {
-                            return;
-                        }
-                        routePointsFromGPX = res;
                         isUploadButtonClicked = true;
-                        drawImportedRoute(routePointsFromGPX);
+                        drawImportedRoute(await processGPXAsync(file));
                     });
                 }
             }]
