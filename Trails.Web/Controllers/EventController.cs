@@ -63,7 +63,7 @@ namespace Trails.Web.Controllers
                 return View(eventFormModel);
             }
 
-            return RedirectToAction("Create","Route", new {id = resultId});
+            return RedirectToAction("Create","Route", new {forEventId = resultId});
         }
 
         private bool ValidateImageExtension(IFormFile imgFile)

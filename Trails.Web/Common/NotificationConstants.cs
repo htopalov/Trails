@@ -20,5 +20,6 @@
         public const string RouteCreateError = "A problem occured while trying to create route. Please try again.";
         public const string EventCreateSuccess = "Event created successfully.";
         public const string MissingEventImageError = "Please provide image for event.";
+        public const string MissingRoutePropertiesError = "Please draw or import route and fill all fields.";
     }
 }
