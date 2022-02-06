@@ -1,6 +1,6 @@
-﻿var center = [42.6194, 25.3930];
+﻿let center = [42.6194, 25.3930];
 
-var map = L.map('map', {
+let map = L.map('map', {
     fullscreenControl: true, fullscreenControlOptions: {
         position: 'topleft'
     },
@@ -14,10 +14,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> | &copy; <a href="https://opentopomap.org/about">OpenTopoMap</a> | &copy; <a href="/">Trails</a>'
 }).addTo(map);
 
-var editableLayers = new L.FeatureGroup();
+let editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
 
-var drawPluginOptions = {
+let drawPluginOptions = {
     position: 'topleft',
     draw: {
         polyline: {
@@ -33,10 +33,21 @@ var drawPluginOptions = {
         rectangle: false,
         circlemarker: false,
         marker: false
+    },
+    edit: {
+        featureGroup: editableLayers,
+        edit: false
     }
 };
 
-var drawControl = new L.Control.Draw(drawPluginOptions);
+L.EditToolbar.Delete.include({
+    enable: function() {
+        this.options.featureGroup.clearLayers();
+        console.log(editableLayers.getLayers().length + ' editable layers delete func');
+    }
+});
+
+let drawControl = new L.Control.Draw(drawPluginOptions);
 map.addControl(drawControl);
 
 L.control.mousePosition().addTo(map);
@@ -44,7 +55,7 @@ L.control.scale().addTo(map);
 
 L.Control.Watermark = L.Control.extend({
     onAdd: function (map) {
-        var img = L.DomUtil.create('img');
+        let img = L.DomUtil.create('img');
         img.src = '/images/watermark.png';
         img.style.width = '130px';
         return img;
@@ -57,9 +68,7 @@ L.control.watermark = function (opts) {
 
 L.control.watermark({ position: 'topright' }).addTo(map);
 
-var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
-
-map.on('draw:created', function (e) {
-    editableLayers.addLayer(e.layer);
+map.on(L.Draw.Event.CREATED, function (e) {
+    let layer = e.layer;
+    editableLayers.addLayer(layer);
 });

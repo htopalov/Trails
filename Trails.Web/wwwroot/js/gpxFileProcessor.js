@@ -1,14 +1,16 @@
 ﻿async function processGPXAsync(file) {
     let processedRoutePoints = [];
     if (!file.name.endsWith('.gpx')) {
+        alert('Only gpx file type is allowed.');
         return;
     }
     let contents = await readFile(file);
     let pointsAsText = contents.match(/<trkpt \w+=\"[0-9]+\.[0-9]+\" \w+=\"[0-9]+\.[0-9]+\"/gm);
-    if (pointsAsText.length === 0) {
+    if (pointsAsText === null || pointsAsText.length === 0) {
+        alert('File does not contain any coordinates.');
         return;
     }
-    for (var i = 0; i < pointsAsText.length; i++) {
+    for (let i = 0; i < pointsAsText.length; i++) {
         let pointText = pointsAsText[i];
         let latlng = pointText.match(/([\d.]+)/g);
         let point = [];
