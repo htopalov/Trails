@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Trails.Web.Data;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Route;
@@ -23,6 +24,15 @@ namespace Trails.Web.Services.Route
                 .FindAsync(routeCreateModel.EventId);
 
             if (eventForRoute == null)
+            {
+                return false;
+            }
+
+            var isRouteExisting = await this.dbContext
+                .Routes
+                .AnyAsync(r => r.Name == routeCreateModel.Name);
+
+            if (isRouteExisting)
             {
                 return false;
             }

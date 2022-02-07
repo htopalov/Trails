@@ -30,25 +30,5 @@ map.on('draw:created',
 
         group.addLayer(route);
 
-        let startCircle = L.circle(drawnRoutePoints[0],
-            100,
-            {
-                color: '#000000',
-                fillColor: '#00d948',
-                weight: 0.5,
-                fillOpacity: 0.2
-            }).bindPopup('Start');
-
-        let finishCircle = L.circle(drawnRoutePoints[drawnRoutePoints.length - 1],
-            100,
-            {
-                color: '#000000',
-                fillColor: '#e8000f',
-                weight: 0.5,
-                fillOpacity: 0.2
-            }).bindPopup('Finish');
-
-        group.addLayer(startCircle);
-        group.addLayer(finishCircle);
-        editableLayers.addLayer(group);
+        setupRouteIcons(drawnRoutePoints[0], drawnRoutePoints[drawnRoutePoints.length - 1], route, group);
     });

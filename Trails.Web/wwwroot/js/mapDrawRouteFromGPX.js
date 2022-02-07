@@ -35,26 +35,5 @@ function drawImportedRoute(routePoints) {
 
     group.addLayer(route);
 
-    let startCircle = L.circle(routePoints[0],
-        100,
-        {
-            color: '#000000',
-            fillColor: '#00d948',
-            weight: 0.5,
-            fillOpacity: 0.2
-        }).bindPopup('Start');
-
-    let finishCircle = L.circle(routePoints[routePoints.length - 1],
-        100,
-        {
-            color: '#000000',
-            fillColor: '#e8000f',
-            weight: 0.5,
-            fillOpacity: 0.2
-        }).bindPopup('Finish');
-
-    group.addLayer(startCircle);
-    group.addLayer(finishCircle);
-    editableLayers.addLayer(group);
-    map.fitBounds(route.getBounds());
+    setupRouteIcons(pointList[0], pointList[pointList.length - 1], route,group);
 }
