@@ -14,27 +14,31 @@ namespace Trails.Web.Controllers
         public RouteController(IRouteService routeService) 
             => this.routeService = routeService;
 
-        public IActionResult Create(string id)
+        public IActionResult Create()
         {
-            TempData["EventId"] = id;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]RouteCreateModel routeCreateModel)
         {
-            routeCreateModel.EventId = TempData["EventId"].ToString();
+            if (!ModelState.IsValid)
+            {
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingRoutePropertiesError;
+                return BadRequest();
+            }
+
             var created = await this.routeService
                 .CreateRouteAsync(routeCreateModel);
+
             if (!created)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.RouteCreateError;
-                return View(routeCreateModel);
+                return BadRequest();
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventCreateSuccess;
-            return View(); //return redirect to action event details for newly created event with route
-
+            return Ok();
         }
     }
 }
