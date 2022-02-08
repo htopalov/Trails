@@ -22,6 +22,11 @@ namespace Trails.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]RouteCreateModel routeCreateModel)
         {
+            if (routeCreateModel.RoutePoints.Count == 0 || routeCreateModel.Length == 0)
+            {
+                ModelState.AddModelError(string.Empty, string.Empty);
+            }
+
             if (!ModelState.IsValid)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingRoutePropertiesError;
@@ -37,7 +42,7 @@ namespace Trails.Web.Controllers
                 return BadRequest();
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventCreateSuccess;
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteCreateSuccess;
             return Ok();
         }
     }

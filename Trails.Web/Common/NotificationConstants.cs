@@ -18,6 +18,7 @@
         public const string BeaconEditedFail = "Beacon is either not existing or it has the same parameters as the input.";
         public const string EventExists = "Event with the same name already exists.";
         public const string RouteCreateError = "Either a route with the same name already exists or event does not exist.";
+        public const string RouteCreateSuccess = "Route created successfully.";
         public const string EventCreateSuccess = "Event created successfully.";
         public const string MissingEventImageError = "Please provide image for event.";
         public const string MissingRoutePropertiesError = "Please draw or import route and fill all fields.";
