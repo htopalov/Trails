@@ -14,9 +14,9 @@
         public string? EventId { get; set; }
         public Event Event { get; set; }
 
-        public string? TeamName { get; set; }
-
         public string? BeaconId { get; set; }
         public Beacon Beacon { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }
