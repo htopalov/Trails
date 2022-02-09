@@ -63,7 +63,21 @@ namespace Trails.Web.Controllers
                 return View(eventFormModel);
             }
 
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventCreateSuccess;
             return RedirectToAction("Create","Route", new {forEventId = resultId});
+        }
+
+        public async Task<IActionResult> Details(string eventId)
+        {
+            var @event = await this.eventService
+                .GetEventAsync(eventId);
+
+            if (@event == null)
+            {
+                return View("Error");
+            }
+
+            return View(@event);
         }
 
         private bool ValidateImageExtension(IFormFile imgFile)

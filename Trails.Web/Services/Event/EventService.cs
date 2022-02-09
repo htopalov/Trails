@@ -61,5 +61,34 @@ namespace Trails.Web.Services.Event
 
             return string.Empty;
         }
+
+        public async Task<EventDetailsModel> GetEventAsync(string eventId)
+        {
+            var @event = await this.dbContext
+                .Events
+                .Include(e=>e.Creator)
+                .Include(e=>e.Image)
+                .Include(e=>e.Participants)
+                .Include(e=>e.Route)
+                .FirstOrDefaultAsync(e=> e.Id == eventId);
+
+            if (@event == null)
+            {
+                return null;
+            }
+
+            var eventDetailsModel = this.mapper
+                .Map<EventDetailsModel>(@event);
+
+            eventDetailsModel.Image = ProcessImageFromDb(@event);
+
+            return eventDetailsModel;
+        }
+
+        private static string ProcessImageFromDb(Data.DomainModels.Event @event)
+        {
+            var imageBaseData = Convert.ToBase64String(@event.Image.DataBytes);
+            return $"data:image/jpg;base64,{imageBaseData}";
+        }
     }
 }

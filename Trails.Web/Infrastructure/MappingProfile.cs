@@ -32,6 +32,13 @@ namespace Trails.Web.Infrastructure
             this.CreateMap<RouteCreateModel, Route>()
                 .ForMember(dest => dest.RoutePoints, opt => opt.Ignore())
                 .ReverseMap();
+
+            this.CreateMap<Event, EventDetailsModel>()
+                .ForMember(dest=>dest.Image, opt=>opt.Ignore())
+                .ReverseMap();
+
+            this.CreateMap<Route, EventRouteDetailsModel>()
+                .ReverseMap();
         }
     }
 }

@@ -1,0 +1,115 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Microsoft.EntityFrameworkCore
+@inject UserManager<User> userManager;
+
+@model EventDetailsModel
+
+@{
+    var userId = this.userManager.GetUserId(this.User);
+    var creator = await this.userManager.Users.FirstOrDefaultAsync(u => u.Id == Model.CreatorId);
+    var creatorFullname = $"{creator.FirstName} {creator.LastName}";
+    var participantModel = Model.Participants.FirstOrDefault(p => p.UserId == userId);
+}
+<div class="container main-event">
+    <div class="row">
+            <div class="col-md-4">
+                <div class="event-img">
+                    <img src="@Model.Image" alt=""/>
+                    @if (Model.CreatorId == userId)
+                    {
+                        <form method="post">
+                          <div class="file btn btn-lg btn-primary">
+                            Change Image
+                           <input type="file" name="file"/>
+                          </div>
+                       </form>
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="event-head">
+                    <h4 class="text-secondary text-uppercase">
+                        @Model.Name
+                    </h4>
+                    <h5 class="text-secondary">
+                        created by <strong class="text-secondary text-uppercase">@creatorFullname</strong>
+                    </h5>
+                    <p><strong class="event-date-start">Start: </strong> <span>@Model.StartDate.ToString("f") </span><strong class="event-date-end">End: </strong><span>@Model.EndDate.ToString("f")</span></p>
+                    <div class="col-md-2">
+                        <div class="btn-group" role="group">
+                            @if (participantModel == null)
+                            {
+                                    <a asp-controller="Event" asp-action="Apply" asp-route-id="" class="btn btn-info">Apply</a>
+                                if (userId == Model.CreatorId)
+                                {
+                                    <a asp-controller="Event" asp-action="Edit" asp-route-id="" class="btn btn-warning">Edit</a>
+                                    <a asp-controller="Event" asp-action="Delete" asp-route-id="" class="btn btn-danger">Delete</a>
+                                    <a @*open model with participants waiting for approve*@ class="btn btn-success">Participants</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="event-work">
+                    <h5>About event:</h5>
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+               <div class="col-md-8">
+                   <div id="eventInfo">
+                           <div class="row">
+                               <div class="col-md-6">
+                                   <label>Event type: </label>
+                               </div>
+                               <div class="col-md-6">
+                                   <p>@Model.Type</p>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-6">
+                                   <label>Difficulty Level: </label>
+                               </div>
+                               <div class="col-md-6">
+                                   <p>@Model.DifficultyLevel</p>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-6">
+                                   <label>Total Length: </label>
+                               </div>
+                               <div class="col-md-6">
+                                   <p>@($"{@Model.Length:f2} km")</p>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-6">
+                                   <label>Route: </label>
+                               </div>
+                               <div class="col-md-6">
+                                   <p><a asp-controller="Route" asp-action="Details" asp-route-id="@Model.Route.Id" style="text-decoration: none">Details</a></p>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-6">
+                                   <label>Start Location: </label>
+                               </div>
+                               <div class="col-md-6">
+                                   <p>@Model.Route.StartLocationName</p>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-6">
+                                   <label>Finish Location: </label>
+                               </div>
+                               <div class="col-md-6">
+                                   <p>@Model.Route.FinishLocationName</p>
+                               </div>
+                           </div>
+                       </div>
+               </div>
+        </div>
+</div>

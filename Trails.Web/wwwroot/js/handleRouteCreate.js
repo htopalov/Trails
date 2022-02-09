@@ -39,7 +39,7 @@
                 })
                 .then((response) => {
                     if (response.ok) {
-                        window.location = `/Event/Details/${eventId}`;
+                        window.location = `/Event/Details?eventId=${eventId}`;
                     } else if (response.status === 400) {
                         window.location.reload();
                     }
