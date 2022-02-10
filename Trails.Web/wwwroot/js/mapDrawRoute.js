@@ -7,6 +7,8 @@ map.on('draw:created',
             editableLayers.removeLayer(layer);
         });
 
+        document.getElementById("line-chart").style.display = 'none';
+
         let group = L.layerGroup();
 
         drawnRoutePoints = e.layer.getLatLngs().map(el => [el.lat, el.lng]);

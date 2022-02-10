@@ -21,6 +21,7 @@
     <div class="container mx-auto mt-4">
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Create route for your event</h2>
         <partial name="_MapPartial"/>
+        <canvas id="line-chart" width="800" height="400" style="display: none"></canvas>
         <partial name="_RouteFormPartial"/>
         <input type="file" id="gpxFileUploadElement" style="display:none"/> 
     </div>
@@ -34,6 +35,7 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="/js/setupMap.js"></script>
     <script src="/js/mapDrawRoute.js"></script>
     <script src="/js/gpxFileProcessor.js"></script>

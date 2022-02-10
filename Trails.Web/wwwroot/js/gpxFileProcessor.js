@@ -6,6 +6,7 @@
     }
     let contents = await readFile(file);
     let pointsAsText = contents.match(/<trkpt \w+=\"[0-9]+\.[0-9]+\" \w+=\"[0-9]+\.[0-9]+\"/gm);
+    let altitudeAsText = contents.match(/<ele>[0-9]+.[0-9]+<\/ele>/gm);
     if (pointsAsText === null || pointsAsText.length === 0) {
         alert('File does not contain any coordinates.');
         return;
@@ -13,11 +14,14 @@
     for (let i = 0; i < pointsAsText.length; i++) {
         let pointText = pointsAsText[i];
         let latlng = pointText.match(/([\d.]+)/g);
+        let altitude = altitudeAsText[i].match(/([\d.]+)/g);
         let point = [];
         let lat = parseFloat(latlng[0]);
         let lng = parseFloat(latlng[1]);
+        let alt = parseFloat(altitude);
         point.push(lat);
         point.push(lng);
+        point.push(alt);
         processedRoutePoints.push(point);
     }
     return processedRoutePoints;

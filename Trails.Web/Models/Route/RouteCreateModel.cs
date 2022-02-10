@@ -34,6 +34,10 @@ namespace Trails.Web.Models.Route
             ErrorMessage = ErrorMessages.RouteLengthError)]
         public double Length { get; set; }
 
+        public double MinimumAltitude { get; set; }
+
+        public double MaximumAltitude { get; set; }
+
         public List<double[]> RoutePoints { get; set; }
 
         public string EventId { get; set; }

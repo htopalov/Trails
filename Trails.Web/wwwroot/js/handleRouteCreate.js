@@ -34,7 +34,13 @@
                             : drawnRoutePoints,
                         length: isUploadButtonClicked
                             ? importedRouteTotalLength
-                            : drawnRouteTotalLength
+                            : drawnRouteTotalLength,
+                        minimumAltitude: isUploadButtonClicked
+                            ? minAltitude
+                            : 0,
+                        maximumAltitude: isUploadButtonClicked
+                            ? maxAltitude
+                            : 0
                     })
                 })
                 .then((response) => {

@@ -28,9 +28,10 @@ namespace Trails.Web.Data.DomainModels
 
         public double Length { get; set; }
 
+        public double MinimumAltitude { get; set; }
+
+        public double MaximumAltitude { get; set; }
+
         public ICollection<RoutePoint> RoutePoints { get; set; }
-
-
-        //TODO: OPTIONALLY ADD ABILITY TO UPLOAD GPX PREDEFINED ROUTES TO SYSTEM AND LOAD THEM TO MAP.... IMPLEMENT GPX PARSER
     }
 }
