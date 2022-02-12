@@ -34,16 +34,7 @@ namespace Trails.Web.Services.Event
 
             @event.CreatorId = currentUserId;
 
-            await using var memoryStream = new MemoryStream();
-            await imgFile.CopyToAsync(memoryStream);
-
-            var img = new Data.DomainModels.Image()
-            {
-                Title = $"{Guid.NewGuid().ToString()}-{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)}",
-                CreatedOn = DateTime.UtcNow,
-                CreatorId = currentUserId,
-                DataBytes = memoryStream.ToArray()
-            };
+            var img = await ProcessImageToDb(imgFile, currentUserId);
 
             @event.Image = img;
 
@@ -85,10 +76,145 @@ namespace Trails.Web.Services.Event
             return eventDetailsModel;
         }
 
+        public async Task<bool> DeleteEventAsync(string eventId)
+        {
+            var @event = await this.dbContext
+                .Events
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+
+            if (@event == null)
+            {
+                return false;
+            }
+
+            @event.IsDeleted = true;
+
+            return true;
+        }
+
+        public async Task<bool> ApplyForEventAsync(string userId,string eventId)
+        {
+            var eventToParticipate = await this.dbContext
+                .Events
+                .FindAsync(eventId);
+
+            if (eventToParticipate == null)
+            {
+                return false;
+            }
+
+            var hasParticipantApplied = eventToParticipate
+                .Participants
+                .Any(p => p.UserId == userId);
+            
+            if (hasParticipantApplied)
+            {
+                return false;
+            }
+
+            var user = await this.dbContext
+                .Users
+                .FindAsync(userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var newParticipant = new Participant
+            {
+                User = user,
+                Event = eventToParticipate
+            };
+
+            await this.dbContext
+                .Participants
+                .AddAsync(newParticipant);
+
+            var created = await this.dbContext
+                .SaveChangesAsync();
+
+            return created > 0;
+        }
+
+        public async Task<bool> ApproveParticipantAsync(string participantId, string eventId)
+        {
+            var eventOfParticipant = await this.dbContext
+                .Events
+                .Include(e=>e.Participants)
+                .FirstOrDefaultAsync(e=>e.Id == eventId);
+
+            if (eventOfParticipant == null)
+            {
+                return false;
+            }
+
+            var participantToApprove = eventOfParticipant
+                .Participants
+                .FirstOrDefault(p => p.Id == participantId);
+
+            if (participantToApprove == null)
+            {
+                return false;
+            }
+
+            participantToApprove.IsApproved = true;
+
+            this.dbContext
+                .Participants
+                .Update(participantToApprove);
+
+            var hasParticipantStateChanged = await this.dbContext
+                .SaveChangesAsync();
+
+            return hasParticipantStateChanged > 0;
+        }
+
+        public async Task<bool> EditImageAsync(string currentUserId, string eventId, IFormFile imgFile)
+        {
+            var @event = await this.dbContext
+                .Events
+                .FindAsync(eventId);
+
+            if (@event == null)
+            {
+                return false;
+            }
+
+            var img = await ProcessImageToDb(imgFile, currentUserId);
+
+            @event.Image = img;
+
+            this.dbContext
+                .Events
+                .Update(@event);
+
+            var updated = await this.dbContext
+                .SaveChangesAsync();
+
+            return updated > 0;
+        }
+
         private static string ProcessImageFromDb(Data.DomainModels.Event @event)
         {
             var imageBaseData = Convert.ToBase64String(@event.Image.DataBytes);
             return $"data:image/jpg;base64,{imageBaseData}";
+        }
+
+        private static async Task<Image> ProcessImageToDb(IFormFile imgFile, string currentUserId)
+        {
+            await using var memoryStream = new MemoryStream();
+            await imgFile.CopyToAsync(memoryStream);
+
+            var img = new Image
+            {
+                Title = $"{Guid.NewGuid().ToString()}-{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)}",
+                CreatedOn = DateTime.UtcNow,
+                CreatorId = currentUserId,
+                DataBytes = memoryStream.ToArray()
+            };
+
+            return img;
         }
     }
 }
