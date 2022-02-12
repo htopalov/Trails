@@ -38,6 +38,8 @@ namespace Trails.Web.Data.DomainModels
 
         public bool IsDeleted { get; set; }
 
+        public bool IsModifiedByCreator { get; set; }
+
         public string? CreatorId { get; set; }
         public User Creator { get; set; }
 
