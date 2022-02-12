@@ -1,9 +1,11 @@
-﻿using Trails.Web.Data.Enums;
+﻿using Trails.Web.Data.DomainModels;
+using Trails.Web.Data.Enums;
 
 namespace Trails.Web.Models.Event
 {
     public class EventDetailsModel
     {
+        public string Id { get; set; }
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -26,6 +28,6 @@ namespace Trails.Web.Models.Event
 
         public string CreatorId { get; set; }
 
-        public List<ParticipantModel> Participants { get; set; }
+        public List<Participant> Participants { get; set; }
     }   
 }

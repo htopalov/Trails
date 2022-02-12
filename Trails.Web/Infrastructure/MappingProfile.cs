@@ -39,6 +39,9 @@ namespace Trails.Web.Infrastructure
 
             this.CreateMap<Route, EventRouteDetailsModel>()
                 .ReverseMap();
+
+            this.CreateMap<RoutePoint, EventRoutePointsDetailsModel>()
+                .ReverseMap();
         }
     }
 }
