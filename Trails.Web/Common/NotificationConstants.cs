@@ -19,8 +19,14 @@
         public const string EventExists = "Event with the same name already exists.";
         public const string RouteCreateError = "Either a route with the same name already exists or event does not exist.";
         public const string RouteCreateSuccess = "Route created successfully.";
-        public const string EventCreateSuccess = "Event created successfully.";
+        public const string EventCreateSuccess = "Event created successfully and awaiting approval by admin.";
+        public const string EventDeleteSuccess = "Event deleted successfully.";
         public const string MissingEventImageError = "Please provide image for event.";
         public const string MissingRoutePropertiesError = "Please draw or import route and fill all fields.";
+        public const string ParticipantAlreadyAppliedError = "You have already applied for this event.";
+        public const string ParticipantApplicationSuccess = "Successfully applied for event.";
+        public const string ParticipantApproveError = "Participant could not be approved for event.";
+        public const string EventImageEditSuccess = "Image changed successfully.";
+        public const string EventImageEditError = "Image could not be updated."''
     }
 }
