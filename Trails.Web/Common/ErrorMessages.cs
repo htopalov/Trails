@@ -18,5 +18,6 @@
         public const string EventThreeDaysBeforeStartError =
             "Event must be created atleast three days before it's start.";
         public const string RouteLengthError = "Route length must be positive number.";
+        public const string AltitudeInputError = "Altitude must be positive number.";
     }
 }
