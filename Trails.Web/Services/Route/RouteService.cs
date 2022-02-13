@@ -17,8 +17,10 @@ namespace Trails.Web.Services.Route
             this.mapper = mapper;
         }
 
-        public async Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel)
+        public async Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel,string currentUserId)
         {
+            bool hasAltitude = routeCreateModel.MaximumAltitude != 0;
+
             var eventForRoute = await this.dbContext
                 .Events
                 .FindAsync(routeCreateModel.EventId);
@@ -40,6 +42,8 @@ namespace Trails.Web.Services.Route
             var route = this.mapper
                 .Map<Data.DomainModels.Route>(routeCreateModel);
 
+            route.CreatorId = currentUserId;
+
             eventForRoute.Route = route;
 
             await this.dbContext.SaveChangesAsync();
@@ -48,10 +52,15 @@ namespace Trails.Web.Services.Route
             {
                 var lat = routeCreateModel.RoutePoints[i][0];
                 var lng = routeCreateModel.RoutePoints[i][1];
+                var alt = hasAltitude 
+                    ? routeCreateModel.RoutePoints[i][2] 
+                    : 0;
                 var point = new RoutePoint
                 {
+                    OrderNumber = i,
                     Latitude = lat,
                     Longitude = lng,
+                    Altitude = alt,
                     Route = route
                 };
                 route.RoutePoints.Add(point);
@@ -61,6 +70,70 @@ namespace Trails.Web.Services.Route
                 .SaveChangesAsync();
 
             return created > 0;
+        }
+
+        public async Task<RouteDetailsModel> GetRouteAsync(string routeId)
+        {
+            var route = await this.dbContext
+                .Routes
+                .Include(r=>r.RoutePoints)
+                .FirstOrDefaultAsync(r=>r.Id == routeId);
+            
+            if (route == null)
+            {
+                return null;
+            }
+
+            route.RoutePoints = route
+                .RoutePoints
+                .OrderBy(p => p.OrderNumber)
+                .ToList();
+
+            var routeDetailsModel = this.mapper
+                .Map<RouteDetailsModel>(route);
+
+            return routeDetailsModel;
+        }
+
+        public async Task<RouteEditFormModel> GetRouteToEditAsync(string routeId)
+        {
+            var route = await this.dbContext
+                .Routes
+                .FindAsync(routeId);
+
+            if (route == null)
+            {
+                return null;
+            }
+
+            var routeToEdit = this.mapper.
+                Map<RouteEditFormModel>(route);
+
+            return routeToEdit;
+        }
+
+        public async Task<bool> EditRouteAsync(string routeId, RouteEditFormModel routeEditFormModel)
+        {
+            var route = await this.dbContext
+                .Routes
+                .FindAsync(routeId);
+
+            if (route == null)
+            {
+                return false;
+            }
+
+            this.mapper
+                .Map(routeEditFormModel, route);
+
+            this.dbContext
+                .Routes
+                .Update(route);
+
+            var updated = await this.dbContext
+                .SaveChangesAsync();
+
+            return updated > 0;
         }
     }
 }

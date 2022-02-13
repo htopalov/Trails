@@ -5,6 +5,7 @@ using Trails.Web.Common;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Event;
 using Trails.Web.Services.Event;
+using Route = Trails.Web.Data.DomainModels.Route;
 
 namespace Trails.Web.Controllers
 {
@@ -70,7 +71,7 @@ namespace Trails.Web.Controllers
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventCreateSuccess;
-            return RedirectToAction("Create","Route", new {forEventId = resultId});
+            return RedirectToAction(nameof(Create),nameof(Route), new {forEventId = resultId});
         }
 
         public async Task<IActionResult> Details(string eventId)
@@ -86,10 +87,10 @@ namespace Trails.Web.Controllers
             return View(@event);
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string eventId)
         {
             var changeState = await this.eventService
-                .DeleteEventAsync(id);
+                .DeleteEventAsync(eventId);
 
             if (!changeState)
             {
@@ -97,7 +98,7 @@ namespace Trails.Web.Controllers
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventDeleteSuccess;
-            return RedirectToAction("All");
+            return RedirectToAction("All"); //TODO:change to nameof(All) when view is ready
         }
 
         public async Task<IActionResult> Apply(string userId, string eventId)
@@ -111,7 +112,7 @@ namespace Trails.Web.Controllers
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.ParticipantApplicationSuccess;
-            return RedirectToAction("Details", new { eventId });
+            return RedirectToAction(nameof(Details), new { eventId });
         }
 
         public async Task<IActionResult> ApproveParticipant(string participantId,string eventId)
@@ -122,7 +123,7 @@ namespace Trails.Web.Controllers
             if (!participantState)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.ParticipantApproveError;
-                return RedirectToAction("Details", new {eventId});
+                return RedirectToAction(nameof(Details), new {eventId});
             }
 
             return NoContent();
@@ -135,13 +136,13 @@ namespace Trails.Web.Controllers
             if (imgFile == null)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingEventImageError;
-                return RedirectToAction("Details", new { eventId });
+                return RedirectToAction(nameof(Details), new { eventId });
             }
 
             if (!ValidateImageExtension(imgFile))
             {
                 TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.ImageFileExtensionError;
-                return RedirectToAction("Details", new { eventId });
+                return RedirectToAction(nameof(Details), new { eventId });
             }
 
             var currentUserId = this.userManager
@@ -153,11 +154,40 @@ namespace Trails.Web.Controllers
             if (!edited)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventImageEditError;
-                return RedirectToAction("Details", new { eventId });
+                return RedirectToAction(nameof(Details), new { eventId });
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventImageEditSuccess;
-            return RedirectToAction("Details", new{eventId});
+            return RedirectToAction(nameof(Details), new{eventId});
+        }
+
+        public async Task<IActionResult> Edit(string eventId)
+        {
+            var eventToEdit = await this.eventService
+                .GetEventToEditAsync(eventId);
+
+            return View(eventToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string eventId, EventEditFormModel eventEditFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(eventEditFormModel);
+            }
+
+            var updated = await this.eventService
+                .EditEventAsync(eventId, eventEditFormModel);
+
+            if (!updated)
+            {
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventEditFail;
+                return View(eventEditFormModel);
+            }
+
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventEditSuccess;
+            return RedirectToAction(nameof(Details),new{eventId});
         }
 
         private bool ValidateImageExtension(IFormFile imgFile)

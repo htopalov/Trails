@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Trails.Web.Common;
+using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Route;
 using Trails.Web.Services.Route;
 
@@ -10,9 +12,13 @@ namespace Trails.Web.Controllers
     public class RouteController : Controller
     {
         private readonly IRouteService routeService;
+        private readonly UserManager<User> userManager;
 
-        public RouteController(IRouteService routeService) 
-            => this.routeService = routeService;
+        public RouteController(IRouteService routeService, UserManager<User> userManager)
+        {
+            this.routeService = routeService;
+            this.userManager = userManager;
+        } 
 
         public IActionResult Create()
         {
@@ -33,8 +39,11 @@ namespace Trails.Web.Controllers
                 return BadRequest();
             }
 
+            var currentUserId = this.userManager
+                .GetUserId(this.User);
+
             var created = await this.routeService
-                .CreateRouteAsync(routeCreateModel);
+                .CreateRouteAsync(routeCreateModel,currentUserId);
 
             if (!created)
             {
@@ -44,6 +53,43 @@ namespace Trails.Web.Controllers
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteCreateSuccess;
             return Ok();
+        }
+
+        public async Task<IActionResult> Details(string routeId)
+        {
+            var routeDetailsModel = await this.routeService
+                .GetRouteAsync(routeId);
+
+            return View(routeDetailsModel);
+        }
+
+        public async Task<IActionResult> Edit(string routeId)
+        {
+            var routeToEdit = await this.routeService
+                .GetRouteToEditAsync(routeId);
+
+            return View(routeToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string routeId, RouteEditFormModel routeEditFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(routeEditFormModel);
+            }
+
+            var updated = await this.routeService
+                .EditRouteAsync(routeId, routeEditFormModel);
+
+            if (!updated)
+            {
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.RouteEditFail;
+                return View(routeEditFormModel);
+            }
+
+            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteEditSuccess;
+            return RedirectToAction(nameof(Details), new { routeId });
         }
     }
 }

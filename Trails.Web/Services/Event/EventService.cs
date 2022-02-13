@@ -76,6 +76,48 @@ namespace Trails.Web.Services.Event
             return eventDetailsModel;
         }
 
+        public async Task<EventEditFormModel> GetEventToEditAsync(string eventId)
+        {
+            var @event = await this.dbContext
+                .Events.FindAsync(eventId);
+
+            if (@event == null)
+            {
+                return null;
+            }
+
+            var eventToEdit = this.mapper.
+                Map<EventEditFormModel>(@event);
+
+            return eventToEdit;
+        }
+
+        public async Task<bool> EditEventAsync(string eventId, EventEditFormModel eventEditFormModel)
+        {
+            var @event = await this.dbContext
+                .Events
+                .FindAsync(eventId);
+
+            if (@event == null)
+            {
+                return false;
+            }
+
+            this.mapper.Map(eventEditFormModel, @event);
+
+            @event.IsModifiedByCreator = true;
+            //set is approved by admin again????
+
+            this.dbContext
+                .Events
+                .Update(@event);
+
+            var updated = await this.dbContext
+                .SaveChangesAsync();
+
+            return updated > 0;
+        }
+
         public async Task<bool> DeleteEventAsync(string eventId)
         {
             var @event = await this.dbContext
@@ -89,7 +131,14 @@ namespace Trails.Web.Services.Event
 
             @event.IsDeleted = true;
 
-            return true;
+            this.dbContext
+                .Events
+                .Update(@event);
+
+            var deleted = await this.dbContext
+                .SaveChangesAsync();
+
+            return deleted > 0;
         }
 
         public async Task<bool> ApplyForEventAsync(string userId,string eventId)

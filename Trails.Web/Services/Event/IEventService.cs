@@ -15,5 +15,9 @@ namespace Trails.Web.Services.Event
         Task<bool> ApproveParticipantAsync(string participantId,string eventId);
 
         Task<bool> EditImageAsync(string currentUserId, string eventId, IFormFile imgFile);
+
+        Task<EventEditFormModel> GetEventToEditAsync(string eventId);
+
+        Task<bool> EditEventAsync(string eventId, EventEditFormModel eventEditFormModel);
     }
 }
