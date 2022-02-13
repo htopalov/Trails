@@ -3,7 +3,7 @@ using Trails.Web.Data.Enums;
 
 namespace Trails.Web.Models.Event
 {
-    public class EventDetailsModel
+    public class EventDetailsModel : IEventModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Trails.Web.Models.Event
 
         public bool IsApproved { get; set; }
 
-        public EventRouteDetailsModel Route { get; set; }
+        public string RouteId { get; set; }
 
         public string Image { get; set; }
 

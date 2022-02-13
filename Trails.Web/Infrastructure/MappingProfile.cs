@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using Trails.Web.Areas.Administration.Models.Beacon;
 using Trails.Web.Areas.Identity.Pages.Account;
 using Trails.Web.Areas.Identity.Pages.Account.Manage;
 using Trails.Web.Data.DomainModels;
 using Trails.Web.Models.Event;
 using Trails.Web.Models.Route;
+using Trails.Web.Models.RoutePoint;
 using Route = Trails.Web.Data.DomainModels.Route;
 
 namespace Trails.Web.Infrastructure
@@ -37,10 +39,16 @@ namespace Trails.Web.Infrastructure
                 .ForMember(dest=>dest.Image, opt=>opt.Ignore())
                 .ReverseMap();
 
-            this.CreateMap<Route, EventRouteDetailsModel>()
+            this.CreateMap<Event, EventEditFormModel>()
                 .ReverseMap();
 
-            this.CreateMap<RoutePoint, EventRoutePointsDetailsModel>()
+            this.CreateMap<Route, RouteDetailsModel>()
+                .ReverseMap();
+
+            this.CreateMap<Route, RouteEditFormModel>()
+                .ReverseMap();
+
+            this.CreateMap<RoutePoint, RoutePointExportModel>()
                 .ReverseMap();
         }
     }

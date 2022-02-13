@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Trails.Web.Common;
 using Trails.Web.Data.Enums;
-using Trails.Web.Data.DomainModels;
 
 namespace Trails.Web.Models.Event
 {
-    public class EventFormModel : IEventModel
+    public class EventEditFormModel : IEventModel
     {
         [Required]
         [StringLength(
@@ -30,22 +29,19 @@ namespace Trails.Web.Models.Event
         public DateTime EndDate { get; set; }
 
         [Required]
-        [EnumDataType(typeof(EventType), 
+        [EnumDataType(typeof(EventType),
             ErrorMessage = ErrorMessages.EventTypeError)]
-        public int Type { get; set; }
+        public EventType Type { get; set; }
 
         [Required]
-        [EnumDataType(typeof(DifficultyLevel), 
+        [EnumDataType(typeof(DifficultyLevel),
             ErrorMessage = ErrorMessages.DifficultyLevelError)]
-        public int DifficultyLevel { get; set; }
+        public DifficultyLevel DifficultyLevel { get; set; }
 
-        [Range(1,double.MaxValue, 
+        [Range(1, double.MaxValue,
             ErrorMessage = ErrorMessages.InvalidMinLengthError)]
         public double Length { get; set; }
 
-        public string? CreatorId { get; set; }
-        public User? Creator { get; set; }
-
-        public IFormFile Image { get; set; }
+        public bool IsModifiedByCreator { get; set; }
     }
 }

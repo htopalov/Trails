@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Trails.Web.Common;
-using Trails.Web.Data.DomainModels;
 
 namespace Trails.Web.Models.Route
 {
-    public class RouteCreateModel
+    public class RouteCreateModel : IRouteModel
     {
         public RouteCreateModel() 
             => this.RoutePoints = new List<double[]>();
@@ -34,8 +33,12 @@ namespace Trails.Web.Models.Route
             ErrorMessage = ErrorMessages.RouteLengthError)]
         public double Length { get; set; }
 
+        [Range(0.0, double.MaxValue,
+            ErrorMessage = ErrorMessages.AltitudeInputError)]
         public double MinimumAltitude { get; set; }
 
+        [Range(0.0, double.MaxValue,
+            ErrorMessage = ErrorMessages.AltitudeInputError)]
         public double MaximumAltitude { get; set; }
 
         public List<double[]> RoutePoints { get; set; }
