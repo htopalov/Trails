@@ -9,8 +9,8 @@ let xAxisChartData = [];
 
 function drawImportedRoute(routePoints) {
     editableLayers.eachLayer(function (layer) {
-        editableLayers.removeLayer(layer);
-    });
+            editableLayers.removeLayer(layer);
+        });
 
     importedRouteTotalLength = 0;
     minAltitude = 0;
@@ -25,7 +25,7 @@ function drawImportedRoute(routePoints) {
     let pointList = [];
     for (let i = 0; i < routePoints.length; i++) {
         let currentPoint = routePoints[i];
-        pointList.push(new L.LatLng(currentPoint[0], currentPoint[1]));
+        pointList.push(new L.LatLng(currentPoint[0], currentPoint[1], currentPoint[2]));
 
         let currentAltitude = currentPoint[2].toFixed(2);
         altitudes.push(currentAltitude);
@@ -46,7 +46,7 @@ function drawImportedRoute(routePoints) {
             fillOpacity: 0.5
         });
 
-    importedRoutePoints = route.getLatLngs().map(el => [el.lat, el.lng]);
+    importedRoutePoints = route.getLatLngs().map(el => [el.lat, el.lng, el.alt]);
 
     let rawCoordinates = route.getLatLngs();
     for (let i = 0; i < rawCoordinates.length - 1; i++) {
@@ -70,29 +70,32 @@ function drawImportedRoute(routePoints) {
 
     setupRouteIcons(pointList[0], pointList[pointList.length - 1], route, group);
 
-    document.getElementById("line-chart").style.display = 'block';
-    
-    new Chart(document.getElementById("line-chart"), {
-        type: 'line',
-        data: {
-            labels: xAxisChartData,
-            datasets: [{
-                data: yAxisChartData,
-                label: "Elevation",
-                borderColor: "#fcba03",
-                fill: true
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Elevation Profile'
-            },
-            scales: {
-                xAxes: [{
-                    display: true
+    let chart = document.getElementById("line-chart");
+    if (chart !== null) {
+        chart.style.display = 'block';
+
+        new Chart(document.getElementById("line-chart"), {
+            type: 'line',
+            data: {
+                labels: xAxisChartData,
+                datasets: [{
+                    data: yAxisChartData,
+                    label: "Elevation",
+                    borderColor: "#fcba03",
+                    fill: true
                 }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Elevation Profile'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true
+                    }]
+                }
             }
-        }
-    });
+        });
+    }
 }
