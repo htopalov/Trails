@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trails.Web.Data;
 
@@ -11,9 +12,10 @@ using Trails.Web.Data;
 namespace Trails.Web.Data.Migrations
 {
     [DbContext(typeof(TrailsDbContext))]
-    partial class TrailsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220213101432_RoutePointAltitudeColumnAdd")]
+    partial class RoutePointAltitudeColumnAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -339,9 +341,6 @@ namespace Trails.Web.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("FinishLocationName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -368,8 +367,6 @@ namespace Trails.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
-
                     b.ToTable("Routes");
                 });
 
@@ -386,9 +383,6 @@ namespace Trails.Web.Data.Migrations
 
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
-
-                    b.Property<int>("OrderNumber")
-                        .HasColumnType("int");
 
                     b.Property<string>("RouteId")
                         .HasColumnType("nvarchar(450)");
@@ -603,16 +597,6 @@ namespace Trails.Web.Data.Migrations
                     b.Navigation("Event");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Trails.Web.Data.DomainModels.Route", b =>
-                {
-                    b.HasOne("Trails.Web.Data.DomainModels.User", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Trails.Web.Data.DomainModels.RoutePoint", b =>

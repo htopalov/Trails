@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trails.Web.Data;
 
@@ -11,9 +12,10 @@ using Trails.Web.Data;
 namespace Trails.Web.Data.Migrations
 {
     [DbContext(typeof(TrailsDbContext))]
-    partial class TrailsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220213203333_RouteCreatorColumnAdd")]
+    partial class RouteCreatorColumnAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -32,6 +32,9 @@ namespace Trails.Web.Data.DomainModels
 
         public double MaximumAltitude { get; set; }
 
-        public ICollection<RoutePoint> RoutePoints { get; set; }
+        public string? CreatorId { get; set; }
+        public User Creator { get; set; }
+
+        public List<RoutePoint> RoutePoints { get; set; }
     }
 }
