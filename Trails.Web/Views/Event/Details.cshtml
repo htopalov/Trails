@@ -51,8 +51,8 @@
                                 }
                                 @if (userId == Model.CreatorId || User.IsInRole("Administrator"))
                                 {
-                                    <a asp-controller="Event" asp-action="Edit" asp-route-id="" class="btn btn-warning">Edit</a>
-                                    <a asp-controller="Event" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                                    <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@Model.Id" class="btn btn-warning">Edit</a>
+                                    <a asp-controller="Event" asp-action="Delete" asp-route-eventId="@Model.Id" class="btn btn-danger">Delete</a>
                                     <a data-bs-toggle="modal" data-bs-target="#participantsModal"class="btn btn-success">Participants</a>
                                 }
                             </div>
@@ -98,23 +98,7 @@
                                 <label class="text-secondary">Route: </label>
                             </div>
                             <div class="col-md-6">
-                                <p><a class="text-secondary" asp-controller="Route" asp-action="Details" asp-route-id="@Model.Route.Id" style="text-decoration: none; cursor: pointer">Details</a></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="text-secondary">Start Location: </label>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="text-secondary">@Model.Route.StartLocationName</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="text-secondary">Finish Location: </label>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="text-secondary">@Model.Route.FinishLocationName</p>
+                                <p><a class="text-secondary" asp-controller="Route" asp-action="Details" asp-route-routeId="@Model.RouteId" style="text-decoration: none; cursor: pointer">Details</a></p>
                             </div>
                         </div>
                     </div>

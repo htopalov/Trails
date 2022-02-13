@@ -22,7 +22,27 @@
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Create route for your event</h2>
         <partial name="_MapPartial"/>
         <canvas id="line-chart" width="800" height="400" style="display: none"></canvas>
-        <partial name="_RouteFormPartial"/>
+        <div class="row justify-content-center mt-3">
+            <div class="col-lg-8 col-xl-7 shadow p-3 mb-1 rounded">
+                <form id="routeForm" method="post">
+                    <div class="form-floating">
+                        <input asp-for="Name" class="form-control bg-primary" name="Name" placeholder="Name" />
+                        <label asp-for="Name">Name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="StartLocationName" class="form-control bg-primary" name="StartLocation" placeholder="Start Location Name"></input>
+                        <label asp-for="StartLocationName">Start Location Name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="FinishLocationName" class="form-control bg-primary" name="FinishLocation" placeholder="Finish Location Name"></input>
+                        <label asp-for="FinishLocationName">Finish Location Name</label>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-xl btn-outline-light" id="submitButton" type="submit">Save Route and Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <input type="file" id="gpxFileUploadElement" style="display:none"/> 
     </div>
 </section>

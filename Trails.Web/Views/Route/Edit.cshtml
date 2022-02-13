@@ -1,0 +1,39 @@
+﻿@model RouteEditFormModel
+
+@{
+    ViewData["Title"] = "Edit Route ";
+}
+
+<section class="page-section bg-primary">
+    <div class="container mx-auto mt-4">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Edit route data</h2>
+        <div class="row justify-content-center mt-3">
+            <div class="col-lg-8 col-xl-7 shadow p-3 mb-1 rounded">
+                <form method="post">
+                    <div class="form-floating">
+                        <input asp-for="Name" class="form-control bg-primary" name="Name" placeholder="Name" />
+                        <label asp-for="Name">Name</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="StartLocationName" class="form-control bg-primary" name="StartLocationName" placeholder="Start Location Name"></input>
+                        <label asp-for="StartLocationName">Start Location Name</label>
+                        <span asp-validation-for="StartLocationName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="FinishLocationName" class="form-control bg-primary" name="FinishLocationName" placeholder="Finish Location Name"></input>
+                        <label asp-for="FinishLocationName">Finish Location Name</label>
+                        <span asp-validation-for="FinishLocationName" class="text-danger"></span>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-xl btn-outline-light" id="submitButton" type="submit">Save Route</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

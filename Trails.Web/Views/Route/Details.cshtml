@@ -1,0 +1,119 @@
+﻿@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager;
+@model RouteDetailsModel
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@2.2.0/Control.FullScreen.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+
+@{
+    ViewData["Title"] = "Route Details ";
+    var list = new double[@Model.RoutePoints.Count][];
+    for (int i = 0; i < list.Length; i++)
+    {
+        var lat = @Model.RoutePoints[i].Latitude;
+        var lng = @Model.RoutePoints[i].Longitude;
+        var alt = @Model.RoutePoints[i].Altitude;
+        list[i] = new double[] {lat,lng,alt};
+    }
+    var points = JsonConvert.SerializeObject(list, Formatting.None);
+
+    var userId = this.userManager.GetUserId(this.User);
+}
+
+<section class="page-section bg-primary">
+    <div class="container mx-auto mt-4">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">Route Details</h2>
+        <partial name="_MapPartial"/>
+        @if (Model.MinimumAltitude !=0 && Model.MaximumAltitude != 0)
+        {
+            <canvas id="line-chart" width="800" height="400"></canvas>
+        }
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="event-work">
+                    <a class="btn btn-sm bg-info">Download GPX</a>
+                    @if (Model.CreatorId == userId)
+                    {
+                        <a asp-controller="Route" asp-action="Edit" asp-route-routeId="@Model.Id" class="btn btn-sm bg-warning">Edit</a>
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="eventInfo">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-secondary">Route name: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-secondary">@Model.Name</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-secondary">Start location: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-secondary">@Model.StartLocationName</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-secondary">Finish location: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-secondary">@Model.FinishLocationName</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-secondary">Total Length: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-secondary">@($"{@Model.Length:f2} km")</p>
+                        </div>
+                    </div>
+                    @if (Model.MinimumAltitude != 0 && Model.MaximumAltitude != 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="text-secondary">Minimum Altitude: </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary">@($"{@Model.MinimumAltitude:f2} m")</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="text-secondary">Maximum Altitude: </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary">@($"{@Model.MaximumAltitude:f2} m")</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.2.0/Control.FullScreen.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="/js/setupMapInViewMode.js"></script>
+    <script src="/js/setupRouteIcons.js"></script>
+    <script src="/js/mapDrawRouteFromGPX.js"></script>
+    
+    <script>
+        drawImportedRoute(@points);
+    </script>
+}
