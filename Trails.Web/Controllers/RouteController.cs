@@ -91,5 +91,13 @@ namespace Trails.Web.Controllers
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteEditSuccess;
             return RedirectToAction(nameof(Details), new { routeId });
         }
+
+        public async Task<IActionResult> Download(string routeId)
+        {
+            var result = await this.routeService
+                .GenerateGPXAsync(routeId);
+
+            return File(result, "application/force-download", $"TrailsLiveActivity-{routeId}-{DateTime.UtcNow:dd-MM-yyyy}.gpx");
+        }
     }
 }

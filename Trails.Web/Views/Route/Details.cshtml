@@ -33,7 +33,7 @@
         <div class="row mt-5">
             <div class="col-md-4">
                 <div class="event-work">
-                    <a class="btn btn-sm bg-info">Download GPX</a>
+                    <a asp-controller="Route" asp-action="Download" asp-route-routeId="@Model.Id" class="btn btn-sm bg-info">Download GPX</a>
                     @if (Model.CreatorId == userId)
                     {
                         <a asp-controller="Route" asp-action="Edit" asp-route-routeId="@Model.Id" class="btn btn-sm bg-warning">Edit</a>

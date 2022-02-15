@@ -11,5 +11,7 @@ namespace Trails.Services.Route
         Task<RouteEditFormModel> GetRouteToEditAsync(string routeId);
 
         Task<bool> EditRouteAsync(string routeId, RouteEditFormModel routeEditFormModel);
+
+        Task<byte[]> GenerateGPXAsync(string routeId);
     }
 }

@@ -7,7 +7,7 @@ namespace Trails.GPXProcessor
 {
     public static class RouteProcessor
     {
-        public static string SerializeRoute(Route route, bool isRouteDrawn = true, List<BeaconData> participantData = null)
+        public static string Serialize(Route route)
         {
             var builder = new StringBuilder();
             var xmlRootAttribute = new XmlRootAttribute("gpx");
@@ -15,37 +15,25 @@ namespace Trails.GPXProcessor
             var serializerNamespaces = new XmlSerializerNamespaces();
             serializerNamespaces.Add("xsi", ProcessorConstants.SchemaInstanceNamespace);
             serializerNamespaces.Add("schemaLocation", ProcessorConstants.SchemaLocationNamespace);
-            var xmlSerializer = new XmlSerializer(typeof(ExportGPXRouteModel),xmlRootAttribute);
+            var xmlSerializer = new XmlSerializer(typeof(ExportGPXRouteModel), xmlRootAttribute);
             using var stringWriter = new Utf8StringWriter(builder);
 
             var routePointsList = new List<ExportRoutePointModel>();
 
-            if (isRouteDrawn)
+            var points = route
+                .RoutePoints
+                .OrderBy(p => p.OrderNumber)
+                .ToList();
+
+            for (int i = 0; i < points.Count; i++)
             {
-                var points = route.RoutePoints.ToList();
-                for (int i = 0; i < points.Count; i++)
+                var point = points[i];
+                routePointsList.Add(new ExportRoutePointModel
                 {
-                    var point = points[i];
-                    routePointsList.Add(new ExportRoutePointModel
-                    {
-                        Latitude = point.Latitude.ToString(),
-                        Longitude = point.Longitude.ToString()
-                    });
-                }
-            }
-            else
-            {
-                for (int i = 0; i < participantData.Count; i++)
-                {
-                    var data = participantData[i];
-                    routePointsList.Add(new ExportRoutePointModel
-                    {
-                        Latitude = data.Latitude.ToString(),
-                        Longitude = data.Longitude.ToString(),
-                        Altitude = data.Altitude.ToString(),
-                        Timestamp = data.Timestamp.ToString("u")
-                    });
-                }
+                    Latitude = point.Latitude.ToString(),
+                    Longitude = point.Longitude.ToString(),
+                    Altitude = point.Altitude.ToString()
+                });
             }
 
             var routeMetadataModel = new ExportGPXMetadataModel()
@@ -66,7 +54,7 @@ namespace Trails.GPXProcessor
                 Track = exportTrackModel
             };
 
-            xmlSerializer.Serialize(stringWriter,routeModel,serializerNamespaces);
+            xmlSerializer.Serialize(stringWriter, routeModel, serializerNamespaces);
             return builder.ToString().Trim();
         }
     }
