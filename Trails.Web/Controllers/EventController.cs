@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Web.Common;
-using Trails.Web.Data.DomainModels;
-using Trails.Web.Models.Event;
-using Trails.Web.Services.Event;
-using Route = Trails.Web.Data.DomainModels.Route;
+using Trails.Common;
+using Trails.Data.DomainModels;
+using Trails.Models.Event;
+using Trails.Services.Event;
+using Route = Trails.Data.DomainModels.Route;
 
 namespace Trails.Web.Controllers
 {

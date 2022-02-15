@@ -1,15 +1,14 @@
 ﻿#nullable disable
 
 using System.ComponentModel.DataAnnotations;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Common;
+using Trails.Data.DomainModels;
+using Trails.Data.Enums;
 using Trails.Web.Areas.Identity.Pages.Account.Contracts;
-using Trails.Web.Common;
-using Trails.Web.Data.DomainModels;
-using Trails.Web.Data.Enums;
 
 namespace Trails.Web.Areas.Identity.Pages.Account
 {
@@ -18,16 +17,13 @@ namespace Trails.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        private readonly IMapper mapper;
 
         public RegisterModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            IMapper mapper)
+            SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.mapper = mapper;
         }
 
         [BindProperty]
@@ -119,8 +115,17 @@ namespace Trails.Web.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var user = this.mapper
-                .Map<User>(Input);
+            var user = new User
+            {
+                UserName = Input.Username,
+                FirstName = Input.Firstname,
+                LastName = Input.LastName,
+                CountryName = Input.CountryName,
+                BirthDate = Input.BirthDate,
+                Gender = (Gender)Input.Gender,
+                Email = Input.Email,
+                PhoneNumber = Input.PhoneNumber
+            };
 
             var result = await this.userManager
                 .CreateAsync(user, Input.Password);

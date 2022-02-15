@@ -55,7 +55,7 @@ L.control.scale().addTo(map);
 L.Control.Watermark = L.Control.extend({
     onAdd: function () {
         let img = L.DomUtil.create('img');
-        img.src = '/images/watermark.png';
+        img.src = '/images/map/watermark.png';
         img.style.width = '130px';
         return img;
     }
@@ -70,4 +70,4 @@ L.control.watermark({ position: 'topright' }).addTo(map);
 map.on(L.Draw.Event.CREATED, function (e) {
         let layer = e.layer;
         editableLayers.addLayer(layer);
-    });
+});

@@ -7,6 +7,10 @@ map.on('draw:created',
             editableLayers.removeLayer(layer);
         });
 
+        isUploadButtonClicked = false;
+        drawnRoutePoints.length = 0;
+        drawnRouteTotalLength = 0;
+
         document.getElementById("line-chart").style.display = 'none';
 
         let group = L.layerGroup();

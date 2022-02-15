@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Web.Areas.Administration.Services.Administration;
+using Trails.Services.Administration;
 
 namespace Trails.Web.Areas.Administration.Controllers
 {

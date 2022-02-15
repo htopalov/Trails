@@ -6,11 +6,14 @@ let altitudes = [];
 
 let yAxisChartData = [];
 let xAxisChartData = [];
+let isUploadButtonClicked = false;
 
 function drawImportedRoute(routePoints) {
     editableLayers.eachLayer(function (layer) {
             editableLayers.removeLayer(layer);
-        });
+    });
+
+    isUploadButtonClicked = true;
 
     importedRouteTotalLength = 0;
     minAltitude = 0;

@@ -3,14 +3,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using AgeCalculator.Extensions;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Trails.Common;
+using Trails.Data.DomainModels;
 using Trails.Web.Areas.Identity.Pages.Account.Contracts;
-using Trails.Web.Common;
-using Trails.Web.Data.DomainModels;
 
 namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -19,16 +18,13 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly IMapper mapper;
 
         public IndexModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            IMapper mapper)
+            SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.mapper = mapper;
         }
 
         public string Username { get; set; }
@@ -74,9 +70,15 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(User user)
         {
-            Input = this.mapper
-                .Map<InputModel>(user);
+            var input = new InputModel
+            {
+                Firstname = user.FirstName,
+                LastName = user.LastName,
+                CountryName = user.CountryName,
+                PhoneNumber = user.PhoneNumber,
+            };
 
+            Input = input;
             Username = user.UserName;
             Age = CalculateAge(user.BirthDate);
         }

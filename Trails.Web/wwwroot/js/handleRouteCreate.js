@@ -1,5 +1,4 @@
 ﻿function handleRouteCreateFunc(XsrfToken) {
-    let isUploadButtonClicked = false;
     document.getElementById('submitButton').addEventListener('click',
         async (e) => {
             e.preventDefault();

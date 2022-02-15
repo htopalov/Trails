@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Web.Areas.Administration.Models.Beacon;
-using Trails.Web.Areas.Administration.Services.Beacon;
-using Trails.Web.Common;
-using Trails.Web.Infrastructure;
+using Trails.Common;
+using Trails.Models.Beacon;
+using Trails.Security;
+using Trails.Services.Beacon;
 
 namespace Trails.Web.Areas.Administration.Controllers
 {

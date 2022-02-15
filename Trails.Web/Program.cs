@@ -1,14 +1,16 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Trails.Web.Areas.Administration.Services.Administration;
-using Trails.Web.Areas.Administration.Services.Beacon;
-using Trails.Web.BeaconDataApi.Filters;
-using Trails.Web.BeaconDataApi.Services.BeaconDataService;
-using Trails.Web.Data;
-using Trails.Web.Data.DomainModels;
-using Trails.Web.Services.Event;
-using Trails.Web.Services.Route;
+using Trails.Api.Filters;
+using Trails.Api.Services;
+using Trails.Data;
+using Trails.Data.DomainModels;
+using Trails.Infrastructure;
+using Trails.Services.Administration;
+using Trails.Services.Beacon;
+using Trails.Services.Event;
+using Trails.Services.Route;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +46,7 @@ builder
 
 builder
     .Services
-    .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    .AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
 builder
     .Services
