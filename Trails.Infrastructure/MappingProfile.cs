@@ -28,7 +28,7 @@ namespace Trails.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<Event, EventDetailsModel>()
-                .ForMember(dest => dest.Image, opt => opt.Ignore())
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(s => ImageProcessor.ProcessImageFromDb(s)))
                 .ReverseMap();
 
             this.CreateMap<Event, EventEditFormModel>()
@@ -41,6 +41,10 @@ namespace Trails.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<RoutePoint, RoutePointExportModel>()
+                .ReverseMap();
+
+            this.CreateMap<Event, FirstToStartEventCardModel>()
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(s=> ImageProcessor.ProcessImageFromDb(s)))
                 .ReverseMap();
         }
     }

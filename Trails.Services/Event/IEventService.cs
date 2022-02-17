@@ -20,5 +20,7 @@ namespace Trails.Services.Event
         Task<EventEditFormModel> GetEventToEditAsync(string eventId);
 
         Task<bool> EditEventAsync(string eventId, EventEditFormModel eventEditFormModel);
+
+        Task<List<FirstToStartEventCardModel>> GetClosestStartingEventsAsync();
     }
 }

@@ -69,7 +69,7 @@ namespace Trails.Services.Beacon
 
 
             var beacon = this.mapper
-                .Map<Trails.Data.DomainModels.Beacon>(beaconFormModel);
+                .Map<Data.DomainModels.Beacon>(beaconFormModel);
 
             await this.dbContext
                 .Beacons

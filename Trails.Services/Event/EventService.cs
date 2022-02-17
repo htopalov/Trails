@@ -1,9 +1,9 @@
-﻿using System.Globalization;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Trails.Data;
 using Trails.Data.DomainModels;
+using Trails.Infrastructure;
 using Trails.Models.Event;
 
 namespace Trails.Services.Event
@@ -35,9 +35,8 @@ namespace Trails.Services.Event
 
             @event.CreatorId = currentUserId;
 
-            var img = await ProcessImageToDb(imgFile, currentUserId);
-
-            @event.Image = img;
+            @event.Image = await ImageProcessor
+                .ProcessImageToDb(imgFile, currentUserId);
 
             var result = await this.dbContext
                 .Events
@@ -69,12 +68,8 @@ namespace Trails.Services.Event
                 return null;
             }
 
-            var eventDetailsModel = this.mapper
-                .Map<EventDetailsModel>(@event);
-
-            eventDetailsModel.Image = ProcessImageFromDb(@event);
-
-            return eventDetailsModel;
+            return this.mapper
+                .Map<EventDetailsModel>(@event); ;
         }
 
         public async Task<EventEditFormModel> GetEventToEditAsync(string eventId)
@@ -231,7 +226,8 @@ namespace Trails.Services.Event
                 return false;
             }
 
-            var img = await ProcessImageToDb(imgFile, currentUserId);
+            var img = await ImageProcessor
+                .ProcessImageToDb(imgFile, currentUserId);
 
             @event.Image = img;
 
@@ -245,26 +241,18 @@ namespace Trails.Services.Event
             return updated > 0;
         }
 
-        private static string ProcessImageFromDb(Data.DomainModels.Event @event)
+        public async Task<List<FirstToStartEventCardModel>> GetClosestStartingEventsAsync()
         {
-            var imageBaseData = Convert.ToBase64String(@event.Image.DataBytes);
-            return $"data:image/jpg;base64,{imageBaseData}";
-        }
+            var events = await this.dbContext
+                           .Events
+                           .Include(e=>e.Image)
+                           .Where(e => e.IsApproved && e.IsDeleted == false)
+                           .OrderBy(e => e.StartDate)
+                           .Take(3)
+                           .ToListAsync();
 
-        private static async Task<Image> ProcessImageToDb(IFormFile imgFile, string currentUserId)
-        {
-            await using var memoryStream = new MemoryStream();
-            await imgFile.CopyToAsync(memoryStream);
-
-            var img = new Image
-            {
-                Title = $"{Guid.NewGuid().ToString()}-{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)}",
-                CreatedOn = DateTime.UtcNow,
-                CreatorId = currentUserId,
-                DataBytes = memoryStream.ToArray()
-            };
-
-            return img;
+            return this.mapper
+                .Map<List<FirstToStartEventCardModel>>(events);
         }
     }
 }
