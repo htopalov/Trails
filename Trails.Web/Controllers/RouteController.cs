@@ -12,13 +12,9 @@ namespace Trails.Web.Controllers
     public class RouteController : Controller
     {
         private readonly IRouteService routeService;
-        private readonly UserManager<User> userManager;
 
-        public RouteController(IRouteService routeService, UserManager<User> userManager)
-        {
-            this.routeService = routeService;
-            this.userManager = userManager;
-        } 
+        public RouteController(IRouteService routeService) 
+            => this.routeService = routeService;
 
         public IActionResult Create()
         {
@@ -39,11 +35,8 @@ namespace Trails.Web.Controllers
                 return BadRequest();
             }
 
-            var currentUserId = this.userManager
-                .GetUserId(this.User);
-
             var created = await this.routeService
-                .CreateRouteAsync(routeCreateModel,currentUserId);
+                .CreateRouteAsync(routeCreateModel);
 
             if (!created)
             {
@@ -60,6 +53,11 @@ namespace Trails.Web.Controllers
             var routeDetailsModel = await this.routeService
                 .GetRouteAsync(routeId);
 
+            if (routeDetailsModel == null)
+            {
+                return View("Error");
+            }
+
             return View(routeDetailsModel);
         }
 
@@ -67,6 +65,11 @@ namespace Trails.Web.Controllers
         {
             var routeToEdit = await this.routeService
                 .GetRouteToEditAsync(routeId);
+
+            if (routeToEdit == null)
+            {
+                return View("Error");
+            }
 
             return View(routeToEdit);
         }

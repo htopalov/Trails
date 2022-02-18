@@ -19,9 +19,9 @@ namespace Trails.Services.Route
             this.mapper = mapper;
         }
 
-        public async Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel,string currentUserId)
+        public async Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel)
         {
-            bool hasAltitude = routeCreateModel.MaximumAltitude != 0;
+            var hasAltitude = routeCreateModel.MaximumAltitude != 0;
 
             var eventForRoute = await this.dbContext
                 .Events
@@ -44,7 +44,7 @@ namespace Trails.Services.Route
             var route = this.mapper
                 .Map<Data.DomainModels.Route>(routeCreateModel);
 
-            route.CreatorId = currentUserId;
+            route.CreatorId = eventForRoute.CreatorId;
 
             eventForRoute.Route = route;
 

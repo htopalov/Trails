@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Trails.Common;
 using Trails.Data.Enums;
+using Trails.Models.ValidationAttributes;
 
 namespace Trails.Models.Event
 {
@@ -22,6 +23,7 @@ namespace Trails.Models.Event
 
         [Required]
         [DataType(DataType.DateTime)]
+        [ValidateEventDate]
         public DateTime StartDate { get; set; }
 
         [Required]

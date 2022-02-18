@@ -32,37 +32,11 @@ namespace Trails.Web.Controllers
                 return View(eventFormModel);
             }
 
-            var currentUserId = this.userManager
+            eventFormModel.CreatorId = this.userManager
                 .GetUserId(this.User);
 
-            var imgFile = Request.Form.Files.First();
-
-            if (imgFile == null)
-            {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingEventImageError;
-                return View(eventFormModel);
-            }
-
-            if (!ValidateImageExtension(imgFile))
-            {
-                TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.ImageFileExtensionError;
-                return View(eventFormModel);
-            }
-
-            if (eventFormModel.EndDate < eventFormModel.StartDate)
-            {
-                TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.InvalidStartEndDate;
-                return View(eventFormModel);
-            }
-
-            if (DateTime.UtcNow > eventFormModel.StartDate.AddDays(-3))
-            {
-                TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.EventThreeDaysBeforeStartError;
-                return View(eventFormModel);
-            }
-
             var resultId = await this.eventService
-                .CreateEventAsync(eventFormModel, currentUserId, imgFile);
+                .CreateEventAsync(eventFormModel);
 
             if (resultId == string.Empty)
             {
@@ -94,7 +68,8 @@ namespace Trails.Web.Controllers
 
             if (!changeState)
             {
-                return View("Error");
+                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventDeleteFail;
+                return RedirectToAction(nameof(Details), new {eventId});
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventDeleteSuccess;
@@ -129,27 +104,16 @@ namespace Trails.Web.Controllers
             return NoContent();
         }
 
-        public async Task<IActionResult> EditImage(string eventId)
+        public async Task<IActionResult> EditImage(string eventId, EventImageEditModel imageModel)
         {
-            var imgFile = Request.Form.Files.First();
-
-            if (imgFile == null)
-            {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingEventImageError;
-                return RedirectToAction(nameof(Details), new { eventId });
-            }
-
-            if (!ValidateImageExtension(imgFile))
+            if (!ModelState.IsValid)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.ImageFileExtensionError;
-                return RedirectToAction(nameof(Details), new { eventId });
+                return RedirectToAction(nameof(Details), new {eventId});
             }
 
-            var currentUserId = this.userManager
-                .GetUserId(this.User);
-
             var edited = await this.eventService
-                .EditImageAsync(currentUserId, eventId, imgFile);
+                .EditImageAsync(eventId, imageModel);
 
             if (!edited)
             {
@@ -158,13 +122,18 @@ namespace Trails.Web.Controllers
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventImageEditSuccess;
-            return RedirectToAction(nameof(Details), new{eventId});
+            return RedirectToAction(nameof(Details), new { eventId });
         }
 
         public async Task<IActionResult> Edit(string eventId)
         {
             var eventToEdit = await this.eventService
                 .GetEventToEditAsync(eventId);
+
+            if (eventToEdit == null)
+            {
+                return View("Error");
+            }
 
             return View(eventToEdit);
         }
@@ -183,20 +152,11 @@ namespace Trails.Web.Controllers
             if (!updated)
             {
                 TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventEditFail;
-                return View(eventEditFormModel);
+                return RedirectToAction(nameof(Details), new { eventId });
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventEditSuccess;
             return RedirectToAction(nameof(Details),new{eventId});
-        }
-
-        private bool ValidateImageExtension(IFormFile imgFile)
-        { 
-            string[] extensions = new[] {"jpg", "jpeg", "png"};
-
-            var extension = Path.GetExtension(imgFile.FileName).TrimStart('.');
-
-            return extensions.Any(e => e.EndsWith(extension));
         }
     }
 }

@@ -16,7 +16,7 @@
         public const string ImageFileExtensionError = "Allowed type of images: jpg, jpeg, png";
         public const string InvalidStartEndDate = "End of the event must be after its start.";
         public const string EventThreeDaysBeforeStartError =
-            "Event must be created atleast three days before it's start.";
+            "Event must be created or updated atleast three days before it's start.";
         public const string RouteLengthError = "Route length must be positive number.";
         public const string AltitudeInputError = "Altitude must be positive number.";
     }

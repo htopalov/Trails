@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Trails.Data;
 using Trails.Data.DomainModels;
@@ -19,7 +18,7 @@ namespace Trails.Services.Event
             this.mapper = mapper;
         }
 
-        public async Task<string> CreateEventAsync(EventFormModel eventFormModel,string currentUserId, IFormFile imgFile)
+        public async Task<string> CreateEventAsync(EventFormModel eventFormModel)
         {
             var isExisting = await this.dbContext
                 .Events
@@ -33,10 +32,8 @@ namespace Trails.Services.Event
             var @event = this.mapper
                 .Map<Data.DomainModels.Event>(eventFormModel);
 
-            @event.CreatorId = currentUserId;
-
             @event.Image = await ImageProcessor
-                .ProcessImageToDb(imgFile, currentUserId);
+                .ProcessImageToDb(eventFormModel.Image,eventFormModel.CreatorId);
 
             var result = await this.dbContext
                 .Events
@@ -99,10 +96,14 @@ namespace Trails.Services.Event
                 return false;
             }
 
+            if (IsEventLocked(@event.StartDate))
+            {
+                return false;
+            }
+
             this.mapper.Map(eventEditFormModel, @event);
 
             @event.IsModifiedByCreator = true;
-            //set is approved by admin again????
 
             this.dbContext
                 .Events
@@ -121,6 +122,11 @@ namespace Trails.Services.Event
                 .FirstOrDefaultAsync(e => e.Id == eventId);
 
             if (@event == null)
+            {
+                return false;
+            }
+
+            if (DateTime.UtcNow >= @event.StartDate && DateTime.UtcNow <= @event.EndDate)
             {
                 return false;
             }
@@ -144,6 +150,11 @@ namespace Trails.Services.Event
                 .FindAsync(eventId);
 
             if (eventToParticipate == null)
+            {
+                return false;
+            }
+
+            if (IsEventLocked(eventToParticipate.StartDate))
             {
                 return false;
             }
@@ -194,6 +205,11 @@ namespace Trails.Services.Event
                 return false;
             }
 
+            if (IsEventLocked(eventOfParticipant.StartDate))
+            {
+                return false;
+            }
+
             var participantToApprove = eventOfParticipant
                 .Participants
                 .FirstOrDefault(p => p.Id == participantId);
@@ -215,7 +231,7 @@ namespace Trails.Services.Event
             return hasParticipantStateChanged > 0;
         }
 
-        public async Task<bool> EditImageAsync(string currentUserId, string eventId, IFormFile imgFile)
+        public async Task<bool> EditImageAsync(string eventId, EventImageEditModel imageModel)
         {
             var @event = await this.dbContext
                 .Events
@@ -226,8 +242,13 @@ namespace Trails.Services.Event
                 return false;
             }
 
+            if (IsEventLocked(@event.StartDate))
+            {
+                return false;
+            }
+
             var img = await ImageProcessor
-                .ProcessImageToDb(imgFile, currentUserId);
+                .ProcessImageToDb(imageModel.Image, @event.CreatorId);
 
             @event.Image = img;
 
@@ -246,7 +267,7 @@ namespace Trails.Services.Event
             var events = await this.dbContext
                            .Events
                            .Include(e=>e.Image)
-                           .Where(e => e.IsApproved && e.IsDeleted == false)
+                           .Where(e => e.IsApproved && e.IsDeleted == false && DateTime.UtcNow <= e.EndDate)
                            .OrderBy(e => e.StartDate)
                            .Take(3)
                            .ToListAsync();
@@ -254,5 +275,8 @@ namespace Trails.Services.Event
             return this.mapper
                 .Map<List<FirstToStartEventCardModel>>(events);
         }
+
+        private bool IsEventLocked(DateTime startDate) 
+            => DateTime.UtcNow > startDate.AddDays(-3);
     }
 }

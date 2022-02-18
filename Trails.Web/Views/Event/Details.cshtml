@@ -8,7 +8,8 @@
     var creatorFullname = $"{creator.FirstName} {creator.LastName}";
     var participantModel = Model.Participants.FirstOrDefault(p => p.UserId == userId);
     var terminationDate = Model.StartDate.AddDays(-3);
-    var terminationOfApply = DateTime.UtcNow > terminationDate;
+    var terminationOfBtn = DateTime.UtcNow > terminationDate;
+    var terminationOfDeleteBtn = DateTime.UtcNow >= Model.StartDate && DateTime.UtcNow <= Model.EndDate;
     ViewData["Title"] = "Event Details ";
 }
 
@@ -21,37 +22,40 @@
                         <img src="@Model.Image" alt=""/>
                         @if (Model.CreatorId == userId)
                         {
-                            <form enctype="multipart/form-data" method="post" asp-controller="Event" asp-action="EditImage" asp-route-eventId="@Model.Id">
-                                <div class="file btn btn-lg btn-primary">
-                                    Change Image
-                                    <input type="file" name="file" id="imageInput"/>
-                                </div>
-                            </form>
+                            if (!terminationOfBtn)
+                            {
+                                <form enctype="multipart/form-data" method="post" asp-controller="Event" asp-action="EditImage" asp-route-eventId="@Model.Id">
+                                    <div class="file btn btn-lg btn-primary">
+                                        Change Image
+                                        <input type="file" name="Image" id="imageInput"/>
+                                    </div>
+                                </form>
+                            }
                         }
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="event-head">
-                        <h4 class="text-secondary text-uppercase">
+                        <h4 class="text-secondary text-uppercase" style="word-wrap: break-word;">
                             @Model.Name
                         </h4>
                         <h5 class="text-secondary">
                             created by <strong class="text-secondary text-uppercase">@creatorFullname</strong>
                         </h5>
                         <p>
-                            <strong class="text-secondary">Start: </strong> <span>@Model.StartDate.ToString("f") </span><strong class="event-date-end">End: </strong><span>@Model.EndDate.ToString("f")</span> <strong class="event-date-end">Apply till: </strong><span>@(terminationOfApply ? "EXPIRED" : terminationDate.ToString("f"))</span>
+                            <strong class="text-secondary">Start: </strong> <span>@Model.StartDate.ToString("f") </span><strong class="event-date-end">End: </strong><span>@Model.EndDate.ToString("f")</span> <strong class="event-date-end">Apply till: </strong><span>@(terminationOfBtn ? "EXPIRED" : terminationDate.ToString("f"))</span>
                         </p>
                         <div class="col-md-2">
                             <div class="btn-group" role="group">
                                 @if (participantModel == null && !User.IsInRole("Administrator"))
                                 {
-                                    <a asp-controller="Event" asp-action="Apply" asp-route-userId="@userId" asp-route-eventId="@Model.Id" class="btn btn-info @(terminationOfApply ? "disabled" : string.Empty)">Apply</a>
+                                    <a asp-controller="Event" asp-action="Apply" asp-route-userId="@userId" asp-route-eventId="@Model.Id" class="btn btn-info @(terminationOfBtn ? "disabled" : string.Empty)">Apply</a>
                                 }
                                 @if (userId == Model.CreatorId || User.IsInRole("Administrator"))
                                 {
-                                    <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@Model.Id" class="btn btn-warning">Edit</a>
-                                    <a asp-controller="Event" asp-action="Delete" asp-route-eventId="@Model.Id" class="btn btn-danger">Delete</a>
-                                    <a data-bs-toggle="modal" data-bs-target="#participantsModal"class="btn btn-success">Participants</a>
+                                    <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@Model.Id" class="btn btn-warning @(terminationOfBtn ? "disabled" : string.Empty)">Edit</a>
+                                    <a asp-controller="Event" asp-action="Delete" asp-route-eventId="@Model.Id" class="btn btn-danger @(terminationOfDeleteBtn ? "disabled" : string.Empty)">Delete</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#participantsModal"class="btn btn-success @(terminationOfBtn ? "disabled" : string.Empty)">Participants</a>
                                 }
                             </div>
                         </div>

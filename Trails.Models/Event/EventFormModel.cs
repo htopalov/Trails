@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Trails.Common;
-using Trails.Data.DomainModels;
 using Trails.Data.Enums;
+using Trails.Models.ValidationAttributes;
 
 namespace Trails.Models.Event
 {
@@ -24,6 +24,7 @@ namespace Trails.Models.Event
 
         [Required]
         [DataType(DataType.DateTime)]
+        [ValidateEventDate]
         public DateTime StartDate { get; set; }
 
         [Required]
@@ -45,8 +46,9 @@ namespace Trails.Models.Event
         public double Length { get; set; }
 
         public string? CreatorId { get; set; }
-        public User? Creator { get; set; }
 
+        [Required]
+        [ValidateImageExtension]
         public IFormFile Image { get; set; }
     }
 }

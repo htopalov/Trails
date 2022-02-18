@@ -4,7 +4,7 @@ namespace Trails.Services.Route
 {
     public interface IRouteService
     {
-        Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel, string currentUserId);
+        Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel);
 
         Task<RouteDetailsModel> GetRouteAsync(string routeId);
 

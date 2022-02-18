@@ -5,7 +5,7 @@ namespace Trails.Services.Event
 {
     public interface IEventService
     {
-        Task<string> CreateEventAsync(EventFormModel eventFormModel, string currentUserId, IFormFile imgFile);
+        Task<string> CreateEventAsync(EventFormModel eventFormModel);
 
         Task<EventDetailsModel> GetEventAsync(string eventId);
 
@@ -15,7 +15,7 @@ namespace Trails.Services.Event
 
         Task<bool> ApproveParticipantAsync(string participantId,string eventId);
 
-        Task<bool> EditImageAsync(string currentUserId, string eventId, IFormFile imgFile);
+        Task<bool> EditImageAsync(string eventId, EventImageEditModel imageModel);
 
         Task<EventEditFormModel> GetEventToEditAsync(string eventId);
 
