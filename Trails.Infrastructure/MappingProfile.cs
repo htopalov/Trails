@@ -46,6 +46,9 @@ namespace Trails.Infrastructure
             this.CreateMap<Event, FirstToStartEventCardModel>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(s=> ImageProcessor.ProcessImageFromDb(s)))
                 .ReverseMap();
+
+            this.CreateMap<BaseEventModel, Event>()
+                .ReverseMap();
         }
     }
 }

@@ -158,5 +158,13 @@ namespace Trails.Web.Controllers
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventEditSuccess;
             return RedirectToAction(nameof(Details),new{eventId});
         }
+
+        public async Task<IActionResult> Events(string userId, ListEventsModel myEventsQuery)
+        {
+            var events = await this.eventService
+                .GetEventsAsync(userId, myEventsQuery.CurrentPage, myEventsQuery.EventsPerPage);
+
+            return View(events);
+        }
     }
 }

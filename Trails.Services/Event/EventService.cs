@@ -276,6 +276,45 @@ namespace Trails.Services.Event
                 .Map<List<FirstToStartEventCardModel>>(events);
         }
 
+        public async Task<ListEventsModel> GetEventsAsync(
+            string userId,
+            int currentPage = 1,
+            int beaconsPerPage = int.MaxValue)
+        {
+            var queryableEvents = this.dbContext
+                .Events
+                .AsQueryable();
+
+            if (userId != null)
+            {
+                queryableEvents = queryableEvents
+                    .Where(e => e.CreatorId == userId);
+            }
+
+            var events = await queryableEvents
+                //.Where(e => e.IsApproved && e.IsDeleted == false)
+                .OrderBy(e=>e.StartDate)
+                .ToListAsync(); 
+
+            var totalEvents = events.Count;
+
+            var pagedEvents = events
+                .Skip((currentPage - 1) * beaconsPerPage)
+                .Take(beaconsPerPage)
+                .ToList();
+
+            var mappedEvents = this.mapper
+                .Map<List<BaseEventModel>>(pagedEvents);
+
+            return new ListEventsModel
+            {
+                TotalEvents = totalEvents,
+                CurrentPage = currentPage,
+                Events = mappedEvents,
+                AreMine = userId != null
+            };
+        }
+
         private bool IsEventLocked(DateTime startDate) 
             => DateTime.UtcNow > startDate.AddDays(-3);
     }

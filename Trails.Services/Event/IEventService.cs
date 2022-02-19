@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Trails.Models.Event;
+﻿using Trails.Models.Event;
 
 namespace Trails.Services.Event
 {
@@ -22,5 +21,7 @@ namespace Trails.Services.Event
         Task<bool> EditEventAsync(string eventId, EventEditFormModel eventEditFormModel);
 
         Task<List<FirstToStartEventCardModel>> GetClosestStartingEventsAsync();
+
+        Task<ListEventsModel> GetEventsAsync(string userId = null , int currentPage = 1, int beaconsPerPage = int.MaxValue);
     }
 }
