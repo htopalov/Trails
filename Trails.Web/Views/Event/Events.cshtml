@@ -3,7 +3,7 @@
 @model ListEventsModel
 
 @{
-    ViewData["Title"] = "Events ";
+    ViewData["Title"] = Model.AreMine ? "My Events " : "All Events";
 
     var userId = UserManager.GetUserId(User);
 
@@ -26,7 +26,7 @@
 
 <section class="bg-primary text-white mb-0" style="margin-top: 70px;">
     <div class="container" style="overflow: auto">
-        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-5 mt-5">Events</h1>
+        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-5 mt-5">@(Model.AreMine ? "My Events" : "All Events")</h1>
         <table class="table table-hover text-secondary mt-5 mb-5">
             <thead>
             <tr class="text-center">
