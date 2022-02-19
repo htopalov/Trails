@@ -40,6 +40,9 @@ namespace Trails.Infrastructure
             this.CreateMap<Route, RouteEditFormModel>()
                 .ReverseMap();
 
+            this.CreateMap<BaseRouteModel, Route>()
+                .ReverseMap();
+
             this.CreateMap<RoutePoint, RoutePointExportModel>()
                 .ReverseMap();
 

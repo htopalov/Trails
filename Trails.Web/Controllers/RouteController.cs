@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Trails.Common;
-using Trails.Data.DomainModels;
 using Trails.Models.Route;
 using Trails.Services.Route;
 
@@ -93,6 +91,14 @@ namespace Trails.Web.Controllers
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteEditSuccess;
             return RedirectToAction(nameof(Details), new { routeId });
+        }
+
+        public async Task<IActionResult> All(AllRoutesModel queryModel)
+        {
+            var allRoutes = await this.routeService
+                .GetAllRoutesAsync(queryModel.CurrentPage, queryModel.RoutesPerPage);
+
+            return View(allRoutes);
         }
 
         public async Task<IActionResult> Download(string routeId)

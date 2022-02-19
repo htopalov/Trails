@@ -138,6 +138,32 @@ namespace Trails.Services.Route
             return updated > 0;
         }
 
+        public async Task<AllRoutesModel> GetAllRoutesAsync(
+            int currentPage = 1,
+            int routesPerPage = int.MaxValue)
+        {
+            var allRoutes = await this.dbContext
+                .Routes
+                .ToListAsync();
+
+            var totalRoutes = allRoutes.Count;
+
+            var pagedRoutes = allRoutes
+                .Skip((currentPage - 1) * routesPerPage)
+                .Take(routesPerPage)
+                .ToList();
+
+            var mappedRoutes = this.mapper
+                .Map<List<BaseRouteModel>>(pagedRoutes);
+
+            return new AllRoutesModel
+            {
+                TotalRoutes = totalRoutes,
+                CurrentPage = currentPage,
+                Routes = mappedRoutes
+            };
+        }
+
         public async Task<byte[]> GenerateGPXAsync(string routeId)
         {
             var route = await this.dbContext
