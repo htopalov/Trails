@@ -23,6 +23,11 @@ namespace Trails.Services.Beacon
                 .Beacons
                 .FirstOrDefaultAsync(b => b.Id == id);
 
+            if (beacon == null)
+            {
+                return null;
+            }
+
             return this.mapper.Map<BeaconFormModel>(beacon);
         }
 

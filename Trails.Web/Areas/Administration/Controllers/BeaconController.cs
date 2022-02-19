@@ -55,6 +55,11 @@ namespace Trails.Web.Areas.Administration.Controllers
             var beaconToEdit = await this.beaconService
                 .GetBeaconToEditByIdAsync(id);
 
+            if (beaconToEdit == null)
+            {
+                return View("Error");
+            }
+
             return View(beaconToEdit);
         }
 
