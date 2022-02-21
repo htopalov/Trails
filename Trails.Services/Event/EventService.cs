@@ -292,7 +292,7 @@ namespace Trails.Services.Event
             }
 
             var events = await queryableEvents
-                //.Where(e => e.IsApproved && e.IsDeleted == false)
+                .Where(e => e.IsApproved && e.IsDeleted == false)
                 .OrderBy(e=>e.StartDate)
                 .ToListAsync(); 
 
