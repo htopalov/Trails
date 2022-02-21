@@ -1,0 +1,66 @@
+﻿@model UnapprovedEventDetailsModel
+
+<div class="modal" id=@($"detailsModal{Model.Counter}")>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center pb-5">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h2 class="text-secondary text-uppercase mb-0">Details</h2>
+                            <div class="col-md-8 mt-3">
+                                <div id="eventInfo">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="text-secondary text-danger text-start">Start: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-secondary text-nowrap">@Model.StartDate.ToString("dd-MM-yyyy HH:mm") </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="text-secondary text-danger text-nowrap">End: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-secondary text-nowrap">@Model.EndDate.ToString("dd-MM-yyyy HH:mm") </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="text-secondary text-nowrap">Type: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-secondary text-nowrap">@Model.Type</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="text-secondary text-nowrap">Length: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-secondary text-nowrap">@($"{@Model.Length:f2} km")</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="text-secondary text-nowrap">Creator: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-secondary text-nowrap">@Model.Creator</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="text-secondary">About event</h6>
+                            <p class="mb-4">@Model.Description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

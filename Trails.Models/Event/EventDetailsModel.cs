@@ -1,5 +1,4 @@
-﻿using Trails.Data.DomainModels;
-using Trails.Data.Enums;
+﻿using Trails.Data.Enums;
 
 namespace Trails.Models.Event
 {
@@ -28,6 +27,6 @@ namespace Trails.Models.Event
 
         public string CreatorId { get; set; }
 
-        public List<Participant> Participants { get; set; }
+        public List<Data.DomainModels.Participant> Participants { get; set; }
     }   
 }

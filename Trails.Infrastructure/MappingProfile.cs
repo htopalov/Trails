@@ -52,6 +52,14 @@ namespace Trails.Infrastructure
 
             this.CreateMap<BaseEventModel, Event>()
                 .ReverseMap();
+
+            this.CreateMap<Event, UnapprovedEventDetailsModel>()
+                .ForMember(dest=>dest.Creator, opt=>opt.MapFrom(s=> $"{s.Creator.FirstName} {s.Creator.LastName}"))
+                .ReverseMap();
+
+            this.CreateMap<Event, UnapprovedEventModel>()
+                .ForMember(dest=>dest.DetailsModel,opt=>opt.MapFrom(s=>s))
+                .ReverseMap();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Trails.Models.Event
 {
-    public class ListEventsModel
+    public class ListEventsModel : IListEventModel
     {
         public int EventsPerPage = 5;
 
