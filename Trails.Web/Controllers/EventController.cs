@@ -73,7 +73,7 @@ namespace Trails.Web.Controllers
             }
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventDeleteSuccess;
-            return RedirectToAction("All"); //TODO:change to nameof(All) when view is ready
+            return RedirectToAction(nameof(Events));
         }
 
         public async Task<IActionResult> Apply(string userId, string eventId)
