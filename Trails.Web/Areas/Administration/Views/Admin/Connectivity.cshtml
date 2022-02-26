@@ -1,0 +1,88 @@
+﻿@model List<EventPreparationModel>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@{
+    ViewData["Title"] = "Connectivity ";
+
+    string GetAntiForgeryToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<section class="page-section bg-primary mt-4">
+    <div class="container mx-auto mt-3 mb-5">
+        <div class="row justify-content-center mt-3">
+            <div class="col-sm mb-4">
+                <h4 class="text-secondary">Events</h4>
+                <select class="form-control" style="overflow-y: scroll;" name="events" id="events" size="5">
+                    @foreach (var ev in Model)
+                    {
+                            <option value="@ev.Id">@ev.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm">
+                <h4 class="text-secondary">Participants</h4>
+                <select class="form-control" style="overflow-y: scroll;" name="participants" id="participants" size="5">
+                </select>
+            </div>
+            <div class="col-sm">
+                <h4 class="text-secondary">Beacons</h4>
+                <select class="form-control" style="overflow-y: scroll;" name="beacons" id="beacons" size="5">
+                </select>
+            </div>
+            <div class="col-sm" id="connectDiv"></div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="detachBeaconsModal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Caution</h4>
+            </div>
+            <div class="modal-body">
+                Before you proceed to connect beacons to participants you need to detach connected ones from passed events.
+            </div>
+            <div class="modal-footer">
+                <a asp-area="Administration" asp-controller="Admin" asp-action="DetachBeacons" class="btn btn-danger" id="btnDetach">Detach beacons</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/js/getParticipantsAndBeacons.js"></script>
+    <script src="/js/connectParticipantToBeacon.js"></script>
+    <script>
+        let detachBeaconsModal = new bootstrap.Modal(document.getElementById('detachBeaconsModal'), {});
+        detachBeaconsModal.toggle();
+
+        document.querySelector('#btnDetach').addEventListener('click',
+            () => {
+                detachBeaconsModal.hide();
+            });
+
+        let eventsSelect = document.getElementById('events');
+        eventsSelect.addEventListener('click', getParticipantsAndBeaconsAsync);
+
+        let beaconsSelect = document.getElementById('beacons');
+        beaconsSelect.addEventListener('change', () => {
+                    let connectBtn = document.getElementById('connectBtn');
+                    if (connectBtn) {
+                        return;
+                    }
+                    let connectDiv = document.getElementById('connectDiv');
+                    let button = document.createElement('a');
+                    button.textContent = 'Connect';
+                    button.className = 'btn btn-success mt-5';
+                    button.id = 'connectBtn';
+                    button.addEventListener('click', connectParticipantToBeaconAsync.bind(this,'@GetAntiForgeryToken()'));
+                    connectDiv.appendChild(button);
+        });
+    </script>
+}
