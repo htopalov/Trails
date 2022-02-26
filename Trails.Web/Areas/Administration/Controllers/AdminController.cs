@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Trails.Common;
 using Trails.Models.Event;
+using Trails.Models.Participant;
 using Trails.Services.Administration;
 
 namespace Trails.Web.Areas.Administration.Controllers
@@ -52,6 +53,61 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventDeclineSuccess;
             return RedirectToAction(nameof(ManageEvents));
+        }
+
+        public async Task<IActionResult> DetachBeacons()
+        {
+            await this.adminService
+                .DetachBeaconsFromParticipantsInPassedEventsAsync();
+
+            return NoContent();
+        }
+
+        public async Task<IActionResult> Connectivity()
+        {
+            var events = await this.adminService
+                .GetEventsToPrepareAsync();
+            return View(events);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Connectivity([FromBody]ParticipantBeaconModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = await this.adminService
+                .ConnectBeaconToParticipantAsync(request);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        public async Task<IActionResult> GetParticipantsForEvent(string eventId)
+        {
+            var result = await this.adminService
+                .GetParticipantsToPrepareAsync(eventId);
+
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
+            return Json(result);
+        }
+
+        public async Task<IActionResult> GetBeaconsForEvent()
+        {
+            var beacons = await this.adminService
+                .GetBeaconsToConnectAsync();
+
+            return Json(beacons);
         }
     }
 }

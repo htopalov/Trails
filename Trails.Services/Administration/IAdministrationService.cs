@@ -1,4 +1,6 @@
-﻿using Trails.Models.Event;
+﻿using Trails.Models.Beacon;
+using Trails.Models.Event;
+using Trails.Models.Participant;
 
 namespace Trails.Services.Administration
 {
@@ -11,5 +13,15 @@ namespace Trails.Services.Administration
         Task<bool> ApproveEventAsync(string eventId);
 
         Task<bool> DeclineEventAsync(string eventId);
+
+        Task DetachBeaconsFromParticipantsInPassedEventsAsync();
+
+        Task<List<EventPreparationModel>> GetEventsToPrepareAsync();
+
+        Task<List<ParticipantPreparationModel>> GetParticipantsToPrepareAsync(string eventId);
+
+        Task<List<BeaconPreparationModel>> GetBeaconsToConnectAsync();
+
+        Task<bool> ConnectBeaconToParticipantAsync(ParticipantBeaconModel model);
     }
 }
