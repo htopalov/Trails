@@ -2,6 +2,7 @@
 using Trails.Data.DomainModels;
 using Trails.Models.Beacon;
 using Trails.Models.Event;
+using Trails.Models.Participant;
 using Trails.Models.Route;
 using Trails.Models.RoutePoint;
 using Route = Trails.Data.DomainModels.Route;
@@ -59,6 +60,16 @@ namespace Trails.Infrastructure
 
             this.CreateMap<Event, UnapprovedEventModel>()
                 .ForMember(dest=>dest.DetailsModel,opt=>opt.MapFrom(s=>s))
+                .ReverseMap();
+
+            this.CreateMap<Event, EventPreparationModel>()
+                .ReverseMap();
+
+            this.CreateMap<Participant, ParticipantPreparationModel>()
+                .ForMember(dest=>dest.FullName, opt=>opt.MapFrom(s=> $"{s.User.FirstName} {s.User.LastName}"))
+                .ReverseMap();
+
+            this.CreateMap<Beacon, BeaconPreparationModel>()
                 .ReverseMap();
         }
     }

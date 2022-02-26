@@ -9,7 +9,5 @@
         public string SimCardNumber { get; set; }
 
         public string Description { get; set; }
-
-        //public bool IsAssignedToParticipant { get; set; }
     }
 }
