@@ -6,7 +6,7 @@ namespace Trails.Models.ValidationAttributes
 {
     public class ValidateEventDateAttribute : ValidationAttribute
     {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var model = (IEventModel) validationContext.ObjectInstance;
             var startDate = Convert.ToDateTime(value);

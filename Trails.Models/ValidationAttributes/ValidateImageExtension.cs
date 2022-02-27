@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using static Trails.Common.ErrorMessages;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Models.ValidationAttributes
 {
     public class ValidateImageExtension : ValidationAttribute
     {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (!ValidateImage((IFormFile)value))
+            if (value == null)
+            {
+                return new ValidationResult("Image is required.");
+            }
+            else if (!ValidateImage((IFormFile)value))
             {
                 return new ValidationResult(ImageFileExtensionError);
             }

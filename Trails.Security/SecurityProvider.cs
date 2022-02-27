@@ -13,10 +13,8 @@ namespace Trails.Security
             char[] chars = characters.ToCharArray();
             byte[] data = new byte[keySize];
 
-            using (var crypto = new RNGCryptoServiceProvider())
-            {
-                crypto.GetBytes(data);
-            }
+            using var crypto = RandomNumberGenerator.Create();
+            crypto.GetBytes(data);
             var result = new StringBuilder(keySize);
             foreach (byte b in data)
             {
