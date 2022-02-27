@@ -1,13 +1,11 @@
-﻿#nullable disable
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Trails.Common;
 using Trails.Data.DomainModels;
+using static Trails.Common.ErrorMessages;
 
 
 namespace Trails.Web.Areas.Identity.Pages.Account
@@ -18,7 +16,8 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
 
-        public LoginModel(SignInManager<User> signInManager,
+        public LoginModel(
+            SignInManager<User> signInManager,
             UserManager<User> userManager)
         {
             this.signInManager = signInManager;
@@ -36,7 +35,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress(ErrorMessage = ErrorMessages.InvalidEmailFormatError)]
+            [EmailAddress(ErrorMessage = InvalidEmailFormatError)]
             public string Email { get; set; }
 
             [Required]
@@ -76,7 +75,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(ErrorMessages.ModelStateNullUserKey, ErrorMessages.ModelStateInvalidLoginError);
+                    ModelState.AddModelError(ModelStateNullUserKey, ModelStateInvalidLoginError);
                     return Page();
                 }
 
@@ -94,7 +93,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, ErrorMessages.ModelStateInvalidLoginError);
+                    ModelState.AddModelError(string.Empty, ModelStateInvalidLoginError);
 
                     return Page();
                 }

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
-using Trails.Common;
 using Trails.Data.Enums;
 using Trails.Models.ValidationAttributes;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Models.Event
 {
@@ -10,16 +11,16 @@ namespace Trails.Models.Event
     {
         [Required]
         [StringLength(
-            ValidationConstants.EventNameMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.EventNameMinLength)]
+            EventNameMaxLength,
+            ErrorMessage = StringLengthError,
+            MinimumLength = EventNameMinLength)]
         public string Name { get; set; }
 
         [Required]
         [StringLength(
-            ValidationConstants.DescriptionMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.DescriptionMinLength)]
+            DescriptionMaxLength,
+            ErrorMessage = StringLengthError,
+            MinimumLength = DescriptionMinLength)]
         public string Description { get; set; }
 
         [Required]
@@ -33,16 +34,16 @@ namespace Trails.Models.Event
 
         [Required]
         [EnumDataType(typeof(EventType), 
-            ErrorMessage = ErrorMessages.EventTypeError)]
+            ErrorMessage = EventTypeError)]
         public int Type { get; set; }
 
         [Required]
         [EnumDataType(typeof(DifficultyLevel), 
-            ErrorMessage = ErrorMessages.DifficultyLevelError)]
+            ErrorMessage = DifficultyLevelError)]
         public int DifficultyLevel { get; set; }
 
-        [Range(1,double.MaxValue, 
-            ErrorMessage = ErrorMessages.InvalidMinLengthError)]
+        [Range(EventMinLength, double.MaxValue, 
+            ErrorMessage = InvalidMinLengthError)]
         public double Length { get; set; }
 
         public string? CreatorId { get; set; }

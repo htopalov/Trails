@@ -4,10 +4,8 @@ namespace Trails.Data.DomainModels
 {
     public class BeaconData
     {
-        public BeaconData() => 
-            this.Id = Guid
-                .NewGuid()
-                .ToString();
+        public BeaconData() 
+            => this.Id = Guid.NewGuid().ToString();
 
         [Key]
         public string Id { get; set; }

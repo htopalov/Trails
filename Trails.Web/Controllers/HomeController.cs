@@ -39,6 +39,7 @@ namespace Trails.Web.Controllers
 
         }
 
-        public IActionResult Error() => View();
+        public IActionResult Error() 
+            => View();
     }
 }

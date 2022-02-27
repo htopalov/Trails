@@ -17,7 +17,7 @@ namespace Trails.Security
             {
                 crypto.GetBytes(data);
             }
-            StringBuilder result = new StringBuilder(keySize);
+            var result = new StringBuilder(keySize);
             foreach (byte b in data)
             {
                 result.Append(chars[b % (chars.Length)]);

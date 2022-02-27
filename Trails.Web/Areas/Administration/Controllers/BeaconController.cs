@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Common;
 using Trails.Models.Beacon;
 using Trails.Security;
 using Trails.Services.Beacon;
+using static Trails.Common.NotificationConstants;
+using static Trails.Web.Areas.Administration.AdministratorConstants;
 
 namespace Trails.Web.Areas.Administration.Controllers
 {
-    [Area(AdministratorConstants.AreaName)]
-    [Authorize(Roles = AdministratorConstants.AdministratorRoleName)]
+    [Area(AreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public class BeaconController : Controller
     {
         private readonly IBeaconService beaconService;
@@ -41,11 +42,11 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!created)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.BeaconExists;
+                TempData[TempDataKeyFail] = BeaconExists;
                 return View(beaconFormModel);
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.BeaconCreated;
+            TempData[TempDataKeySuccess] = BeaconCreated;
             return RedirectToAction(nameof(All));
         }
 
@@ -76,14 +77,11 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!updated)
             {
-                //most likely will never hit this case because it is mandatory to generate new key and it
-                //will never be the same as the old one so change tracker will detect this and will update entity
-
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.BeaconEditedFail;
+                TempData[TempDataKeyFail] = BeaconEditedFail;
                 return View(beaconFormModel);
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.BeaconEditedSuccess;
+            TempData[TempDataKeySuccess] = BeaconEditedSuccess;
             return RedirectToAction(nameof(All));
         }
 
@@ -94,10 +92,10 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!deleted)
             {
-                TempData[NotificationConstants.TempDataKeyWarning] = NotificationConstants.BeaconNotExisting;
+                TempData[TempDataKeyWarning] = BeaconNotExisting;
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.BeaconDeletedSuccess;
+            TempData[TempDataKeySuccess] = BeaconDeletedSuccess;
             return RedirectToAction(nameof(All));
         }
 

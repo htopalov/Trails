@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using Trails.Common;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Models.ValidationAttributes
 {
@@ -10,7 +10,7 @@ namespace Trails.Models.ValidationAttributes
         {
             if (!ValidateImage((IFormFile)value))
             {
-                return new ValidationResult(ErrorMessages.ImageFileExtensionError);
+                return new ValidationResult(ImageFileExtensionError);
             }
             else
             {

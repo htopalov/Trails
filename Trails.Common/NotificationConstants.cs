@@ -36,5 +36,6 @@
         public const string EventApproveSuccess = "Event approved successfully.";
         public const string EventDeclineFail = "Event could not be removed.";
         public const string EventDeclineSuccess = "Event removed successfully.";
+        public const string ImageFileExtensionError = "Allowed type of images: jpg, jpeg, png";
     }
 }

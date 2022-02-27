@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
+using static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
 {
@@ -18,11 +18,11 @@ namespace Trails.Data.DomainModels
         public string Imei { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.SimCardNumberLength)]
+        [MaxLength(SimCardNumberLength)]
         public string SimCardNumber { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.DescriptionMaxLength)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
         public string KeyHash { get; set; }

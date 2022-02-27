@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using Trails.Data.DomainModels;
 using Trails.GPXProcessor.Models.Export;
+using static Trails.GPXProcessor.ProcessorConstants;
 
 namespace Trails.GPXProcessor
 {
@@ -11,10 +12,10 @@ namespace Trails.GPXProcessor
         {
             var builder = new StringBuilder();
             var xmlRootAttribute = new XmlRootAttribute("gpx");
-            xmlRootAttribute.Namespace = ProcessorConstants.RootAttributeNamespace;
+            xmlRootAttribute.Namespace = RootAttributeNamespace;
             var serializerNamespaces = new XmlSerializerNamespaces();
-            serializerNamespaces.Add("xsi", ProcessorConstants.SchemaInstanceNamespace);
-            serializerNamespaces.Add("schemaLocation", ProcessorConstants.SchemaLocationNamespace);
+            serializerNamespaces.Add("xsi", SchemaInstanceNamespace);
+            serializerNamespaces.Add("schemaLocation", SchemaLocationNamespace);
             var xmlSerializer = new XmlSerializer(typeof(ExportGPXRouteModel), xmlRootAttribute);
             using var stringWriter = new Utf8StringWriter(builder);
 
@@ -49,7 +50,7 @@ namespace Trails.GPXProcessor
 
             var routeModel = new ExportGPXRouteModel()
             {
-                Creator = ProcessorConstants.CreatorAttribute,
+                Creator = CreatorAttribute,
                 Metadata = routeMetadataModel,
                 Track = exportTrackModel
             };

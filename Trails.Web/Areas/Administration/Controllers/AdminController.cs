@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Common;
 using Trails.Models.Event;
 using Trails.Models.Participant;
 using Trails.Services.Administration;
+using static Trails.Common.NotificationConstants;
+using static Trails.Web.Areas.Administration.AdministratorConstants;
 
 namespace Trails.Web.Areas.Administration.Controllers
 {
-    [Area(AdministratorConstants.AreaName)]
-    [Authorize(Roles = AdministratorConstants.AdministratorRoleName)]
+    [Area(AreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public class AdminController : Controller
     {
         private readonly IAdministrationService adminService;
@@ -34,10 +35,10 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!updated)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventApproveFail;
+                TempData[TempDataKeyFail] = EventApproveFail;
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventApproveSuccess;
+            TempData[TempDataKeySuccess] = EventApproveSuccess;
             return RedirectToAction(nameof(ManageEvents));
         }
 
@@ -48,10 +49,10 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!updated)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventDeclineFail;
+                TempData[TempDataKeyFail] = EventDeclineFail;
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventDeclineSuccess;
+            TempData[TempDataKeySuccess] = EventDeclineSuccess;
             return RedirectToAction(nameof(ManageEvents));
         }
 
@@ -67,6 +68,7 @@ namespace Trails.Web.Areas.Administration.Controllers
         {
             var events = await this.adminService
                 .GetEventsToPrepareAsync();
+
             return View(events);
         }
 

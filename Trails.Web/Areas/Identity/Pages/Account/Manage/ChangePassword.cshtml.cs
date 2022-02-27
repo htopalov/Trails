@@ -1,12 +1,12 @@
-﻿#nullable disable
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Trails.Common;
 using Trails.Data.DomainModels;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -36,16 +36,16 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [StringLength(
-                ValidationConstants.PasswordMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.PasswordMinLength)]
+                PasswordMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = ErrorMessages.ComparePasswordsError)]
+            [Compare("NewPassword", ErrorMessage = ComparePasswordsError)]
             public string ConfirmPassword { get; set; }
         }
 
@@ -64,14 +64,14 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             if (!changePasswordResult.Succeeded)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.UserPasswordChangedFail;
+                TempData[TempDataKeyFail] = UserPasswordChangedFail;
                 return Page();
             }
 
             await this.signInManager
                 .RefreshSignInAsync(user);
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.UserPasswordChangedSuccess;
+            TempData[TempDataKeySuccess] = UserPasswordChangedSuccess;
 
             return RedirectToPage();
         }

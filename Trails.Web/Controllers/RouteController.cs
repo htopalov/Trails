@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Common;
 using Trails.Models.Route;
 using Trails.Services.Route;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Controllers
 {
@@ -14,10 +14,8 @@ namespace Trails.Web.Controllers
         public RouteController(IRouteService routeService) 
             => this.routeService = routeService;
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() 
+            => View();
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]RouteCreateModel routeCreateModel)
@@ -29,7 +27,7 @@ namespace Trails.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.MissingRoutePropertiesError;
+                TempData[TempDataKeyFail] = MissingRoutePropertiesError;
                 return BadRequest();
             }
 
@@ -38,11 +36,11 @@ namespace Trails.Web.Controllers
 
             if (!created)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.RouteCreateError;
+                TempData[TempDataKeyFail] = RouteCreateError;
                 return BadRequest();
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteCreateSuccess;
+            TempData[TempDataKeySuccess] = RouteCreateSuccess;
             return Ok();
         }
 
@@ -85,11 +83,11 @@ namespace Trails.Web.Controllers
 
             if (!updated)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.RouteEditFail;
+                TempData[TempDataKeyFail] = RouteEditFail;
                 return View(routeEditFormModel);
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.RouteEditSuccess;
+            TempData[TempDataKeySuccess] = RouteEditSuccess;
             return RedirectToAction(nameof(Details), new { routeId });
         }
 

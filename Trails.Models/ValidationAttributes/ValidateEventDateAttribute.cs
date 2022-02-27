@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
 using Trails.Models.Event;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Models.ValidationAttributes
 {
@@ -14,11 +14,11 @@ namespace Trails.Models.ValidationAttributes
 
             if (endDate < startDate)
             {
-                return new ValidationResult(ErrorMessages.InvalidStartEndDate);
+                return new ValidationResult(InvalidStartEndDate);
             }
             else if (DateTime.UtcNow > startDate.AddDays(-3))
             {
-                return new ValidationResult(ErrorMessages.EventThreeDaysBeforeStartError);
+                return new ValidationResult(EventThreeDaysBeforeStartError);
             }
             else
             {

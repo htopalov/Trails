@@ -1,15 +1,15 @@
-﻿#nullable disable
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using AgeCalculator.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Trails.Common;
 using Trails.Data.DomainModels;
 using Trails.Web.Areas.Identity.Pages.Account.Contracts;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -38,32 +38,32 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [StringLength(
-                ValidationConstants.FirstNameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.FirstNameMinLength)]
+                FirstNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
             [Required]
             [StringLength(
-                ValidationConstants.LastNameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.LastNameMinLength)]
+                LastNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = LastNameMinLength)]
             [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
             [Required]
             [StringLength(
-                ValidationConstants.CountryNameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.CountryNameMinLength)]
+                CountryNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
             [Required]
             [RegularExpression(
-                ValidationConstants.PhonePattern,
-                ErrorMessage = ErrorMessages.InvalidPhoneNumberFormatError)]
+                PhonePattern,
+                ErrorMessage = InvalidPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
         }
@@ -110,17 +110,14 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             if (!result.Succeeded)
             {
-                //TODO:May need to change requirements so phone be unique...
-                //probably will never have this case since validation doesn't check
-                //for current input fields...only requirement is unique email address for now
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.UserProfileEditFail;
+                TempData[TempDataKeyFail] = UserProfileEditFail;
                 return RedirectToPage();
             }
 
             await this.signInManager
                 .RefreshSignInAsync(user);
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.UserProfileEditSuccess;
+            TempData[TempDataKeySuccess] = UserProfileEditSuccess;
             return RedirectToPage();
         }
 

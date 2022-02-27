@@ -172,7 +172,7 @@
             });
 
         let approveButtons = document.querySelectorAll('.approve');
-        for (var i = 0; i < approveButtons.length; i++) {
+        for (let i = 0; i < approveButtons.length; i++) {
             approveButtons[i].addEventListener('click',
                 function(e) {
                     let participantRow = e.target.closest('tr');

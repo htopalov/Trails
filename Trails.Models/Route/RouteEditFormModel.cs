@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Models.Route
 {
@@ -7,23 +8,23 @@ namespace Trails.Models.Route
     {
         [Required]
         [StringLength(
-            ValidationConstants.RouteNameMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.RouteNameMinLength)]
+            RouteNameMaxLength,
+            ErrorMessage = StringLengthError,
+            MinimumLength = RouteNameMinLength)]
         public string Name { get; set; }
 
         [Required]
         [StringLength(
-            ValidationConstants.NameMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.NameMinLength)]
+            NameMaxLength,
+            ErrorMessage = StringLengthError,
+            MinimumLength = NameMinLength)]
         public string StartLocationName { get; set; }
 
         [Required]
         [StringLength(
-            ValidationConstants.NameMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.NameMinLength)]
+            NameMaxLength,
+            ErrorMessage = StringLengthError,
+            MinimumLength = NameMinLength)]
         public string FinishLocationName { get; set; }
     }
 }

@@ -1,14 +1,13 @@
-﻿#nullable disable
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Trails.Common;
 using Trails.Data.DomainModels;
 using Trails.Data.Enums;
 using Trails.Web.Areas.Identity.Pages.Account.Contracts;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Web.Areas.Identity.Pages.Account
 {
@@ -35,33 +34,33 @@ namespace Trails.Web.Areas.Identity.Pages.Account
         {
             [Required]
             [StringLength(
-                ValidationConstants.UsernameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.UsernameMinLength)]
+                UsernameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = UsernameMinLength)]
             [Display(Name = "Username")]
             public string Username { get; set; }
 
             [Required]
             [StringLength(
-                ValidationConstants.FirstNameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.FirstNameMinLength)]
+                FirstNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = FirstNameMinLength)]
             [Display(Name = "Firstname")]
             public string Firstname { get; set; }
 
             [Required]
             [StringLength(
-                ValidationConstants.LastNameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.LastNameMinLength)]
+                LastNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = LastNameMinLength)]
             [Display(Name = "Lastname")]
             public string LastName { get; set; }
 
             [Required]
             [StringLength(
-                ValidationConstants.CountryNameMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.CountryNameMinLength)]
+                CountryNameMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = CountryNameMinLength)]
             [Display(Name = "Country")]
             public string CountryName { get; set; }
 
@@ -71,26 +70,26 @@ namespace Trails.Web.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Gender")]
-            [EnumDataType(typeof(Gender), ErrorMessage = ErrorMessages.GenderTypeError)]
+            [EnumDataType(typeof(Gender), ErrorMessage = GenderTypeError)]
             public int Gender { get; set; }
 
             [Required]
-            [EmailAddress(ErrorMessage = ErrorMessages.InvalidEmailFormatError)]
+            [EmailAddress(ErrorMessage = InvalidEmailFormatError)]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
             [RegularExpression(
-                ValidationConstants.PhonePattern, 
-                ErrorMessage = ErrorMessages.InvalidPhoneNumberFormatError)]
+                PhonePattern, 
+                ErrorMessage = InvalidPhoneNumberFormatError)]
             [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
             [Required]
             [StringLength(
-                ValidationConstants.PasswordMaxLength,
-                ErrorMessage = ErrorMessages.StringLengthError,
-                MinimumLength = ValidationConstants.PasswordMinLength)]
+                PasswordMaxLength,
+                ErrorMessage = StringLengthError,
+                MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -98,7 +97,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account
             [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = ErrorMessages.ComparePasswordsError)]
+            [Compare("Password", ErrorMessage = ComparePasswordsError)]
             public string ConfirmPassword { get; set; }
         }
 

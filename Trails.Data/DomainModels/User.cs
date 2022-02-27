@@ -1,22 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
-using Trails.Common;
 using Trails.Data.Enums;
+using  static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
 {
     public class User : IdentityUser
     {
         [Required]
-        [MaxLength(ValidationConstants.FirstNameMaxLength)]
+        [MaxLength(FirstNameMaxLength)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.LastNameMaxLength)]
+        [MaxLength(LastNameMaxLength)]
         public string LastName { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.CountryNameMaxLength)]
+        [MaxLength(CountryNameMaxLength)]
         public string CountryName { get; set; }
 
         public DateTime BirthDate { get; set; }

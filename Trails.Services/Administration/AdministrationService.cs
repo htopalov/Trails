@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Trails.Data;
-using Trails.Data.DomainModels;
 using Trails.Models.Beacon;
 using Trails.Models.Event;
 using Trails.Models.Participant;
@@ -19,13 +18,15 @@ namespace Trails.Services.Administration
             this.mapper = mapper;
         }
 
-        public async Task<int> GetUnapprovedEventsCountAsync() =>
-            await this.dbContext
+        public async Task<int> GetUnapprovedEventsCountAsync() 
+            => await this.dbContext
                 .Events
                 .Where(e => e.IsApproved == false && e.IsDeleted == false)
                 .CountAsync();
 
-        public async Task<AllUnapprovedEventsModel> GetAllUnapprovedEventsAsync(int currentPage = 1, int eventsPerPage = int.MaxValue)
+        public async Task<AllUnapprovedEventsModel> GetAllUnapprovedEventsAsync(
+            int currentPage = 1,
+            int eventsPerPage = int.MaxValue)
         {
             var unapproved = await this.dbContext
                 .Events

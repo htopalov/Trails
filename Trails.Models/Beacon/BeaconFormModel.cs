@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Models.Beacon
 {
@@ -7,21 +8,21 @@ namespace Trails.Models.Beacon
     {
         [Required]
         [RegularExpression(
-            ValidationConstants.ImeiPattern,
-            ErrorMessage = ErrorMessages.InvalidImeiFormatError)]
+            ImeiPattern,
+            ErrorMessage = InvalidImeiFormatError)]
         public string Imei { get; set; }
 
         [Required]
         [RegularExpression(
-            ValidationConstants.PhonePattern,
-            ErrorMessage = ErrorMessages.InvalidPhoneNumberFormatError)]
+            PhonePattern,
+            ErrorMessage = InvalidPhoneNumberFormatError)]
         public string SimCardNumber { get; set; }
 
         [Required]
         [StringLength(
-            ValidationConstants.DescriptionMaxLength,
-            ErrorMessage = ErrorMessages.StringLengthError,
-            MinimumLength = ValidationConstants.DescriptionMinLength)]
+            DescriptionMaxLength,
+            ErrorMessage = StringLengthError,
+            MinimumLength = DescriptionMinLength)]
         public string Description { get; set; }
 
         [Required]

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Trails.Common;
 using Trails.Data.DomainModels;
 using Trails.Models.Event;
 using Trails.Services.Event;
 using Route = Trails.Data.DomainModels.Route;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Controllers
 {
@@ -40,11 +40,11 @@ namespace Trails.Web.Controllers
 
             if (resultId == string.Empty)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventExists;
+                TempData[TempDataKeyFail] = EventExists;
                 return View(eventFormModel);
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventCreateSuccess;
+            TempData[TempDataKeySuccess] = EventCreateSuccess;
             return RedirectToAction(nameof(Create),nameof(Route), new {forEventId = resultId});
         }
 
@@ -68,11 +68,11 @@ namespace Trails.Web.Controllers
 
             if (!changeState)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventDeleteFail;
+                TempData[TempDataKeyFail] = EventDeleteFail;
                 return RedirectToAction(nameof(Details), new {eventId});
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventDeleteSuccess;
+            TempData[TempDataKeySuccess] = EventDeleteSuccess;
             return RedirectToAction(nameof(Events));
         }
 
@@ -83,10 +83,10 @@ namespace Trails.Web.Controllers
 
             if (!hasApplied)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.ParticipantAlreadyAppliedError;
+                TempData[TempDataKeyFail] = ParticipantAlreadyAppliedError;
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.ParticipantApplicationSuccess;
+            TempData[TempDataKeySuccess] = ParticipantApplicationSuccess;
             return RedirectToAction(nameof(Details), new { eventId });
         }
 
@@ -97,7 +97,7 @@ namespace Trails.Web.Controllers
 
             if (!participantState)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.ParticipantApproveError;
+                TempData[TempDataKeyFail] = ParticipantApproveError;
                 return RedirectToAction(nameof(Details), new {eventId});
             }
 
@@ -108,7 +108,7 @@ namespace Trails.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = ErrorMessages.ImageFileExtensionError;
+                TempData[TempDataKeyFail] = ImageFileExtensionError;
                 return RedirectToAction(nameof(Details), new {eventId});
             }
 
@@ -117,11 +117,11 @@ namespace Trails.Web.Controllers
 
             if (!edited)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventImageEditError;
+                TempData[TempDataKeyFail] = EventImageEditError;
                 return RedirectToAction(nameof(Details), new { eventId });
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventImageEditSuccess;
+            TempData[TempDataKeySuccess] = EventImageEditSuccess;
             return RedirectToAction(nameof(Details), new { eventId });
         }
 
@@ -151,11 +151,11 @@ namespace Trails.Web.Controllers
 
             if (!updated)
             {
-                TempData[NotificationConstants.TempDataKeyFail] = NotificationConstants.EventEditFail;
+                TempData[TempDataKeyFail] = EventEditFail;
                 return RedirectToAction(nameof(Details), new { eventId });
             }
 
-            TempData[NotificationConstants.TempDataKeySuccess] = NotificationConstants.EventEditSuccess;
+            TempData[TempDataKeySuccess] = EventEditSuccess;
             return RedirectToAction(nameof(Details),new{eventId});
         }
 

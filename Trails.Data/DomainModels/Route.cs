@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
+using static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
 {
@@ -15,15 +15,15 @@ namespace Trails.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.RouteNameMaxLength)]
+        [MaxLength(RouteNameMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.NameMaxLength)]
+        [MaxLength(NameMaxLength)]
         public string StartLocationName { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.NameMaxLength)]
+        [MaxLength(NameMaxLength)]
         public string FinishLocationName { get; set; }
 
         public double Length { get; set; }

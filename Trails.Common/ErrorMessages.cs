@@ -13,7 +13,6 @@
         public const string InvalidMinLengthError = "Length must be 1 or more kilometers.";
         public const string EventTypeError = "Please select event type from the list.";
         public const string DifficultyLevelError = "Please select difficulty level from the list.";
-        public const string ImageFileExtensionError = "Allowed type of images: jpg, jpeg, png";
         public const string InvalidStartEndDate = "End of the event must be after its start.";
         public const string EventThreeDaysBeforeStartError =
             "Event must be created or updated atleast three days before it's start.";

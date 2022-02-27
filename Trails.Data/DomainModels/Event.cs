@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
 using Trails.Data.Enums;
+using static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
 {
@@ -16,11 +16,11 @@ namespace Trails.Data.DomainModels
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.EventNameMaxLength)]
+        [MaxLength(EventNameMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.DescriptionMaxLength)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
         public DateTime StartDate { get; set; }
