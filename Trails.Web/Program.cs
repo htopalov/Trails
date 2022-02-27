@@ -46,6 +46,10 @@ builder
 
 builder
     .Services
+    .AddMemoryCache();
+
+builder
+    .Services
     .AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
 builder
