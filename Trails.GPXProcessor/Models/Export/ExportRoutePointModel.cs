@@ -12,10 +12,10 @@ namespace Trails.GPXProcessor.Models.Export
         public string Longitude { get; set; }
 
         [XmlElement("time")]
-        public string? Timestamp { get; set; }
+        public string Timestamp { get; set; }
 
         [XmlElement("ele")]
-        public string? Altitude { get; set; }
+        public string Altitude { get; set; }
 
     }
 }

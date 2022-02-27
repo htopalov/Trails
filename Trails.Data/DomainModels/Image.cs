@@ -13,7 +13,7 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string? CreatorId { get; set; }
+        public string CreatorId { get; set; }
         public User Creator { get; set; }
 
     

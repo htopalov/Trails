@@ -77,8 +77,8 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!updated)
             {
-                TempData[TempDataKeyFail] = BeaconEditedFail;
-                return View(beaconFormModel);
+                TempData[TempDataKeyFail] = BeaconNotExistingOrInUse;
+                return RedirectToAction(nameof(All));
             }
 
             TempData[TempDataKeySuccess] = BeaconEditedSuccess;
@@ -92,7 +92,8 @@ namespace Trails.Web.Areas.Administration.Controllers
 
             if (!deleted)
             {
-                TempData[TempDataKeyWarning] = BeaconNotExisting;
+                TempData[TempDataKeyFail] = BeaconNotExistingOrInUse;
+                return RedirectToAction(nameof(All));
             }
 
             TempData[TempDataKeySuccess] = BeaconDeletedSuccess;

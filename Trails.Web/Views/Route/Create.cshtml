@@ -11,7 +11,7 @@
 @{
     ViewData["Title"] = "New Route ";
 
-    string GetAntiForgeryToken()
+    string? GetAntiForgeryToken()
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }

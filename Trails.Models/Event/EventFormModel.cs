@@ -46,7 +46,7 @@ namespace Trails.Models.Event
             ErrorMessage = InvalidMinLengthError)]
         public double Length { get; set; }
 
-        public string? CreatorId { get; set; }
+        public string CreatorId { get; set; }
 
         [Required]
         [ValidateImageExtension]

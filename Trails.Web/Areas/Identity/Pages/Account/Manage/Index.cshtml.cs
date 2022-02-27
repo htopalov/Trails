@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#nullable disable
+
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using AgeCalculator.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -68,7 +70,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(User user)
+        private void LoadAsync(User user)
         {
             var input = new InputModel
             {
@@ -88,7 +90,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
             var user = await this.userManager
                 .GetUserAsync(User);
 
-            await LoadAsync(user);
+            LoadAsync(user);
             return Page();
         }
 
@@ -101,7 +103,7 @@ namespace Trails.Web.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                LoadAsync(user);
                 return Page();
             }
 

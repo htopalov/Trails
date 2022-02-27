@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Connectivity ";
 
-    string GetAntiForgeryToken()
+    string? GetAntiForgeryToken()
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }

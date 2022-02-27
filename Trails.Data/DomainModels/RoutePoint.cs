@@ -18,7 +18,7 @@ namespace Trails.Data.DomainModels
 
         public double Altitude { get; set; }
 
-        public string? RouteId { get; set; }
+        public string RouteId { get; set; }
         public Route Route { get; set; }
 
     }

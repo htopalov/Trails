@@ -92,7 +92,7 @@ namespace Trails.Services.Beacon
                 .Beacons
                 .FindAsync(id);
 
-            if (beacon == null)
+            if (beacon == null || await IsCurrentlyInUse(id))
             {
                 return false;
             }
@@ -116,7 +116,8 @@ namespace Trails.Services.Beacon
                 .Beacons
                 .FirstOrDefaultAsync(b => b.Id == beaconId);
 
-            if (beacon == null)
+
+            if (beacon == null || await IsCurrentlyInUse(beaconId))
             {
                 return false;
             }
@@ -130,5 +131,10 @@ namespace Trails.Services.Beacon
 
              return deleted > 0;
         }
+
+        private async Task<bool> IsCurrentlyInUse(string beaconId)
+            => await this.dbContext
+                .Participants
+                .AnyAsync(p => p.BeaconId == beaconId);
     }
 }

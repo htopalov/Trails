@@ -39,13 +39,13 @@ namespace Trails.Data.DomainModels
 
         public bool IsModifiedByCreator { get; set; }
 
-        public string? CreatorId { get; set; }
+        public string CreatorId { get; set; }
         public User Creator { get; set; }
 
-        public string? RouteId { get; set; }
+        public string RouteId { get; set; }
         public Route Route { get; set; }
 
-        public string? ImageId { get; set; }
+        public string ImageId { get; set; }
         public Image Image { get; set; }
 
         public ICollection<Participant> Participants { get; set; }
