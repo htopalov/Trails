@@ -6,7 +6,7 @@
         window.location = '/Home/Error';
         return;
     }
-
+    showSpinner();
     await fetch('/Administration/Admin/Connectivity',
             {
                 method: 'post',
@@ -20,6 +20,7 @@
                 })
             })
         .then((response) => {
+            hideSpinner();
             if (response.ok) {
                 participantSelect.remove(participantSelect.selectedIndex);
                 beaconSelect.remove(beaconSelect.selectedIndex);
@@ -28,6 +29,7 @@
             }
         })
         .catch(() => {
+            hideSpinner();
             window.location.reload();
         });
 }

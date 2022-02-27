@@ -4,6 +4,7 @@
         alert('Only gpx file type is allowed.');
         return;
     }
+    showSpinner();
     let contents = await readFile(file);
     let pointsAsText = contents.match(/<trkpt \w+=\"[0-9]+\.[0-9]+\" \w+=\"[0-9]+\.[0-9]+\"/gm);
     let altitudeAsText = contents.match(/<ele>[0-9]+.[0-9]+<\/ele>/gm);
@@ -24,6 +25,7 @@
         point.push(alt);
         processedRoutePoints.push(point);
     }
+    hideSpinner();
     return processedRoutePoints;
 }
 

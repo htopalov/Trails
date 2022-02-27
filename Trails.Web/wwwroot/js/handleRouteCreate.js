@@ -16,6 +16,7 @@
                 alert('Event does not exist.');
                 return;
             }
+            showSpinner();
             await fetch('/Route/Create',
                 {
                     method: 'post',
@@ -43,6 +44,7 @@
                     })
                 })
                 .then((response) => {
+                    hideSpinner();
                     if (response.ok) {
                         window.location = `/Event/Details?eventId=${eventId}`;
                     } else if (response.status === 400) {
@@ -50,9 +52,10 @@
                     }
                 })
                 .catch(() => {
+                    hideSpinner();
                     window.location.reload();
                 });
-
+            
         });
 
     let gpxBtnUpload = L.easyButton({

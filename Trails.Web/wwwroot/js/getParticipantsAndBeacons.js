@@ -14,8 +14,11 @@
         return;
     }
 
+    showSpinner();
+
     await fetch(`/Administration/Admin/GetParticipantsForEvent?eventId=${eventId}`)
         .then(async (response) => {
+            hideSpinner();
             if (response.ok) {
                 let participantsList = await response.json();
                 if (participantsList.length > 0) {
@@ -25,15 +28,16 @@
                         newMenuOption.textContent = participantsList[i]['fullName'];
                         participantsSelect.appendChild(newMenuOption);
                     }
-
                     participantsSelect.addEventListener('click', async (e) => {
                         e.stopImmediatePropagation();
                         if (document.getElementById('connectBtn')) {
                             document.getElementById('connectBtn').remove();
                         }
                         beaconsSelect.length = 0;
+                        showSpinner();
                         await fetch('/Administration/Admin/GetBeaconsForEvent')
                             .then(async (response) => {
+                                hideSpinner();
                                 if (response.ok) {
                                     let beaconsList = await response.json();
 
@@ -50,6 +54,7 @@
                                 }
                             })
                             .catch(() => {
+                                hideSpinner();
                                 window.location = '/Home/Error';
                             });
                     });
@@ -59,6 +64,7 @@
             }
         })
         .catch(() => {
+            hideSpinner();
             window.location = '/Home/Error';
         });
 }
