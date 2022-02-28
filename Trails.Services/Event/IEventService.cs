@@ -22,6 +22,6 @@ namespace Trails.Services.Event
 
         Task<List<FirstToStartEventCardModel>> GetClosestStartingEventsAsync();
 
-        Task<ListEventsModel> GetEventsAsync(string userId = null , int currentPage = 1, int beaconsPerPage = int.MaxValue);
+        Task<ListEventsModel> GetEventsAsync(string userId = null , int currentPage = 1, int eventsPerPage = int.MaxValue);
     }
 }

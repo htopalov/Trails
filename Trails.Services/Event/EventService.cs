@@ -277,9 +277,9 @@ namespace Trails.Services.Event
         }
 
         public async Task<ListEventsModel> GetEventsAsync(
-            string userId,
+            string userId = null,
             int currentPage = 1,
-            int beaconsPerPage = int.MaxValue)
+            int eventsPerPage = int.MaxValue)
         {
             var queryableEvents = this.dbContext
                 .Events
@@ -299,8 +299,8 @@ namespace Trails.Services.Event
             var totalEvents = events.Count;
 
             var pagedEvents = events
-                .Skip((currentPage - 1) * beaconsPerPage)
-                .Take(beaconsPerPage)
+                .Skip((currentPage - 1) * eventsPerPage)
+                .Take(eventsPerPage)
                 .ToList();
 
             var mappedEvents = this.mapper
