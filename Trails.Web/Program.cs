@@ -7,6 +7,7 @@ using Trails.Api.Services;
 using Trails.Data;
 using Trails.Data.DomainModels;
 using Trails.Infrastructure;
+using Trails.Services.Account;
 using Trails.Services.Administration;
 using Trails.Services.Beacon;
 using Trails.Services.Event;
@@ -42,7 +43,13 @@ builder
         options.Password.RequiredUniqueChars = 0;
     })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<TrailsDbContext>();
+    .AddEntityFrameworkStores<TrailsDbContext>()
+    .AddDefaultTokenProviders();
+
+builder
+    .Services
+    .Configure<DataProtectionTokenProviderOptions>(opts => 
+        opts.TokenLifespan = TimeSpan.FromHours(1));
 
 builder
     .Services
@@ -55,6 +62,10 @@ builder
 builder
     .Services
     .AddTransient<AuthKeyFilter>();
+
+builder
+    .Services
+    .AddTransient<IEmailService, EmailService>();
 
 builder
     .Services

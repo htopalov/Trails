@@ -9,6 +9,8 @@
         public const string UserPasswordChangedFail = "Something went wrong. Please trry again.";
         public const string UserProfileEditSuccess = "Your profile has been updated";
         public const string UserProfileEditFail = "Unexpected error while trying to update your data. Please try again.";
+        public const string ForgotPasswordEmailFormatFail = "Please provide valid email.";
+        public const string EmailSendFail = "Email with reset instruction could not be send.";
         public const string BeaconExists = "Beacon already exists.";
         public const string BeaconCreated = "Beacon created successfully.";
         public const string BeaconNotExistingOrInUse = "Beacon does not exist or it's currently in use.";

@@ -33,7 +33,7 @@
                     </div>
                     <div class="row col-12 mt-2" >
                        <p class="lead col-12 col-md-12 text-center">
-                       <a class="text-muted" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a></p>
+                       <a class="text-muted" id="forgot-password" asp-area="" asp-controller="User" asp-action="ForgotPassword">Forgot your password?</a></p>
                        <p class="lead col-12 col-md-12 text-center text-muted">
                        <a class="text-muted" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a></p>
                     </div>
