@@ -54,6 +54,13 @@ builder
 
 builder
     .Services
+    .Configure<RouteOptions>(opt =>
+    {
+        opt.LowercaseUrls = true;
+    });
+
+builder
+    .Services
     .AddMemoryCache();
 
 builder

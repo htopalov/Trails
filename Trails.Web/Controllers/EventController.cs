@@ -167,7 +167,7 @@ namespace Trails.Web.Controllers
             return View(events);
         }
 
-        public async Task<IActionResult> LiveEvents()
+        public async Task<IActionResult> Live()
         {
             var events = await this.eventService
                 .GetLiveEventsAsync();
