@@ -267,7 +267,7 @@ namespace Trails.Services.Event
             var events = await this.dbContext
                            .Events
                            .Include(e=>e.Image)
-                           .Where(e => e.IsApproved && e.IsDeleted == false && DateTime.UtcNow <= e.EndDate)
+                           .Where(e => e.IsApproved && e.IsDeleted == false && DateTime.UtcNow < e.StartDate)
                            .OrderBy(e => e.StartDate)
                            .Take(3)
                            .ToListAsync();
@@ -293,7 +293,7 @@ namespace Trails.Services.Event
 
             var events = await queryableEvents
                 .Where(e => e.IsApproved && e.IsDeleted == false)
-                .OrderBy(e=>e.StartDate)
+                .OrderByDescending(e=>e.StartDate)
                 .ToListAsync(); 
 
             var totalEvents = events.Count;
