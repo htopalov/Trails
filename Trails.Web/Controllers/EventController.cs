@@ -166,5 +166,26 @@ namespace Trails.Web.Controllers
 
             return View(events);
         }
+
+        public async Task<IActionResult> LiveEvents()
+        {
+            var events = await this.eventService
+                .GetLiveEventsAsync();
+
+            return View(events);
+        }
+
+        public async Task<IActionResult> Broadcast(string eventId)
+        {
+            var @event = await this.eventService
+                .GetLiveEventAsync(eventId);
+
+            if (@event == null)
+            {
+                return View("Error");
+            }
+
+            return View(@event);
+        }
     }
 }

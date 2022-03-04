@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trails.Common;
+using Trails.Data.DomainModels;
+using static Trails.Common.ValidationConstants;
+using static Trails.Common.ErrorMessages;
 
 namespace Trails.Api.Models
 {
@@ -7,17 +9,25 @@ namespace Trails.Api.Models
     {
         public DateTime Timestamp { get; set; }
 
+        [Required]
         public double Latitude { get; set; }
 
+        [Required]
         public double Longitude { get; set; }
 
+        [Range(MinAltitude, MaxAltitude)]
         public double Altitude { get; set; }
 
+        [Range(MinSpeed,MaxSpeed)]
         public double Speed { get; set; }
 
         [RegularExpression(
-            ValidationConstants.ImeiPattern,
-            ErrorMessage = ErrorMessages.InvalidImeiFormatError)]
+            ImeiPattern,
+            ErrorMessage = InvalidImeiFormatError)]
         public string BeaconImei { get; set; }
+
+        public string BeaconId { get; set; }
+
+        public Beacon Beacon { get; set; }
     }
 }

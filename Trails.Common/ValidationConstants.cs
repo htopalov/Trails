@@ -24,6 +24,9 @@
         public const int EventMinLength = 1;
         public const double RouteMinLength = 0.0;
         public const double MinAltitude = 0.0;
+        public const double MaxAltitude = double.MaxValue;
+        public const double MinSpeed = 0.0;
+        public const double MaxSpeed = double.MaxValue;
 
         public const string PhonePattern = @"(\+359|0)[0-9]{9}";
         public const string ImeiPattern = @"[0-9]{15}";

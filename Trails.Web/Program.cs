@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trails.Api.Filters;
+using Trails.Api.Hub;
 using Trails.Api.Services;
 using Trails.Data;
 using Trails.Data.DomainModels;
@@ -54,6 +55,10 @@ builder
 builder
     .Services
     .AddMemoryCache();
+
+builder
+    .Services
+    .AddSignalR();
 
 builder
     .Services
@@ -119,11 +124,11 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection()
-   .UseStaticFiles()
-   .UseRouting()
-   .UseAuthentication()
-   .UseAuthorization();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "areaRoute",
@@ -132,6 +137,11 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<BroadcastHub>("/live-feed");
+});
 
 app.MapRazorPages();
 app.Run();

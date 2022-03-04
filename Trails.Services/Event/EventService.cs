@@ -315,6 +315,47 @@ namespace Trails.Services.Event
             };
         }
 
+        public async Task<List<LiveEventCardModel>> GetLiveEventsAsync()
+        {
+            var events = await this.dbContext
+                .Events
+                .Include(e => e.Image)
+                .Where(e => e.IsDeleted == false && e.IsApproved)
+                .Where(e => e.StartDate <= DateTime.UtcNow && e.EndDate >= DateTime.UtcNow)
+                .ToListAsync();
+
+            var mappedEvents = this.mapper
+                .Map<List<LiveEventCardModel>>(events);
+
+            return mappedEvents;
+        }
+
+        public async Task<LiveEventDetailsModel> GetLiveEventAsync(string eventId)
+        {
+            var @event = await this.dbContext
+                .Events
+                .Include(e => e.Participants.Where(p => p.IsApproved))
+                .ThenInclude(p => p.User)
+                .Include(e => e.Route)
+                .ThenInclude(r => r.RoutePoints)
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+
+            if (@event == null)
+            {
+                return null;
+            }
+
+            var liveEvent = this.mapper
+                .Map<LiveEventDetailsModel>(@event);
+
+            liveEvent.RoutePoints = liveEvent
+                .RoutePoints
+                .OrderBy(p => p.OrderNumber)
+                .ToList();
+
+            return liveEvent;
+        }
+
         private bool IsEventLocked(DateTime startDate) 
             => DateTime.UtcNow > startDate.AddDays(-3);
     }

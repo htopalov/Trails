@@ -1,0 +1,78 @@
+﻿@model LiveEventDetailsModel
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@2.2.0/Control.FullScreen.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+
+@{
+    ViewData["Title"] = "Live event ";
+    var list = new double[@Model.RoutePoints.Count][];
+    for (int i = 0; i < list.Length; i++)
+    {
+        var lat = @Model.RoutePoints[i].Latitude;
+        var lng = @Model.RoutePoints[i].Longitude;
+        var alt = @Model.RoutePoints[i].Altitude;
+        list[i] = new double[] {lat,lng,alt};
+    }
+    var points = JsonConvert.SerializeObject(list, Formatting.None);
+
+}
+
+<section class="page-section bg-primary">
+    <div class="container mx-auto mt-4">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">@Model.Name <img style="width: 128px; height: 75px" src="/images/live.gif"/></h2>
+        <partial name="_MapPartial"/>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.2.0/Control.FullScreen.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="/js/setupMapInViewMode.js"></script>
+    <script src="/js/setupRouteIcons.js"></script>
+    <script src="/js/mapDrawRouteFromGPX.js"></script>
+    
+    <script>
+        drawImportedRoute(@points);
+    </script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/live-feed")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log('connected');
+            } catch (err) {
+                console.log(err);
+                setTimeout(() => start(), 5000);
+            }
+        };
+ 
+        connection.onclose(async () => {
+            await start();
+        });
+ 
+        start();
+
+ 
+        connection.on("BroadcastData", (data) => {
+            if (data['eventId'] === '@(Model.Id)') {
+                console.log(data);
+            }
+        });
+
+
+    </script>
+}

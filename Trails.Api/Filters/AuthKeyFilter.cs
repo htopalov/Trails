@@ -25,16 +25,13 @@ namespace Trails.Api.Filters
 
             if (!isKeyProvided)
             {
-                context.Result = new ContentResult()
+                context.Result = new ContentResult
                 {
                     StatusCode = 403,
                     Content = "Missing Header"
                 };
                 return;
             }
-
-            //model binding and model state validation happens automatic
-            //when controller is marked as api controller so no need to check for param
 
             var requestParameter = context.ActionArguments["beaconDataDto"] as BeaconDataDtoPost;
 
@@ -44,7 +41,7 @@ namespace Trails.Api.Filters
 
             if (beacon == null)
             {
-                context.Result = new ContentResult()
+                context.Result = new ContentResult
                 {
                     StatusCode = 404,
                     Content = "Beacon not found"
@@ -57,7 +54,7 @@ namespace Trails.Api.Filters
             
             if (hashedKey != beacon.KeyHash)
             {
-                context.Result = new ContentResult()
+                context.Result = new ContentResult
                 {
                     StatusCode = 401,
                     Content = "Invalid Key"

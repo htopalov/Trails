@@ -1,7 +1,9 @@
-﻿namespace Trails.Api.Services
+﻿using Trails.Api.Models;
+
+namespace Trails.Api.Services
 {
     public interface IBeaconDataService
     {
-        //Task<bool> CreateBeaconDataAsync(BeaconDataDtoPost beaconDataDto);
+        Task<BeaconDataBroadcastModel> CreateBeaconDataAsync(BeaconDataDtoPost beaconDataDto);
     }
 }

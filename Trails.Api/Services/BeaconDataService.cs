@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Trails.Api.Models;
 using Trails.Data;
+using Trails.Data.DomainModels;
 
 namespace Trails.Api.Services
 {
@@ -14,22 +17,55 @@ namespace Trails.Api.Services
             this.mapper = mapper;
         }
 
-        //public async Task<bool> CreateBeaconDataAsync(BeaconDataDtoPost beaconDataDto)
-        //{
-        //    var isBeacon = await this.dbContext
-        //        .Beacons
-        //        .AnyAsync(b => b.Imei == beaconDataDto.BeaconImei);
+        public async Task<BeaconDataBroadcastModel> CreateBeaconDataAsync(BeaconDataDtoPost beaconDataDto)
+        {
+            beaconDataDto.Timestamp = DateTime.UtcNow;
 
-        //    if (!isBeacon)
-        //    {
-        //        return false;
-        //    }
+            var participant = await this.dbContext
+                    .Participants
+                    .Include(p=>p.Beacon)
+                    .Include(p=>p.Event)
+                    .SingleOrDefaultAsync(p => p.Beacon.Imei == beaconDataDto.BeaconImei);
 
-        //    //search for which race/user is this data
-        //    //and check for event start and end date
-        //    //if timestamp is not between those two return false
+            if (participant == null)
+            {
+                return null;
+            }
 
-        //    //may need to add more fields on Beacon domain model for this logic to happen
-        //}
+            var isInCorrectTime = beaconDataDto.Timestamp >= participant.Event.StartDate
+                                  && beaconDataDto.Timestamp <= participant.Event.EndDate;
+
+            if (!isInCorrectTime)
+            {
+                return null;
+            }
+
+            beaconDataDto.Beacon = participant.Beacon;
+
+            var mappedData = this.mapper
+                .Map<BeaconData>(beaconDataDto);
+
+           await this.dbContext
+                .BeaconData
+                .AddAsync(mappedData);
+
+           var result = await this.dbContext
+               .SaveChangesAsync();
+
+           if (result > 0)
+           {
+               return new BeaconDataBroadcastModel
+               {
+                   Latitude = beaconDataDto.Latitude,
+                   Longitude = beaconDataDto.Longitude,
+                   Altitude = beaconDataDto.Altitude,
+                   Speed = beaconDataDto.Speed,
+                   EventId = participant.EventId,
+                   ParticipantId = participant.Id
+               };
+           }
+
+           return null;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Trails.Api.Models;
 using Trails.Data.DomainModels;
 using Trails.Models.Beacon;
 using Trails.Models.Event;
@@ -70,6 +71,24 @@ namespace Trails.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<Beacon, BeaconPreparationModel>()
+                .ReverseMap();
+
+            this.CreateMap<BeaconDataDtoPost, BeaconData>()
+                .ReverseMap();
+
+            this.CreateMap<Event, LiveEventCardModel>()
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(s => ImageProcessor.ProcessImageFromDb(s)))
+                .ReverseMap();
+
+            this.CreateMap<Participant, LiveParticipantDetailsModel>()
+                .ForMember(dest => dest.Fullname, opt => opt.MapFrom(s => $"{s.User.FirstName} {s.User.LastName}"))
+                .ForMember(dest=>dest.CountryName, opt=>opt.MapFrom(s=>s.User.CountryName))
+                .ForMember(dest=>dest.Gender, opt=>opt.MapFrom(s=>s.User.Gender))
+                .ReverseMap();
+
+            this.CreateMap<Event, LiveEventDetailsModel>()
+                .ForMember(dest=>dest.RoutePoints, opt=>opt.MapFrom(s=>s.Route.RoutePoints))
+                .ForMember(dest=>dest.Participants, opt=>opt.MapFrom(s=>s.Participants))
                 .ReverseMap();
         }
     }
