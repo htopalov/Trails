@@ -27,6 +27,10 @@
         public const double MaxAltitude = double.MaxValue;
         public const double MinSpeed = 0.0;
         public const double MaxSpeed = double.MaxValue;
+        public const int FullnameMinLength = 2;
+        public const int FullnameMaxLength = 50;
+        public const int MessageMinLength = 20;
+        public const int MessageMaxLength = 2000;
 
         public const string PhonePattern = @"(\+359|0)[0-9]{9}";
         public const string ImeiPattern = @"[0-9]{15}";

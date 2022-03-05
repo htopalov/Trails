@@ -1,7 +1,14 @@
-﻿namespace Trails.Services.User
+﻿using SendGrid.Helpers.Mail;
+using Trails.Models.Contact;
+
+namespace Trails.Services.User
 {
     public interface IEmailService
     {
-        Task<bool> SendEmailPasswordReset(string to, string link);
+        SendGridMessage PasswordResetMessage(string to, string link);
+
+        SendGridMessage ContactMessage(ContactModel contactModel);
+
+        Task<bool> SendEmailAsync(SendGridMessage message);
     }
 }

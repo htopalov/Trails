@@ -37,5 +37,7 @@
         public const string EventDeclineFail = "Event could not be removed.";
         public const string EventDeclineSuccess = "Event removed successfully.";
         public const string ImageFileExtensionError = "Allowed type of images: jpg, jpeg, png";
+        public const string ContactSuccess = "Your message was send.";
+        public const string ContactFail = "Your message could not be send.";
     }
 }

@@ -1,0 +1,38 @@
+﻿@model ContactModel
+
+@{
+    ViewData["Title"] = "Contact us ";
+}
+
+<section class="page-section mt-5" id="contact">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-2 mt-5">Contact Us</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <form id="contactForm" method="post">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Fullname" class="form-control" placeholder="Full name" />
+                        <label asp-for="Fullname">Full name</label>
+                        <span asp-validation-for="Fullname" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Email" class="form-control" placeholder="Email" />
+                        <label asp-for="Email">Email</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="PhoneNumber" />
+                        <label asp-for="PhoneNumber">Phone number</label>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Message" class="form-control" placeholder="Message"></textarea>
+                        <label asp-for="Message">Message</label>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

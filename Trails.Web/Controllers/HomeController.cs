@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Trails.Data.DomainModels;
+using Trails.Models.Contact;
 using Trails.Services.Event;
+using Trails.Services.User;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Controllers
 {
@@ -15,17 +18,20 @@ namespace Trails.Web.Controllers
         private readonly SignInManager<User> manager;
         private readonly IEventService eventService;
         private readonly IMemoryCache cache;
+        private readonly IEmailService emailService;
 
         public HomeController(
             IWebHostEnvironment env,
             SignInManager<User> manager,
             IEventService eventService,
-            IMemoryCache cache)
+            IMemoryCache cache,
+            IEmailService emailService)
         {
             this.env = env;
             this.manager = manager;
             this.eventService = eventService;
             this.cache = cache;
+            this.emailService = emailService;
         }
 
         public async Task<IActionResult> Index()
@@ -62,7 +68,31 @@ namespace Trails.Web.Controllers
 
         }
 
-        public IActionResult Error() 
-            => View();
+        public IActionResult Contact() 
+            => View("Contact");
+
+        [HttpPost]
+        public async Task<IActionResult> Contact(ContactModel contactModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(contactModel);
+            }
+
+            var message = this.emailService
+                .ContactMessage(contactModel);
+
+            var result = await this.emailService
+                .SendEmailAsync(message);
+
+            if (!result)
+            {
+                TempData[TempDataKeyFail] = ContactFail;
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData[TempDataKeySuccess] = ContactSuccess;
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

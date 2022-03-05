@@ -51,8 +51,11 @@ namespace Trails.Web.Controllers
             var link = Url.Action("ResetPassword", "User", 
                 new { token, email = user.Email }, Request.Scheme);
 
+            var message = this.emailService
+                .PasswordResetMessage(email, link);
+
             var sendResult = await this.emailService
-                .SendEmailPasswordReset(email,link);
+                .SendEmailAsync(message);
 
             if (sendResult)
             {
