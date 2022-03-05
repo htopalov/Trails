@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Trails.Data.DomainModels;
-using Trails.Models.Account;
-using Trails.Services.Account;
+using Trails.Models.User;
+using Trails.Services.User;
 using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Controllers

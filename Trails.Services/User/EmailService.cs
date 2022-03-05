@@ -1,7 +1,7 @@
 ﻿using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Trails.Services.Account
+namespace Trails.Services.User
 {
     public class EmailService : IEmailService
     {

@@ -8,12 +8,12 @@ using Trails.Api.Services;
 using Trails.Data;
 using Trails.Data.DomainModels;
 using Trails.Infrastructure;
-using Trails.Services.Account;
 using Trails.Services.Administration;
 using Trails.Services.Beacon;
 using Trails.Services.Event;
 using Trails.Services.Route;
 using Trails.Services.Statistics;
+using Trails.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿namespace Trails.Services.Account
+﻿namespace Trails.Services.User
 {
     public class EmailConfiguration
     {
