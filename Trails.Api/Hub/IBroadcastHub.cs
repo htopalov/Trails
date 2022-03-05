@@ -1,6 +1,4 @@
-﻿using Trails.Api.Models;
-
-namespace Trails.Api.Hub
+﻿namespace Trails.Api.Hub
 {
     public interface IBroadcastHub
     {
