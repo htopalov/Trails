@@ -13,6 +13,7 @@ using Trails.Services.Administration;
 using Trails.Services.Beacon;
 using Trails.Services.Event;
 using Trails.Services.Route;
+using Trails.Services.Statistics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,6 +112,10 @@ builder
 builder
     .Services
     .AddTransient<IRouteService, RouteService>();
+
+builder
+    .Services
+    .AddTransient<IStatisticsService, StatisticsService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

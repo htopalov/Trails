@@ -14,6 +14,9 @@
         <li class="nav-item">
             <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Statistics" asp-action="TotalStatistics">Statistics</a>
+        </li>
     }
     else if(SignInManager.IsSignedIn(User))
     {
@@ -43,6 +46,9 @@
         </li>
         <li class="nav-item">
             <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Manage/Index">My Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Statistics" asp-action="TotalStatistics">Statistics</a>
         </li>
         <li class="nav-item">
             <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

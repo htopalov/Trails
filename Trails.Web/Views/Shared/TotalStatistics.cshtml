@@ -1,0 +1,56 @@
+﻿@model StatisticsModel
+
+@{
+    ViewData["Title"] = "Statistics ";
+}
+
+<link rel="stylesheet" href="~/css/statistics.css"/>
+
+<section class="page-section bg-primary mt-5">
+    <h1 class="text-secondary text-center mt-3 mb-2">Trails application statistics</h1>
+    <div class="statistics-container">
+        <div class="row m-auto">
+            <div class="col-md-3">
+                <div class="counter-box colored"><i class="fa fa-flag-checkered"></i> <span class="counter" data-val="@(Model.TotalEventsCount)">0000</span>
+                    <p>Total events</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="counter-box"><i class="fa fa-route"></i> <span class="counter" data-val="@(Model.TotalRoutesCount)">0000</span>
+                    <p>Total routes</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="counter-box colored"><i class="fa fa-user"></i> <span class="counter" data-val="@(Model.TotalUsersCount)">0000</span>
+                    <p>Registered Members</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="counter-box"><i class="fa fa-user"></i> <span class="counter" data-val="@(Model.TotalParticipantsCount)">0000</span>
+                    <p>Total participants</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        let valueDisplays = document.querySelectorAll('.counter');
+        let interval = 2000;
+
+        valueDisplays.forEach((valueDisplay) => {
+            let startValue = 0;
+            let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+            let duration = Math.floor(interval / endValue);
+            let counter = setInterval(function () {
+                startValue += 1;
+                valueDisplay.textContent = startValue;
+                if (startValue === endValue) {
+                    clearInterval(counter);
+                }
+            }, duration);
+        });
+    </script>
+}
