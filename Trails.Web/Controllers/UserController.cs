@@ -51,8 +51,8 @@ namespace Trails.Web.Controllers
             var link = Url.Action("ResetPassword", "User", 
                 new { token, email = user.Email }, Request.Scheme);
 
-            var sendResult = this.emailService
-                .SendEmailPasswordReset(user.Email, link);
+            var sendResult = await this.emailService
+                .SendEmailPasswordReset(email,link);
 
             if (sendResult)
             {
@@ -71,8 +71,9 @@ namespace Trails.Web.Controllers
         public IActionResult ResetPassword(string token, string email) 
             => View(new ResetPassword { Token = token, Email = email });
 
-        [HttpPost]
         [AllowAnonymous]
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
         {
             if (!ModelState.IsValid)

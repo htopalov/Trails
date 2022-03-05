@@ -1,46 +1,37 @@
-﻿using System.Net;
-using System.Net.Mail;
-using Microsoft.Extensions.Configuration;
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Trails.Services.Account
 {
     public class EmailService : IEmailService
     {
-        private readonly IConfiguration config;
+        private readonly SendGridClient client;
+        private readonly EmailConfiguration config;
 
-        public EmailService(IConfiguration config) 
-            => this.config = config;
-
-        public bool SendEmailPasswordReset(string userEmail, string link)
+        public EmailService(EmailConfiguration config)
         {
-            var emailConfig = this.config
-                .GetSection("EmailConfiguration")
-                .Get<EmailConfiguration>();
+            this.config = config;
+            this.client = new SendGridClient(config.ApiKey);
+        }
 
-            var mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress(emailConfig.From);
-            mailMessage.To.Add(new MailAddress(userEmail));
-
-            mailMessage.Subject = "Password Reset";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = link;
-
-            var client = new SmtpClient();
-            client.Credentials = new NetworkCredential(emailConfig.UserName, emailConfig.Password);
-            //client.EnableSsl = true;
-            client.Host = emailConfig.SmtpServer;
-            client.Port = emailConfig.Port;
+        public async Task<bool> SendEmailPasswordReset(string to, string link)
+        {
+            var fromAddress = new EmailAddress(config.From, config.UserName);
+            var toAddress = new EmailAddress(to);
+            var message = MailHelper.CreateSingleEmail(fromAddress, toAddress, config.Subject, link, null);
 
             try
             {
-                client.Send(mailMessage);
+                var response = await this.client.SendEmailAsync(message);
+                Console.WriteLine(response.StatusCode);
+                Console.WriteLine(await response.Body.ReadAsStringAsync());
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // log
+                Console.WriteLine(e);
+                return false;
             }
-            return false;
         }
     }
 }

@@ -20,6 +20,11 @@ var connectionString = builder
                         .Configuration
                         .GetConnectionString("DefaultConnection");
 
+var emailConfig = builder
+    .Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+
 builder
     .Services
     .AddDbContext<TrailsDbContext>(options =>
@@ -85,7 +90,7 @@ builder
 
 builder
     .Services
-    .AddTransient<IEmailService, EmailService>();
+    .AddTransient<IEmailService>(x=>new EmailService(emailConfig));
 
 builder
     .Services
