@@ -10,6 +10,7 @@ using Trails.Data.Enums;
 using Trails.Web.Areas.Identity.Pages.Account.Contracts;
 using static Trails.Common.ValidationConstants;
 using static Trails.Common.ErrorMessages;
+using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Areas.Identity.Pages.Account
 {
@@ -139,11 +140,8 @@ namespace Trails.Web.Areas.Identity.Pages.Account
                 return LocalRedirect(returnUrl);
             }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-
+            TempData[TempDataKeyFail] =
+                string.Join("", result.Errors.Select(e => e.Description));
             return Page();
         }
     }
