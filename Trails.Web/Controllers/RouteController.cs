@@ -94,7 +94,10 @@ namespace Trails.Web.Controllers
         public async Task<IActionResult> All(AllRoutesModel queryModel)
         {
             var allRoutes = await this.routeService
-                .GetAllRoutesAsync(queryModel.CurrentPage, queryModel.RoutesPerPage);
+                .GetAllRoutesAsync(
+                    queryModel.SearchRoute,
+                    queryModel.CurrentPage,
+                    queryModel.RoutesPerPage);
 
             return View(allRoutes);
         }

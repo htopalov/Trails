@@ -139,11 +139,22 @@ namespace Trails.Services.Route
         }
 
         public async Task<AllRoutesModel> GetAllRoutesAsync(
+            string searchRoute = null,
             int currentPage = 1,
             int routesPerPage = int.MaxValue)
         {
-            var allRoutes = await this.dbContext
+
+            var queryableRoutes = this.dbContext
                 .Routes
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchRoute))
+            {
+                queryableRoutes = queryableRoutes
+                    .Where(r=> r.Name.ToLower().Contains(searchRoute.ToLower()));
+            }
+
+            var allRoutes = await queryableRoutes
                 .ToListAsync();
 
             var totalRoutes = allRoutes.Count;
@@ -160,7 +171,8 @@ namespace Trails.Services.Route
             {
                 TotalRoutes = totalRoutes,
                 CurrentPage = currentPage,
-                Routes = mappedRoutes
+                Routes = mappedRoutes,
+                SearchRoute = searchRoute
             };
         }
 

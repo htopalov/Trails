@@ -23,6 +23,18 @@
 <section class="bg-primary text-white mb-0" style="margin-top: 70px;">
     <div class="container" style="overflow: auto">
         <h1 class="page-section-heading text-center text-uppercase text-secondary mb-5 mt-5">All Routes</h1>
+        <div class="row m-auto">
+            <form asp-controller="Route" asp-action="All" method="get">
+                <div class="input-group">
+                    <div class="form-control-sm">
+                        <input asp-for="SearchRoute" class="form-control" placeholder="Type name of route..."/>
+                    </div>
+                    <button id="searchBtn" type="submit" class="btn btn-primary rounded">
+                        <i class="fas fa-search text-secondary"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
         <table class="table table-hover text-secondary mt-5 mb-5">
             <thead>
             <tr class="text-center">
@@ -53,13 +65,23 @@
         <div class="container mt-3 mb-5">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a asp-controller="Route" asp-action="All" asp-route-currentPage="@previousPage" class="btn btn-sm btn-outline-light text-secondary @previousButtonClassDisabled" style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
+                    <a asp-controller="Route"
+                       asp-action="All"
+                       asp-route-searchRoute="@Model.SearchRoute"
+                       asp-route-currentPage="@previousPage" 
+                       class="btn btn-sm btn-outline-light text-secondary @previousButtonClassDisabled" 
+                       style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
                 </li>
                 <li class="page-item">
                     <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
                 </li>
                 <li class="page-item">
-                    <a asp-controller="Route" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)" class="btn btn-sm btn-outline-light text-secondary @nextButtonClassDisabled" style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
+                    <a asp-controller="Route" 
+                       asp-action="All" 
+                       asp-route-searchRoute="@Model.SearchRoute"
+                       asp-route-currentPage="@(Model.CurrentPage + 1)"
+                       class="btn btn-sm btn-outline-light text-secondary @nextButtonClassDisabled"
+                       style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
                 </li>
             </ul>
         </div>

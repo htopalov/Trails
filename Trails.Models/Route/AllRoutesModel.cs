@@ -8,6 +8,8 @@
 
         public int TotalRoutes { get; set; }
 
+        public string SearchRoute { get; set; }
+
         public List<BaseRouteModel> Routes { get; set; }
     }
 }
