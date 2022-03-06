@@ -22,7 +22,11 @@ namespace Trails.Services.Event
 
         Task<List<FirstToStartEventCardModel>> GetClosestStartingEventsAsync();
 
-        Task<ListEventsModel> GetEventsAsync(string userId = null , int currentPage = 1, int eventsPerPage = int.MaxValue);
+        Task<ListEventsModel> GetEventsAsync(
+            string userId = null,
+            string searchEvent = null,
+            int currentPage = 1,
+            int eventsPerPage = int.MaxValue);
 
         Task<List<LiveEventCardModel>> GetLiveEventsAsync();
 

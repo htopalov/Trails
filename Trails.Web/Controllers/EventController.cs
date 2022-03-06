@@ -159,10 +159,14 @@ namespace Trails.Web.Controllers
             return RedirectToAction(nameof(Details),new{eventId});
         }
 
-        public async Task<IActionResult> Events(string userId, ListEventsModel eventsQuery)
+        public async Task<IActionResult> Events(ListEventsModel eventsQuery)
         {
             var events = await this.eventService
-                .GetEventsAsync(userId, eventsQuery.CurrentPage, eventsQuery.EventsPerPage);
+                .GetEventsAsync(
+                    eventsQuery.UserId,
+                    eventsQuery.SearchEvent,
+                    eventsQuery.CurrentPage,
+                    eventsQuery.EventsPerPage);
 
             return View(events);
         }

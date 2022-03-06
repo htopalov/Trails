@@ -278,6 +278,7 @@ namespace Trails.Services.Event
 
         public async Task<ListEventsModel> GetEventsAsync(
             string userId = null,
+            string searchEvent = null,
             int currentPage = 1,
             int eventsPerPage = int.MaxValue)
         {
@@ -285,10 +286,16 @@ namespace Trails.Services.Event
                 .Events
                 .AsQueryable();
 
-            if (userId != null)
+            if (!string.IsNullOrEmpty(userId))
             {
                 queryableEvents = queryableEvents
                     .Where(e => e.CreatorId == userId);
+            }
+
+            if (!string.IsNullOrEmpty(searchEvent))
+            {
+                queryableEvents = queryableEvents
+                    .Where(e => e.Name.ToLower().Contains(searchEvent.ToLower()));
             }
 
             var events = await queryableEvents
@@ -311,7 +318,8 @@ namespace Trails.Services.Event
                 TotalEvents = totalEvents,
                 CurrentPage = currentPage,
                 Events = mappedEvents,
-                AreMine = userId != null
+                SearchEvent = searchEvent,
+                UserId = userId
             };
         }
 

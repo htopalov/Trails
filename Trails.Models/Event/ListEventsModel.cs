@@ -8,7 +8,9 @@
 
         public int TotalEvents{ get; set; }
 
-        public bool AreMine { get; set; } = false;
+        public string SearchEvent { get; set; }
+
+        public string UserId { get; set; }
 
         public List<BaseEventModel> Events { get; set; }
     }
