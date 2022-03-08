@@ -10,6 +10,7 @@
     let altitudeAsText = contents.match(/<ele>[0-9]+.[0-9]+<\/ele>/gm);
     if (pointsAsText === null || pointsAsText.length === 0) {
         alert('File does not contain any coordinates.');
+        hideSpinner();
         return;
     }
     for (let i = 0; i < pointsAsText.length; i++) {
