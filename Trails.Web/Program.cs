@@ -14,6 +14,7 @@ using Trails.Services.Event;
 using Trails.Services.Route;
 using Trails.Services.Statistics;
 using Trails.Services.User;
+using Trails.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
