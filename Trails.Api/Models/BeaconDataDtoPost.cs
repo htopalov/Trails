@@ -26,8 +26,8 @@ namespace Trails.Api.Models
             ErrorMessage = InvalidImeiFormatError)]
         public string BeaconImei { get; set; }
 
-        public string BeaconId { get; set; }
+        public string ParticipantId { get; set; }
 
-        public Beacon Beacon { get; set; }
+        public string BeaconId { get; set; }
     }
 }

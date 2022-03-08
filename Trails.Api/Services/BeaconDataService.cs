@@ -40,7 +40,8 @@ namespace Trails.Api.Services
                 return null;
             }
 
-            beaconDataDto.Beacon = participant.Beacon;
+            beaconDataDto.BeaconId = participant.Beacon.Id;
+            beaconDataDto.ParticipantId = participant.Id;
 
             var mappedData = this.mapper
                 .Map<BeaconData>(beaconDataDto);

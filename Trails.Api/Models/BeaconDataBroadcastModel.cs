@@ -1,6 +1,4 @@
-﻿using Trails.Data.DomainModels;
-
-namespace Trails.Api.Models
+﻿namespace Trails.Api.Models
 {
     public class BeaconDataBroadcastModel
     {
