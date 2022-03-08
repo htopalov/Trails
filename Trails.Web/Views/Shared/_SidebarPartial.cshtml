@@ -1,0 +1,45 @@
+﻿@model List<LiveParticipantDetailsModel>
+
+<div id="sidebar" class="leaflet-sidebar collapsed">
+    <div class="leaflet-sidebar-tabs">
+        <ul role="tablist">
+            <li><a href="#home" role="tab"><i class="fa fa-bars active"></i></a></li>
+        </ul>
+    </div>
+    <div class="leaflet-sidebar-content">
+        <div class="leaflet-sidebar-pane" id="home">
+            <h1 class="leaflet-sidebar-header">
+                Participants List
+                <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+            <div class="accordion" id="participantsAccordion">
+                @for(int i=0; i< Model.Count; i++)
+                {
+                    var participant = Model[i];
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading@(i)">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(i)" aria-expanded="true" aria-controls="collapse@(i)">
+                                <strong>@participant.Fullname</strong>
+                            </button>
+                        </h2>
+                        <div id="collapse@(i)" class="accordion-collapse collapse" aria-labelledby="heading@(i)" data-bs-parent="#participantsAccordion">
+                            <div class="accordion-body">
+                                <strong>Country: </strong>@participant.CountryName
+                                <br>
+                                <strong>Gender: </strong>@participant.Gender
+                                <br/>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="@participant.Id" checked>
+                                    <label class="form-check-label" for="@participant.Id">
+                                        <i class="fa fa-circle random"></i> Path
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

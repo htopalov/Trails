@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-sidebar-v2-zd@1.0.1/css/leaflet-sidebar.min.css">
 
 @{
     ViewData["Title"] = "Live event ";
@@ -23,6 +24,7 @@
 <section class="page-section bg-primary">
     <div class="container mx-auto mt-4">
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">@Model.Name <img style="width: 128px; height: 75px" src="~/images/live/live.gif"/></h2>
+        <partial name="_SidebarPartial" model="@Model.Participants"/>
         <partial name="_MapPartial"/>
     </div>
 </section>
@@ -36,43 +38,39 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-sidebar-v2-zd@1.0.1/js/leaflet-sidebar.min.js"></script>
     <script src="~/js/setupMapInViewMode.js"></script>
     <script src="~/js/setupRouteIcons.js"></script>
     <script src="~/js/mapDrawRouteFromGPX.js"></script>
-    
+    <script src="~/js/randomColorGenerator.js"></script>
+    <script src="~/js/setupBroadcastClient.js"></script>
+
     <script>
         drawImportedRoute(@points);
-    </script>
 
-    <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/live-feed")
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
+        startConnection();
 
-        async function start() {
-            try {
-                await connection.start();
-                console.log('connected');
-            } catch (err) {
-                console.log(err);
-                setTimeout(() => start(), 5000);
-            }
-        };
- 
         connection.onclose(async () => {
-            await start();
+            await startConnection();
         });
- 
-        start();
 
- 
         connection.on("BroadcastData", (data) => {
             if (data['eventId'] === '@(Model.Id)') {
                 console.log(data);
             }
         });
 
+        let sidebar = L.control.sidebar({
+            autopan: true,
+            closeButton: true,
+            container: 'sidebar',
+            position: 'left'
+        }).addTo(map);
 
+        let pathCheckElements = document.getElementsByClassName('random');
+        for (let i = 0; i < pathCheckElements.length; i++) {
+            let icon = pathCheckElements[i];
+            icon.style.color = generateRandomColor();
+        }
     </script>
 }

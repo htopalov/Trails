@@ -1,5 +1,4 @@
 ﻿using Trails.Models.Participant;
-using Trails.Models.Route;
 using Trails.Models.RoutePoint;
 
 namespace Trails.Models.Event
