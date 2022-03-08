@@ -6,7 +6,7 @@
     }
     showSpinner();
     let contents = await readFile(file);
-    let pointsAsText = contents.match(/<trkpt \w+=\"[0-9]+\.[0-9]+\" \w+=\"[0-9]+\.[0-9]+\"/gm);
+    let pointsAsText = contents.match(/((<trkpt)|(<rtept)) \w+=\"[0-9]+\.[0-9]+\" \w+=\"[0-9]+\.[0-9]+\"/gm);
     let altitudeAsText = contents.match(/<ele>[0-9]+.[0-9]+<\/ele>/gm);
     if (pointsAsText === null || pointsAsText.length === 0) {
         alert('File does not contain any coordinates.');
