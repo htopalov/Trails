@@ -94,5 +94,8 @@ namespace Trails.Web.Controllers
             TempData[TempDataKeySuccess] = ContactSuccess;
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Error()
+            => View();
     }
 }

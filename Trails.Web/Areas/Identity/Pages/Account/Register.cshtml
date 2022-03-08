@@ -11,7 +11,6 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
                         <form asp-route-returnUrl="@Model.ReturnUrl" id="accountRegister" method="post">
-                            <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-floating">
                                 <input asp-for="Input.Username" class="form-control" placeholder="Username" />
                                 <label asp-for="Input.Username">Username</label>
