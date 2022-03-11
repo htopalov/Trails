@@ -31,6 +31,10 @@
         public const int FullnameMaxLength = 50;
         public const int MessageMinLength = 20;
         public const int MessageMaxLength = 2000;
+        public const int EntityIdMaxLength = 36;
+        public const int BeaconKeyHashMaxLength = 150;
+        public const int BeaconImeiMaxLength = 15;
+        public const int ImageTitleMaxLength = 60;
 
         public const string PhonePattern = @"(\+359|0)[0-9]{9}";
         public const string ImeiPattern = @"[0-9]{15}";

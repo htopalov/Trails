@@ -12,9 +12,11 @@ namespace Trails.Data.DomainModels
         }
 
         [Key]
+        [MaxLength(EntityIdMaxLength)]
         public string Id { get; set; }
 
         [Required]
+        [MaxLength(BeaconImeiMaxLength)]
         public string Imei { get; set; }
 
         [Required]
@@ -25,6 +27,7 @@ namespace Trails.Data.DomainModels
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
+        [MaxLength(BeaconKeyHashMaxLength)]
         public string KeyHash { get; set; }
 
         public ICollection<BeaconData> BeaconData { get; set; }

@@ -57,11 +57,11 @@ namespace Trails.Data.Migrations
                 name: "Beacons",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Imei = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Imei = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     SimCardNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
-                    KeyHash = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    KeyHash = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,8 +178,8 @@ namespace Trails.Data.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
                     DataBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -199,7 +199,7 @@ namespace Trails.Data.Migrations
                 name: "Routes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     StartLocationName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FinishLocationName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -220,35 +220,10 @@ namespace Trails.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BeaconData",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    Altitude = table.Column<double>(type: "float", nullable: false),
-                    Speed = table.Column<double>(type: "float", nullable: false),
-                    BeaconImei = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ParticipantId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BeaconId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BeaconData", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BeaconData_Beacons_BeaconId",
-                        column: x => x.BeaconId,
-                        principalTable: "Beacons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -260,8 +235,8 @@ namespace Trails.Data.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     IsModifiedByCreator = table.Column<bool>(type: "bit", nullable: false),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    RouteId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    RouteId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    ImageId = table.Column<string>(type: "nvarchar(36)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -290,12 +265,12 @@ namespace Trails.Data.Migrations
                 name: "RoutePoints",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     OrderNumber = table.Column<int>(type: "int", nullable: false),
                     Latitude = table.Column<double>(type: "float", nullable: false),
                     Longitude = table.Column<double>(type: "float", nullable: false),
                     Altitude = table.Column<double>(type: "float", nullable: false),
-                    RouteId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    RouteId = table.Column<string>(type: "nvarchar(36)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -312,10 +287,10 @@ namespace Trails.Data.Migrations
                 name: "Participants",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    EventId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    BeaconId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EventId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    BeaconId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     IsApproved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -337,6 +312,37 @@ namespace Trails.Data.Migrations
                         name: "FK_Participants_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BeaconData",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    Altitude = table.Column<double>(type: "float", nullable: false),
+                    Speed = table.Column<double>(type: "float", nullable: false),
+                    BeaconImei = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    ParticipantId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    BeaconId = table.Column<string>(type: "nvarchar(36)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BeaconData", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BeaconData_Beacons_BeaconId",
+                        column: x => x.BeaconId,
+                        principalTable: "Beacons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BeaconData_Participants_ParticipantId",
+                        column: x => x.ParticipantId,
+                        principalTable: "Participants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -384,6 +390,11 @@ namespace Trails.Data.Migrations
                 name: "IX_BeaconData_BeaconId",
                 table: "BeaconData",
                 column: "BeaconId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BeaconData_ParticipantId",
+                table: "BeaconData",
+                column: "ParticipantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_CreatorId",
@@ -452,13 +463,13 @@ namespace Trails.Data.Migrations
                 name: "BeaconData");
 
             migrationBuilder.DropTable(
-                name: "Participants");
-
-            migrationBuilder.DropTable(
                 name: "RoutePoints");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Participants");
 
             migrationBuilder.DropTable(
                 name: "Beacons");

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
 {
@@ -8,6 +10,7 @@ namespace Trails.Data.DomainModels
             => this.Id = Guid.NewGuid().ToString();
 
         [Key]
+        [MaxLength(EntityIdMaxLength)]
         public string Id { get; set; }
 
         public int OrderNumber { get; set; }
@@ -18,6 +21,7 @@ namespace Trails.Data.DomainModels
 
         public double Altitude { get; set; }
 
+        [ForeignKey(nameof(Route))]
         public string RouteId { get; set; }
         public Route Route { get; set; }
 

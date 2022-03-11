@@ -12,7 +12,7 @@ using Trails.Data;
 namespace Trails.Data.Migrations
 {
     [DbContext(typeof(TrailsDbContext))]
-    [Migration("20220308131203_MigrateEntities")]
+    [Migration("20220311205639_MigrateEntities")]
     partial class MigrateEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,8 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.Beacon", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -173,10 +174,12 @@ namespace Trails.Data.Migrations
 
                     b.Property<string>("Imei")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("KeyHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("SimCardNumber")
                         .IsRequired()
@@ -191,16 +194,18 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.BeaconData", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<double>("Altitude")
                         .HasColumnType("float");
 
                     b.Property<string>("BeaconId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("BeaconImei")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -209,7 +214,7 @@ namespace Trails.Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("ParticipantId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<double>("Speed")
                         .HasColumnType("float");
@@ -221,13 +226,16 @@ namespace Trails.Data.Migrations
 
                     b.HasIndex("BeaconId");
 
+                    b.HasIndex("ParticipantId");
+
                     b.ToTable("BeaconData");
                 });
 
             modelBuilder.Entity("Trails.Data.DomainModels.Event", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
@@ -244,7 +252,7 @@ namespace Trails.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
@@ -264,7 +272,7 @@ namespace Trails.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("RouteId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -286,7 +294,8 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.Image", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -298,7 +307,8 @@ namespace Trails.Data.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("Id");
 
@@ -310,13 +320,14 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.Participant", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("BeaconId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
@@ -338,7 +349,8 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.Route", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
@@ -377,7 +389,8 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.RoutePoint", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<double>("Altitude")
                         .HasColumnType("float");
@@ -392,7 +405,7 @@ namespace Trails.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RouteId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
 
@@ -545,7 +558,14 @@ namespace Trails.Data.Migrations
                         .HasForeignKey("BeaconId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Trails.Data.DomainModels.Participant", "Participant")
+                        .WithMany("BeaconData")
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Beacon");
+
+                    b.Navigation("Participant");
                 });
 
             modelBuilder.Entity("Trails.Data.DomainModels.Event", b =>
@@ -634,6 +654,11 @@ namespace Trails.Data.Migrations
             modelBuilder.Entity("Trails.Data.DomainModels.Event", b =>
                 {
                     b.Navigation("Participants");
+                });
+
+            modelBuilder.Entity("Trails.Data.DomainModels.Participant", b =>
+                {
+                    b.Navigation("BeaconData");
                 });
 
             modelBuilder.Entity("Trails.Data.DomainModels.Route", b =>

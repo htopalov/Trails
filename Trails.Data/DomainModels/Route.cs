@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
@@ -12,6 +13,7 @@ namespace Trails.Data.DomainModels
         }
 
         [Key]
+        [MaxLength(EntityIdMaxLength)]
         public string Id { get; set; }
 
         [Required]
@@ -32,6 +34,7 @@ namespace Trails.Data.DomainModels
 
         public double MaximumAltitude { get; set; }
 
+        [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; }
         public User Creator { get; set; }
 

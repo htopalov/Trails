@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static Trails.Common.ValidationConstants;
 
 namespace Trails.Data.DomainModels
 {
@@ -8,6 +10,7 @@ namespace Trails.Data.DomainModels
             => this.Id = Guid.NewGuid().ToString();
 
         [Key]
+        [MaxLength(EntityIdMaxLength)]
         public string Id { get; set; }
 
         public DateTime Timestamp { get; set; }
@@ -20,10 +23,14 @@ namespace Trails.Data.DomainModels
 
         public double Speed { get; set; }
 
+        [MaxLength(BeaconImeiMaxLength)]
         public string BeaconImei { get; set; }
 
+        [ForeignKey(nameof(Participant))]
         public string ParticipantId { get; set; }
+        public Participant Participant { get; set; }
 
+        [ForeignKey(nameof(Beacon))]
         public string BeaconId { get; set; }
         public Beacon Beacon { get; set; }
     }
