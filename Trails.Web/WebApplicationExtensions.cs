@@ -2,12 +2,31 @@
 using Microsoft.EntityFrameworkCore;
 using Trails.Data;
 using Trails.Data.DomainModels;
+using Trails.Services.Beacon;
+using Trails.Services.Administration;
+using Trails.Services.Event;
+using Trails.Services.User;
+using Trails.Services.Route;
+using Trails.Services.Statistics;
+using Trails.Api.Services;
+using Trails.Api.Filters;
 using static Trails.Web.Areas.Administration.AdministratorConstants;
 
 namespace Trails.Web
 {
     public static class WebApplicationExtensions
     {
+        public static IServiceCollection SetupServices(this IServiceCollection services) 
+            => services
+                .AddScoped<AuthKeyFilter>()
+                .AddScoped<IBeaconService, BeaconService>()
+                .AddScoped<IBeaconService, BeaconService>()
+                .AddScoped<IAdministrationService, AdministrationService>()
+                .AddScoped<IBeaconDataService, BeaconDataService>()
+                .AddScoped<IEventService, EventService>()
+                .AddScoped<IRouteService, RouteService>()
+                .AddScoped<IStatisticsService, StatisticsService>();
+
         public static WebApplication DatabaseSetup(this WebApplication app)
         {
             using var serviceScope = app.Services

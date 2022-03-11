@@ -2,17 +2,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Trails.Api.Filters;
 using Trails.Api.Hub;
-using Trails.Api.Services;
 using Trails.Data;
 using Trails.Data.DomainModels;
 using Trails.Infrastructure;
-using Trails.Services.Administration;
-using Trails.Services.Beacon;
-using Trails.Services.Event;
-using Trails.Services.Route;
-using Trails.Services.Statistics;
 using Trails.Services.User;
 using Trails.Web;
 
@@ -26,6 +19,14 @@ var emailConfig = builder
     .Configuration
     .GetSection("EmailConfiguration")
     .Get<EmailConfiguration>();
+
+builder
+    .Services
+    .SetupServices();
+
+builder
+    .Services
+    .AddScoped<IEmailService>(x => new EmailService(emailConfig));
 
 builder
     .Services
@@ -85,38 +86,6 @@ builder
 builder
     .Services
     .AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
-
-builder
-    .Services
-    .AddTransient<AuthKeyFilter>();
-
-builder
-    .Services
-    .AddTransient<IEmailService>(x=>new EmailService(emailConfig));
-
-builder
-    .Services
-    .AddTransient<IBeaconService, BeaconService>();
-
-builder
-    .Services
-    .AddTransient<IAdministrationService, AdministrationService>();
-
-builder
-    .Services
-    .AddTransient<IBeaconDataService, BeaconDataService>();
-
-builder
-    .Services
-    .AddTransient<IEventService, EventService>();
-
-builder
-    .Services
-    .AddTransient<IRouteService, RouteService>();
-
-builder
-    .Services
-    .AddTransient<IStatisticsService, StatisticsService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
