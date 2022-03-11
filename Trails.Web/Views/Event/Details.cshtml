@@ -100,7 +100,18 @@
                                 <label class="text-secondary">Route: </label>
                             </div>
                             <div class="col-md-6">
-                                <p><a class="text-secondary" asp-controller="Route" asp-action="Details" asp-route-routeId="@Model.RouteId" style="text-decoration: none; cursor: pointer">Details</a></p>
+                                @if (!string.IsNullOrEmpty(Model.RouteId))
+                                {
+                                    <p><a class="text-secondary" asp-controller="Route" asp-action="Details" asp-route-routeId="@Model.RouteId" style="text-decoration: none; cursor: pointer">Details</a></p>
+                                }
+                                else if(string.IsNullOrEmpty(Model.RouteId) && DateTime.UtcNow < Model.StartDate && this.userManager.GetUserId(User) == Model.CreatorId)
+                                {
+                                    <p><a class="text-secondary" asp-controller="Route" asp-action="Create" asp-route-routeId="@Model.RouteId" asp-route-forEventId="@Model.Id" style="text-decoration: none; cursor: pointer">Create</a></p>
+                                }
+                                else
+                                {
+                                    <p class="text-secondary">None</p>
+                                }
                             </div>
                         </div>
                     </div>

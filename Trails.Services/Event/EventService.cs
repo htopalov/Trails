@@ -329,6 +329,7 @@ namespace Trails.Services.Event
                 .Events
                 .Include(e => e.Image)
                 .Where(e => e.IsDeleted == false && e.IsApproved)
+                .Where(e=>e.Participants.Count > 0)
                 .Where(e => e.StartDate <= DateTime.UtcNow && e.EndDate >= DateTime.UtcNow)
                 .ToListAsync();
 
@@ -343,16 +344,19 @@ namespace Trails.Services.Event
             var @event = await this.dbContext
                 .Events
                 .Include(e => e.Participants.Where(p => p.IsApproved))
+                .ThenInclude(p=>p.BeaconData)
+                .Include(e=>e.Participants.Where(p=>p.IsApproved))
                 .ThenInclude(p => p.User)
                 .Include(e => e.Route)
                 .ThenInclude(r => r.RoutePoints)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(e => e.Id == eventId);
 
             if (@event == null)
             {
                 return null;
             }
-
+            //TODO: CHANGE MAPPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             var liveEvent = this.mapper
                 .Map<LiveEventDetailsModel>(@event);
 
