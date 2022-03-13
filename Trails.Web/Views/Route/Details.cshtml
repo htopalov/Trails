@@ -9,15 +9,14 @@
 
 @{
     ViewData["Title"] = "Route Details ";
-    var list = new double[Model.RoutePoints.Count][];
-    for (int i = 0; i < list.Length; i++)
+    var routePoints = new double[Model.RoutePoints.Count][];
+    for (int i = 0; i < routePoints.Length; i++)
     {
         var lat = Model.RoutePoints[i].Latitude;
         var lng = Model.RoutePoints[i].Longitude;
         var alt = Model.RoutePoints[i].Altitude;
-        list[i] = new double[] {lat,lng,alt};
+        routePoints[i] = new double[] {lat,lng,alt};
     }
-    var points = JsonConvert.SerializeObject(list, Formatting.None);
 
     var userId = this.userManager.GetUserId(this.User);
 }
@@ -34,7 +33,7 @@
             <div class="col-md-4">
                 <div class="event-work">
                     <a asp-controller="Route" asp-action="Download" asp-route-routeId="@Model.Id" class="btn btn-sm bg-info">Download GPX</a>
-                    @if (Model.CreatorId == userId)
+                    @if (Model.CreatorId == userId || User.IsInRole("Administrator"))
                     {
                         <a asp-controller="Route" asp-action="Edit" asp-route-routeId="@Model.Id" class="btn btn-sm bg-warning">Edit</a>
                     }
@@ -112,6 +111,6 @@
     <script src="~/js/mapDrawRouteFromGPX.js"></script>
     
     <script>
-        drawImportedRoute(@points);
+        drawImportedRoute(@Html.Raw(JsonConvert.SerializeObject(routePoints)));
     </script>
 }
