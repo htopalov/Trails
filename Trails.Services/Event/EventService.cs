@@ -356,14 +356,9 @@ namespace Trails.Services.Event
             {
                 return null;
             }
-            //TODO: CHANGE MAPPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
             var liveEvent = this.mapper
                 .Map<LiveEventDetailsModel>(@event);
-
-            liveEvent.RoutePoints = liveEvent
-                .RoutePoints
-                .OrderBy(p => p.OrderNumber)
-                .ToList();
 
             return liveEvent;
         }

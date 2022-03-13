@@ -1,7 +1,7 @@
 ﻿@model LiveEventDetailsModel
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@2.2.0/Control.FullScreen.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
@@ -9,23 +9,38 @@
 
 @{
     ViewData["Title"] = "Live event ";
-    var list = new double[@Model.RoutePoints.Count][];
-    for (int i = 0; i < list.Length; i++)
-    {
-        var lat = @Model.RoutePoints[i].Latitude;
-        var lng = @Model.RoutePoints[i].Longitude;
-        var alt = @Model.RoutePoints[i].Altitude;
-        list[i] = new double[] {lat,lng,alt};
-    }
-    var points = JsonConvert.SerializeObject(list, Formatting.None);
+    var listOfPoints = new double[Model.RoutePoints.Count][];
 
+    for (int i = 0; i < listOfPoints.Length; i++)
+    {
+        var lat = Model.RoutePoints[i].Latitude;
+        var lng = Model.RoutePoints[i].Longitude;
+        var alt = Model.RoutePoints[i].Altitude;
+        listOfPoints[i] = new double[] { lat, lng, alt };
+    }
+
+    var participantsPaths = new object[Model.Participants.Count];
+
+    for (int i = 0; i < Model.Participants.Count; i++)
+    {
+        var participantId = Model.Participants[i].Id;
+        var currentParticipantPathPoints = new double[Model.Participants[i].BeaconData.Count][];
+        for (int j = 0; j < Model.Participants[i].BeaconData.Count; j++)
+        {
+            var lat = Model.Participants[i].BeaconData[j].Latitude;
+            var lng = Model.Participants[i].BeaconData[j].Longitude;
+            var alt = Model.Participants[i].BeaconData[j].Altitude;
+            currentParticipantPathPoints[j] = new double[] { lat, lng, alt };
+        }
+        participantsPaths[i] = new { participantId, currentParticipantPathPoints };
+    }
 }
 
 <section class="page-section bg-primary">
     <div class="container mx-auto mt-4">
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">@Model.Name <img style="width: 128px; height: 75px" src="~/images/live/live.gif"/></h2>
-        <partial name="_SidebarPartial" model="@Model.Participants"/>
-        <partial name="_MapPartial"/>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3 mt-3">@Model.Name <img style="width: 128px; height: 75px" src="~/images/live/live.gif" /></h2>
+        <partial name="_SidebarPartial" model="@Model.Participants" />
+        <partial name="_MapPartial" />
     </div>
 </section>
 
@@ -44,21 +59,19 @@
     <script src="~/js/mapDrawRouteFromGPX.js"></script>
     <script src="~/js/randomColorGenerator.js"></script>
     <script src="~/js/setupBroadcastClient.js"></script>
+    <script src="~/js/setupParticipantsPaths.js"></script>
+    <script src="~/js/setupSidebarAndMapElements.js"></script>
+    <script src="~/js/broadcastExecuteFunc.js"></script>
 
     <script>
-        drawImportedRoute(@points);
+        let participantPaths = @Html.Raw(JsonConvert.SerializeObject(participantsPaths));
+        let routePoints = @Html.Raw(JsonConvert.SerializeObject(listOfPoints));
+        let startPoint = routePoints[0];
 
-        startConnection();
-
-        connection.onclose(async () => {
-            await startConnection();
-        });
-
-        connection.on("BroadcastData", (data) => {
-            if (data['eventId'] === '@(Model.Id)') {
-                console.log(data);
-            }
-        });
+        let pathsGroup = L.layerGroup();
+        let markersGroup = L.layerGroup();
+        let pathColorElements = document.getElementsByClassName('random');
+        let checkBoxes = document.querySelectorAll('input[type="checkbox"]');
 
         let sidebar = L.control.sidebar({
             autopan: true,
@@ -67,10 +80,36 @@
             position: 'left'
         }).addTo(map);
 
-        let pathCheckElements = document.getElementsByClassName('random');
-        for (let i = 0; i < pathCheckElements.length; i++) {
-            let icon = pathCheckElements[i];
-            icon.style.color = generateRandomColor();
+        drawImportedRoute(routePoints);
+
+        for (let i = 0; i < @(Model.Participants.Count); i++) {
+            setupSidebarAndMapElements(startPoint, pathColorElements[i], pathsGroup, markersGroup, checkBoxes[i]);
         }
+
+        editableLayers.addLayer(pathsGroup);
+        editableLayers.addLayer(markersGroup);
+
+        pathsGroup.eachLayer(function(layer) {
+            layer.addLatLng(L.latLng(startPoint[0], startPoint[1]));
+        });
+
+        for (let i = 0; i < participantPaths.length; i++) {
+            if (participantPaths[i].currentParticipantPathPoints.length > 0) {
+                setupParticipantsExistingPaths(participantPaths[i], pathsGroup, markersGroup);
+            }
+        }
+
+        startConnection();
+
+        connection.onclose(async () => {
+            await startConnection();
+        });
+
+        connection.on("BroadcastData",
+            (data) => {
+                if (data['eventId'] === '@(Model.Id)') {
+                    onBroadcast(data, pathsGroup, markersGroup);
+                }
+            });
     </script>
 }

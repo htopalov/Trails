@@ -80,14 +80,18 @@ namespace Trails.Infrastructure
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(s => ImageProcessor.ProcessImageFromDb(s)))
                 .ReverseMap();
 
+            this.CreateMap<BeaconData, BeaconDataBroadcastModel>()
+                .ReverseMap();
+
             this.CreateMap<Participant, LiveParticipantDetailsModel>()
                 .ForMember(dest => dest.Fullname, opt => opt.MapFrom(s => $"{s.User.FirstName} {s.User.LastName}"))
                 .ForMember(dest=>dest.CountryName, opt=>opt.MapFrom(s=>s.User.CountryName))
                 .ForMember(dest=>dest.Gender, opt=>opt.MapFrom(s=>s.User.Gender))
+                .ForMember(dest=>dest.BeaconData, opt=>opt.MapFrom(s=>s.BeaconData.OrderBy(bd=>bd.Timestamp)))
                 .ReverseMap();
 
             this.CreateMap<Event, LiveEventDetailsModel>()
-                .ForMember(dest=>dest.RoutePoints, opt=>opt.MapFrom(s=>s.Route.RoutePoints))
+                .ForMember(dest=>dest.RoutePoints, opt=>opt.MapFrom(s=>s.Route.RoutePoints.OrderBy(r=>r.OrderNumber)))
                 .ForMember(dest=>dest.Participants, opt=>opt.MapFrom(s=>s.Participants))
                 .ReverseMap();
         }

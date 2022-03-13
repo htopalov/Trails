@@ -25,6 +25,21 @@
                         </h2>
                         <div id="collapse@(i)" class="accordion-collapse collapse" aria-labelledby="heading@(i)" data-bs-parent="#participantsAccordion">
                             <div class="accordion-body">
+                                <div id="@(participant.Id)-current-location">
+                                @{
+                                    var hasData = participant.BeaconData.Any();
+                                }
+                                <strong>Current position: </strong>
+                                    <br>
+                                    <label class="participantContent">Lat: @(hasData ? $"{Model[i].BeaconData.Last().Latitude:f4}" : "N/A")</label>
+                                    <br>
+                                    <label class="participantContent">Lng: @(hasData ? $"{Model[i].BeaconData.Last().Longitude:f4}" : "N/A")</label>
+                                    <br>
+                                    <label class="participantContent">Alt: @(hasData ? $"{Model[i].BeaconData.Last().Altitude:f2}" : "N/A") m</label>
+                                    <br>
+                                    <label class="participantContent">Speed: @(hasData ? $"{Model[i].BeaconData.Last().Speed:f2}" : "N/A") km/h</label>
+                                    <br>
+                                </div>
                                 <strong>Country: </strong>@participant.CountryName
                                 <br>
                                 <strong>Gender: </strong>@participant.Gender

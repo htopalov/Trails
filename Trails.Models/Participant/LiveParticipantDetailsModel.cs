@@ -1,4 +1,6 @@
-﻿namespace Trails.Models.Participant
+﻿using Trails.Api.Models;
+
+namespace Trails.Models.Participant
 {
     public class LiveParticipantDetailsModel
     {
@@ -9,5 +11,7 @@
         public string CountryName { get; set; }
 
         public string Gender { get; set; }
+
+        public List<BeaconDataBroadcastModel> BeaconData { get; set; }
     }
 }
