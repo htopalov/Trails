@@ -15,6 +15,7 @@ namespace Trails.Services.Statistics
         {
             var totalEvents = await this.dbContext
                 .Events
+                .Where(e=>e.IsApproved)
                 .CountAsync();
 
             var totalRoutes = await this.dbContext

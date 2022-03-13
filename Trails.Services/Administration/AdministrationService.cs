@@ -21,7 +21,7 @@ namespace Trails.Services.Administration
         public async Task<int> GetUnapprovedEventsCountAsync() 
             => await this.dbContext
                 .Events
-                .Where(e => e.IsApproved == false && e.IsDeleted == false)
+                .Where(e => e.IsApproved == false && e.IsDeleted == false && !string.IsNullOrEmpty(e.RouteId))
                 .CountAsync();
 
         public async Task<AllUnapprovedEventsModel> GetAllUnapprovedEventsAsync(
@@ -31,7 +31,7 @@ namespace Trails.Services.Administration
             var unapproved = await this.dbContext
                 .Events
                 .Include(e=>e.Creator)
-                .Where(e => e.IsApproved == false && e.IsDeleted == false)
+                .Where(e => e.IsApproved == false && e.IsDeleted == false && !string.IsNullOrEmpty(e.RouteId))
                 .ToListAsync();
 
             var totalEvents = unapproved.Count;

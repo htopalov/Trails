@@ -18,8 +18,8 @@
         public const string BeaconEditedSuccess = "Beacon edited successfully.";
         public const string EventExists = "Event with the same name already exists.";
         public const string RouteCreateError = "Either a route with the same name already exists or event does not exist.";
-        public const string RouteCreateSuccess = "Route created successfully.";
-        public const string EventCreateSuccess = "Event created successfully and awaiting approval by admin.";
+        public const string RouteCreateSuccess = "Route for your event created successfully.";
+        public const string EventCreateSuccess = "Event awaiting approval by admin.";
         public const string EventDeleteSuccess = "Event deleted successfully.";
         public const string EventDeleteFail = "Event could not be deleted.";
         public const string MissingRoutePropertiesError = "Please draw or import route and fill all fields.";
