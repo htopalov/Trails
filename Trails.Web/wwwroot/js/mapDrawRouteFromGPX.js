@@ -67,7 +67,7 @@ function drawImportedRoute(routePoints) {
 
     importedRouteTotalLength /= 1000;
 
-    route.bindPopup(`Route for your event is ${importedRouteTotalLength.toFixed(2)} kilometers long.`);
+    route.bindPopup(`Event route is ${importedRouteTotalLength.toFixed(2)} kilometers long.`);
 
     group.addLayer(route);
 
