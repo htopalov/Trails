@@ -5,7 +5,6 @@ using Trails.Data.DomainModels;
 using Trails.Services.Beacon;
 using Trails.Services.Administration;
 using Trails.Services.Event;
-using Trails.Services.User;
 using Trails.Services.Route;
 using Trails.Services.Statistics;
 using Trails.Api.Services;
