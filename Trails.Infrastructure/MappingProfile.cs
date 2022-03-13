@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Trails.Api.Models;
 using Trails.Data.DomainModels;
+using Trails.GPXProcessor.Models.Export;
 using Trails.Models.Beacon;
 using Trails.Models.Event;
 using Trails.Models.Participant;
@@ -48,6 +49,9 @@ namespace Trails.Infrastructure
             this.CreateMap<RoutePoint, RoutePointExportModel>()
                 .ReverseMap();
 
+            this.CreateMap<RoutePoint, ExportPointModel>()
+                .ReverseMap();
+
             this.CreateMap<Event, FirstToStartEventCardModel>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(s=> ImageProcessor.ProcessImageFromDb(s)))
                 .ReverseMap();
@@ -71,6 +75,9 @@ namespace Trails.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<Beacon, BeaconPreparationModel>()
+                .ReverseMap();
+
+            this.CreateMap<BeaconData, ExportPointModel>()
                 .ReverseMap();
 
             this.CreateMap<BeaconDataDtoPost, BeaconData>()

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Trails.Data;
 using Trails.Data.DomainModels;
 using Trails.GPXProcessor;
+using Trails.GPXProcessor.Models.Export;
 using Trails.Models.Route;
 
 namespace Trails.Services.Route
@@ -180,7 +181,7 @@ namespace Trails.Services.Route
         {
             var route = await this.dbContext
                 .Routes
-                .Include(r=>r.RoutePoints)
+                .Include(r=>r.RoutePoints.OrderBy(p=>p.OrderNumber))
                 .FirstOrDefaultAsync(r=>r.Id == routeId);
 
             if (route == null)
@@ -188,7 +189,10 @@ namespace Trails.Services.Route
                 return null;
             }
 
-            var gpxXml = RouteProcessor.Serialize(route);
+            var mappedPoints = this.mapper
+                .Map<List<ExportPointModel>>(route.RoutePoints);
+
+            var gpxXml = RouteProcessor.Serialize(mappedPoints);
 
             await using var memoryStream = new MemoryStream();
 

@@ -31,5 +31,7 @@ namespace Trails.Services.Event
         Task<List<LiveEventCardModel>> GetLiveEventsAsync();
 
         Task<LiveEventDetailsModel> GetLiveEventAsync(string eventId);
+
+        Task<byte[]> GenerateParticipantPathAsync(string participantId);
     }
 }

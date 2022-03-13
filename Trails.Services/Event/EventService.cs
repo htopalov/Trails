@@ -1,7 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Trails.Data;
 using Trails.Data.DomainModels;
+using Trails.GPXProcessor;
+using Trails.GPXProcessor.Models.Export;
 using Trails.Infrastructure;
 using Trails.Models.Event;
 
@@ -362,6 +365,35 @@ namespace Trails.Services.Event
                 .Map<LiveEventDetailsModel>(@event);
 
             return liveEvent;
+        }
+
+        public async Task<byte[]> GenerateParticipantPathAsync(string participantId)
+        {
+            var participantPositionsList = await this.dbContext
+                .BeaconData
+                .Where(bd => bd.ParticipantId == participantId)
+                .OrderBy(bd=>bd.Timestamp)
+                .ToListAsync();
+
+            if (participantPositionsList.Count == 0)
+            {
+                return null;
+            }
+
+            var mappedPoints = this.mapper
+                .Map<List<ExportPointModel>>(participantPositionsList);
+
+            var gpxXml = RouteProcessor.Serialize(mappedPoints);
+
+            await using var memoryStream = new MemoryStream();
+
+            var fileBytes = Encoding.Default.GetBytes(gpxXml);
+
+            await memoryStream.WriteAsync(fileBytes, 0, fileBytes.Length);
+
+            return fileBytes;
+
+
         }
 
         private bool IsEventLocked(DateTime startDate) 

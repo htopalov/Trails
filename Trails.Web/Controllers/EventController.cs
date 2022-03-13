@@ -191,5 +191,18 @@ namespace Trails.Web.Controllers
 
             return View(@event);
         }
+
+        public async Task<IActionResult> DownloadActivity(string participantId)
+        {
+            var result = await this.eventService
+                .GenerateParticipantPathAsync(participantId);
+
+            if (result == null)
+            {
+                return View("Error");
+            }
+
+            return File(result, "application/force-download", $"TrailsLiveActivity-{participantId}-{DateTime.UtcNow:dd-MM-yyyy}.gpx");
+        }
     }
 }

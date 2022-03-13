@@ -7,5 +7,7 @@
         public const string SchemaInstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
         public const string SchemaLocationNamespace =
             "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd";
+
+        public const string RouteName = "TrailsTrack";
     }
 }

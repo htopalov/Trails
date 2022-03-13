@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Trails.Api\Trails.Api.csproj" />
+    <ProjectReference Include="..\Trails.GPXProcessor\Trails.GPXProcessor.csproj" />
     <ProjectReference Include="..\Trails.Models\Trails.Models.csproj" />
   </ItemGroup>
 

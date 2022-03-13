@@ -9,6 +9,6 @@ namespace Trails.GPXProcessor.Models.Export
         public string Name { get; set; }
 
         [XmlArray("trkseg")]
-        public List<ExportRoutePointModel> RoutePoints { get; set; }
+        public List<ExportPointModel> RoutePoints { get; set; }
     }
 }

@@ -107,6 +107,11 @@ namespace Trails.Web.Controllers
             var result = await this.routeService
                 .GenerateGPXAsync(routeId);
 
+            if (result == null)
+            {
+                return View("Error");
+            }
+
             return File(result, "application/force-download", $"TrailsLiveActivity-{routeId}-{DateTime.UtcNow:dd-MM-yyyy}.gpx");
         }
     }

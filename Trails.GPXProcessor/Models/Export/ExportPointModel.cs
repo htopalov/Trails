@@ -3,7 +3,7 @@
 namespace Trails.GPXProcessor.Models.Export
 {
     [XmlType("trkpt")]
-    public class ExportRoutePointModel
+    public class ExportPointModel
     {
         [XmlAttribute("lat")]
         public string Latitude { get; set; }
