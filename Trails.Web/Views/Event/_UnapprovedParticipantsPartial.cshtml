@@ -1,0 +1,53 @@
+﻿@inject UserManager<User> userManager;
+@model EventDetailsModel    
+
+<div class="modal fade" id="participantsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="participantsModal" aria-hidden="true">
+     <div class="modal-dialog modal-xl">
+         <div class="modal-content">
+             <div class="modal-header border-0"><button id="closeBtn" class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+             <div class="modal-body text-center pb-5">
+                 <div class="container">
+                     <div class="row justify-content-center">
+                         <div class="col-lg-8">
+                             <h2 class="text-secondary text-uppercase mb-3">List of participants for event</h2>
+                             <h2 class="text-secondary text-uppercase mb-3">Awaiting approval</h2>
+                             <table class="table table-hover text-secondary mt-3 mb-5" style="table-layout: fixed">
+                                 <thead>
+                                 <tr class="text-center">
+                                     <th style="word-wrap: normal">Name</th>
+                                     <th style="word-wrap: normal">Country</th>
+                                     <th style="word-wrap: normal">Gender</th>
+                                     <th style="word-wrap: normal">Action</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                 @if (Model.Participants.All(p=>p.IsApproved == true))
+                                 {
+                                     <tr class="text-center text-secondary">
+                                         <td>No participants waiting for approval.</td>
+                                     </tr>
+                                 }
+                                 else
+                                 {
+                                     @foreach(var participant in Model.Participants.Where(p=>p.IsApproved == false))
+                                     {
+                                         var participantUser = await this.userManager.Users.FirstOrDefaultAsync(u => u.Id == participant.UserId);
+                                         <tr class="text-center">
+                                             <td style="word-wrap: normal">@($"{participantUser.FirstName} {participantUser.LastName}")</td>
+                                             <td style="word-wrap: normal">@participantUser.CountryName</td>
+                                             <td style="word-wrap: normal">@participantUser.Gender</td>
+                                             <td>
+                                                 <a asp-controller="Event" asp-action="ApproveParticipant" asp-route-participantId="@participant.Id" asp-route-eventId="@Model.Id" class="btn btn-success approve">Approve</a>
+                                             </td>
+                                         </tr>
+                                     }
+                                 }
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+</div>

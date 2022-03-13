@@ -1,5 +1,4 @@
 ﻿@inject UserManager<User> userManager;
-
 @model EventDetailsModel
 
 @{
@@ -103,6 +102,14 @@
                                 <p><a class="text-secondary" asp-controller="Route" asp-action="Details" asp-route-routeId="@Model.RouteId" style="text-decoration: none; cursor: pointer">Details</a></p>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="text-secondary">Participants: </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p><a class="text-secondary" data-bs-toggle="modal" href="#approvedParticipantsModal" style="text-decoration: none; cursor: pointer">Details</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,66 +117,20 @@
     </div>
 </section>
 
+<partial name="_ApprovedParticipantsPartial" model="Model"/>
+
 @if (userId == Model.CreatorId || User.IsInRole("Administrator"))
-{<div class="modal fade" id="participantsModal" tabindex="-1" aria-labelledby="participantsModal" aria-hidden="true">
-     <div class="modal-dialog modal-xl">
-         <div class="modal-content">
-             <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
-             <div class="modal-body text-center pb-5">
-                 <div class="container">
-                     <div class="row justify-content-center">
-                         <div class="col-lg-8">
-                             <h2 class="text-secondary text-uppercase mb-3">List of participants for event</h2>
-                             <h2 class="text-secondary text-uppercase mb-3">Awaiting approval:</h2>
-                             <table class="table table-hover text-secondary mt-3 mb-5">
-                                 <thead>
-                                 <tr class="text-center">
-                                     <th>Participant Name</th>
-                                     <th>Participant Country</th>
-                                     <th>Participant Gender</th>
-                                     <th>Action</th>
-                                 </tr>
-                                 </thead>
-                                 <tbody>
-                                 @if (Model.Participants.All(p=>p.IsApproved == true))
-                                 {
-                                     <tr class="text-center text-secondary">
-                                         <td>No participants waiting for approval.</td>
-                                     </tr>
-                                 }
-                                 else
-                                 {
-                                     @foreach(var participant in Model.Participants.Where(p=>p.IsApproved == false))
-                                     {
-                                         var participantUser = await this.userManager.Users.FirstOrDefaultAsync(u => u.Id == participant.UserId);
-                                         <tr class="text-center">
-                                             <td>@($"{participantUser.FirstName} {participantUser.LastName}")</td>
-                                             <td>@participantUser.CountryName</td>
-                                             <td>@participantUser.Gender</td>
-                                             <td>
-                                                 <a asp-controller="Event" asp-action="ApproveParticipant" asp-route-participantId="@participant.Id" asp-route-eventId="@Model.Id" class="btn btn-success approve">Approve</a>
-                                             </td>
-                                         </tr>
-                                     }
-                                 }
-                                 </tbody>
-                             </table>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
-</div>
+{
+    <partial name="_UnapprovedParticipantsPartial" model="Model"/>
 }
 
 @section Scripts
 {
     <script>
-        document.querySelector('.btn-close').addEventListener('click',
+        document.querySelector('#closeBtn').addEventListener('click', 
             function() {
-                window.location.reload();
-            });
+                    window.location.reload();
+                });
 
         let approveButtons = document.querySelectorAll('.approve');
         for (let i = 0; i < approveButtons.length; i++) {

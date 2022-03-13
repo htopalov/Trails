@@ -57,6 +57,7 @@ namespace Trails.Services.Event
                 .Include(e=>e.Creator)
                 .Include(e=>e.Image)
                 .Include(e=>e.Participants)
+                .ThenInclude(p=>p.User)
                 .Include(e=>e.Route)
                 .FirstOrDefaultAsync(e=> e.Id == eventId);
 
