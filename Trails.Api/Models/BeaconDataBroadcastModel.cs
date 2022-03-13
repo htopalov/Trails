@@ -10,6 +10,8 @@
 
         public double Speed { get; set; }
 
+        public DateTime Timestamp { get; set; }
+
         public string EventId { get; set; }
 
         public string ParticipantId { get; set; }

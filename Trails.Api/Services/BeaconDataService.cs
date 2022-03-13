@@ -62,7 +62,8 @@ namespace Trails.Api.Services
                    Altitude = beaconDataDto.Altitude,
                    Speed = beaconDataDto.Speed,
                    EventId = participant.EventId,
-                   ParticipantId = participant.Id
+                   ParticipantId = participant.Id,
+                   Timestamp = beaconDataDto.Timestamp
                };
            }
 
