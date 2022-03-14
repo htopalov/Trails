@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.Services", "Trails.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.GPXProcessor", "Trails.GPXProcessor\Trails.GPXProcessor.csproj", "{609DB174-364C-42A3-8202-645BE54BC2E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trails.Infrastructure", "Trails.Infrastructure\Trails.Infrastructure.csproj", "{B77519A1-116D-4BC3-954B-F2AEB110A229}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.Infrastructure", "Trails.Infrastructure\Trails.Infrastructure.csproj", "{B77519A1-116D-4BC3-954B-F2AEB110A229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

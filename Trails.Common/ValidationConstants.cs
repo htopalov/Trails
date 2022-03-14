@@ -22,7 +22,7 @@
         public const int RouteNameMinLength = 5;
         public const int RouteNameMaxLength = 100;
         public const int EventMinLength = 1;
-        public const double RouteMinLength = 0.0;
+        public const double RouteMinLength = 0.1;
         public const double MinAltitude = 0.0;
         public const double MaxAltitude = double.MaxValue;
         public const double MinSpeed = 0.0;

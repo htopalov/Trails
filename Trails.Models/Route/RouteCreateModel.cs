@@ -45,5 +45,7 @@ namespace Trails.Models.Route
         public List<double[]> RoutePoints { get; set; }
 
         public string EventId { get; set; }
+
+        public string CreatorId { get; set; }
     }
 }

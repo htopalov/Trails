@@ -24,6 +24,15 @@ namespace Trails.Services.Route
         {
             var hasAltitude = routeCreateModel.MaximumAltitude != 0;
 
+            var route = await this.dbContext
+                .Routes
+                .FirstOrDefaultAsync(r => r.Name == routeCreateModel.Name);
+
+            if (route != null)
+            {
+                return false;
+            }
+
             var eventForRoute = await this.dbContext
                 .Events
                 .FindAsync(routeCreateModel.EventId);
@@ -33,23 +42,10 @@ namespace Trails.Services.Route
                 return false;
             }
 
-            var isRouteExisting = await this.dbContext
-                .Routes
-                .AnyAsync(r => r.Name == routeCreateModel.Name);
-
-            if (isRouteExisting)
-            {
-                return false;
-            }
-
-            var route = this.mapper
+            route = this.mapper
                 .Map<Data.DomainModels.Route>(routeCreateModel);
 
-            route.CreatorId = eventForRoute.CreatorId;
-
             eventForRoute.Route = route;
-
-            await this.dbContext.SaveChangesAsync();
 
             for (int i = 0; i < routeCreateModel.RoutePoints.Count; i++)
             {
@@ -69,7 +65,7 @@ namespace Trails.Services.Route
                 route.RoutePoints.Add(point);
             }
 
-            var created = await this.dbContext
+            var created =  await this.dbContext
                 .SaveChangesAsync();
 
             return created > 0;
@@ -79,18 +75,14 @@ namespace Trails.Services.Route
         {
             var route = await this.dbContext
                 .Routes
+                .Include(r=>r.Event)
                 .Include(r=>r.RoutePoints)
                 .FirstOrDefaultAsync(r=>r.Id == routeId);
-            
+
             if (route == null)
             {
                 return null;
             }
-
-            route.RoutePoints = route
-                .RoutePoints
-                .OrderBy(p => p.OrderNumber)
-                .ToList();
 
             var routeDetailsModel = this.mapper
                 .Map<RouteDetailsModel>(route);

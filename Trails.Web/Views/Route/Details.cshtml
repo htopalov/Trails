@@ -35,7 +35,10 @@
                     <a asp-controller="Route" asp-action="Download" asp-route-routeId="@Model.Id" class="btn btn-sm bg-info">Download GPX</a>
                     @if (Model.CreatorId == userId || User.IsInRole("Administrator"))
                     {
-                        <a asp-controller="Route" asp-action="Edit" asp-route-routeId="@Model.Id" class="btn btn-sm bg-warning">Edit</a>
+                        if (!Model.HasEventStarted)
+                        {
+                            <a asp-controller="Route" asp-action="Edit" asp-route-routeId="@Model.Id" class="btn btn-sm bg-warning">Edit</a>
+                        }
                     }
                 </div>
             </div>

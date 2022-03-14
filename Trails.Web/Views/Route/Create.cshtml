@@ -1,5 +1,6 @@
 ﻿@model RouteCreateModel
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@inject UserManager<User> UserManager
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@2.2.0/Control.FullScreen.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
@@ -15,6 +16,8 @@
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }
+
+    var creatorId = UserManager.GetUserId(User);
 }
 
 <section class="page-section bg-primary">
@@ -64,6 +67,6 @@
     <script src="~/js/handleRouteCreate.js"></script>
     <script src="~/js/spinner.js"></script>
     <script>
-        handleRouteCreateFunc('@GetAntiForgeryToken()');
+        handleRouteCreateFunc('@GetAntiForgeryToken()','@creatorId');
     </script>
 }

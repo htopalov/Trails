@@ -1,4 +1,4 @@
-﻿function handleRouteCreateFunc(XsrfToken) {
+﻿function handleRouteCreateFunc(XsrfToken,creatorId) {
     document.getElementById('submitButton').addEventListener('click',
         async (e) => {
             e.preventDefault();
@@ -25,6 +25,7 @@
                         'RequestVerificationToken': `${XsrfToken}`
                     },
                     body: JSON.stringify({
+                        creatorId,
                         eventId,
                         name,
                         startLocationName,

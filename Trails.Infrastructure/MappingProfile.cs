@@ -38,6 +38,8 @@ namespace Trails.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<Route, RouteDetailsModel>()
+                .ForMember(dest=>dest.RoutePoints, opt=>opt.MapFrom(s=>s.RoutePoints.OrderBy(p=>p.OrderNumber)))
+                .ForMember(dest=>dest.HasEventStarted, opt=>opt.MapFrom(s=>s.Event.StartDate < DateTime.UtcNow))
                 .ReverseMap();
 
             this.CreateMap<Route, RouteEditFormModel>()

@@ -34,6 +34,10 @@ namespace Trails.Data.DomainModels
 
         public double MaximumAltitude { get; set; }
 
+        [ForeignKey(nameof(Event))]
+        public string EventId { get; set; }
+        public Event Event { get; set; }
+
         [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; }
         public User Creator { get; set; }

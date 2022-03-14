@@ -20,6 +20,8 @@ namespace Trails.Models.Route
 
         public string CreatorId { get; set; }
 
+        public bool HasEventStarted { get; set; }
+
         public List<RoutePointExportModel> RoutePoints { get; set; }
     }
 }

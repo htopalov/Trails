@@ -31,7 +31,7 @@
         public const string EventEditSuccess = "Event edited successfully.";
         public const string EventEditFail = "Event could not be updated.";
         public const string RouteEditSuccess = "Route edited successfully.";
-        public const string RouteEditFail = "Route is either not existing or it has the same parameters as the input.";
+        public const string RouteEditFail = "Route could not be edited.";
         public const string EventApproveFail = "Event could not be approved.";
         public const string EventApproveSuccess = "Event approved successfully.";
         public const string EventDeclineFail = "Event could not be removed.";
