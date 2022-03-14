@@ -71,40 +71,24 @@ namespace Trails.Services.Route
             return created > 0;
         }
 
-        public async Task<RouteDetailsModel> GetRouteAsync(string routeId)
+        public async Task<T> GetRouteAsync<T>(string routeId)
+            where T : IRouteModel
         {
             var route = await this.dbContext
                 .Routes
-                .Include(r=>r.Event)
-                .Include(r=>r.RoutePoints)
-                .FirstOrDefaultAsync(r=>r.Id == routeId);
+                .Include(r => r.Event)
+                .Include(r => r.RoutePoints)
+                .FirstOrDefaultAsync(r => r.Id == routeId);
 
             if (route == null)
             {
-                return null;
+                return default;
             }
 
-            var routeDetailsModel = this.mapper
-                .Map<RouteDetailsModel>(route);
+            var mappedRoute = this.mapper
+                .Map<T>(route);
 
-            return routeDetailsModel;
-        }
-
-        public async Task<RouteEditFormModel> GetRouteToEditAsync(string routeId)
-        {
-            var route = await this.dbContext
-                .Routes
-                .FindAsync(routeId);
-
-            if (route == null)
-            {
-                return null;
-            }
-
-            var routeToEdit = this.mapper.
-                Map<RouteEditFormModel>(route);
-
-            return routeToEdit;
+            return mappedRoute;
         }
 
         public async Task<bool> EditRouteAsync(string routeId, RouteEditFormModel routeEditFormModel)

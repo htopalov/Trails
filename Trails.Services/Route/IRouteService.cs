@@ -6,9 +6,7 @@ namespace Trails.Services.Route
     {
         Task<bool> CreateRouteAsync(RouteCreateModel routeCreateModel);
 
-        Task<RouteDetailsModel> GetRouteAsync(string routeId);
-
-        Task<RouteEditFormModel> GetRouteToEditAsync(string routeId);
+        Task<T> GetRouteAsync<T>(string routeId) where T : IRouteModel;
 
         Task<bool> EditRouteAsync(string routeId, RouteEditFormModel routeEditFormModel);
 

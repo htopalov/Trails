@@ -42,7 +42,7 @@ namespace Trails.Web.Controllers
         public async Task<IActionResult> Details(string routeId)
         {
             var routeDetailsModel = await this.routeService
-                .GetRouteAsync(routeId);
+                .GetRouteAsync<RouteDetailsModel>(routeId);
 
             if (routeDetailsModel == null)
             {
@@ -55,7 +55,7 @@ namespace Trails.Web.Controllers
         public async Task<IActionResult> Edit(string routeId)
         {
             var routeToEdit = await this.routeService
-                .GetRouteToEditAsync(routeId);
+                .GetRouteAsync<RouteEditFormModel>(routeId);
 
             if (routeToEdit == null)
             {
