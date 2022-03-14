@@ -84,6 +84,7 @@ namespace Trails.Web.Controllers
             if (!hasApplied)
             {
                 TempData[TempDataKeyFail] = ParticipantAlreadyAppliedError;
+                return RedirectToAction(nameof(Details), new { eventId });
             }
 
             TempData[TempDataKeySuccess] = ParticipantApplicationSuccess;
