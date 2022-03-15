@@ -11,14 +11,6 @@
 
     var maxPage = Math.Ceiling((double)Model.TotalEvents / Model.EventsPerPage);
 
-    var nextButtonClassDisabled = Model.CurrentPage == maxPage || !Model.Events.Any() 
-                                        ? "disabled" 
-                                        : string.Empty;
-
-    var previousButtonClassDisabled = Model.CurrentPage == 1 
-                                            ? "disabled" 
-                                            : string.Empty;
-
     @for (int i = 0; i < Model.Events.Count; i++)
     {
         var ev = Model.Events[i];
@@ -40,7 +32,7 @@
 <section class="bg-primary text-white mb-0" style="margin-top: 70px;">
     <div class="container" style="overflow:auto">
         <h1 class="page-section-heading text-center text-uppercase text-secondary mb-5 mt-5">Events awaiting approval</h1>
-        <table class="table table-hover text-secondary mt-5 mb-5">
+        <table class="table table-hover text-secondary mt-5" style="margin-bottom: 76px">
             <thead>
             <tr class="text-center">
                 <th>Id</th>
@@ -66,26 +58,53 @@
                     <td><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target=@($"#detailsModal{i}")>More...</button></td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a asp-area="Administration" asp-controller="Admin" asp-action="ApproveEvent" asp-route-eventId="@eventModel.Id" class="btn btn-success">Approve</a>
-                            <a asp-area="Administration" asp-controller="Admin" asp-action="DeclineEvent" asp-route-eventId="@eventModel.Id" class="btn btn-danger">Decline</a>
+                            <a asp-area="Administration"
+                               asp-controller="Admin"
+                               asp-action="ApproveEvent"
+                               asp-route-eventId="@eventModel.Id"
+                               class="btn btn-success">Approve</a>
+                            <a asp-area="Administration"
+                               asp-controller="Admin"
+                               asp-action="DeclineEvent"
+                               asp-route-eventId="@eventModel.Id"
+                               class="btn btn-danger">Decline</a>
                         </div>
                     </td>
                 </tr>
             }
             </tbody>
         </table>
+    @if (Model.Events.Any())
+    {
         <div class="container mt-3 mb-5">
             <ul class="pagination justify-content-center">
+            @if (Model.CurrentPage != 1)
+            {
                 <li class="page-item">
-                    <a asp-area="Administration" asp-controller="Admin" asp-action="ManageEvents" asp-route-currentPage="@previousPage" class="btn btn-sm btn-outline-light text-secondary @previousButtonClassDisabled" style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
+                    <a asp-area="Administration"
+                       asp-controller="Admin"
+                       asp-action="ManageEvents"
+                       asp-route-currentPage="@previousPage"
+                       class="btn btn-sm btn-outline-light text-secondary"
+                       style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
                 </li>
+            }
+            <li class="page-item">
+                <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
+            </li>
+            @if (Model.CurrentPage != maxPage)
+            {
                 <li class="page-item">
-                    <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
+                    <a asp-area="Administration"
+                       asp-controller="Admin"
+                       asp-action="ManageEvents"
+                       asp-route-currentPage="@(Model.CurrentPage + 1)"
+                       class="btn btn-sm btn-outline-light text-secondary"
+                       style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
                 </li>
-                <li class="page-item">
-                    <a asp-area="Administration" asp-controller="Admin" asp-action="ManageEvents" asp-route-currentPage="@(Model.CurrentPage + 1)" class="btn btn-sm btn-outline-light text-secondary @nextButtonClassDisabled" style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
-                </li>
+            }
             </ul>
         </div>
+    }
     </div>
 </section>

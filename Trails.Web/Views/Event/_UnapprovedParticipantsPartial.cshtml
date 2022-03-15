@@ -37,7 +37,11 @@
                                              <td style="word-wrap: normal">@participantUser.CountryName</td>
                                              <td style="word-wrap: normal">@participantUser.Gender</td>
                                              <td>
-                                                 <a asp-controller="Event" asp-action="ApproveParticipant" asp-route-participantId="@participant.Id" asp-route-eventId="@Model.Id" class="btn btn-success approve">Approve</a>
+                                                 <a asp-controller="Event"
+                                                    asp-action="ApproveParticipant"
+                                                    asp-route-participantId="@participant.Id"
+                                                    asp-route-eventId="@Model.Id"
+                                                    class="btn btn-success approve">Approve</a>
                                              </td>
                                          </tr>
                                      }

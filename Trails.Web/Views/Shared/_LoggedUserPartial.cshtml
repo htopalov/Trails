@@ -25,7 +25,10 @@
                             <div class="card-body">
                                 <h5 class="card-title">@ev.Name</h5>
                                 <p class="card-text">@ev.Description</p>
-                                <a class="btn btn-sm bg-warning" asp-controller="Event" asp-action="Details" asp-route-eventId="@ev.Id">Details</a>
+                                <a asp-controller="Event"
+                                   asp-action="Details"
+                                   asp-route-eventId="@ev.Id"
+                                   class="btn btn-sm bg-warning">Details</a>
                             </div>
                         </div>
                     </div>

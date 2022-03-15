@@ -10,14 +10,6 @@
     }
 
     var maxPage = Math.Ceiling((double)Model.TotalRoutes / Model.RoutesPerPage);
-
-    var nextButtonClassDisabled = Model.CurrentPage == maxPage || !Model.Routes.Any() 
-        ? "disabled" 
-        : string.Empty;
-
-    var previousButtonClassDisabled = Model.CurrentPage == 1 
-        ? "disabled" 
-        : string.Empty;
 }
 
 <section class="bg-primary text-white mb-0" style="margin-top: 70px;">
@@ -46,7 +38,14 @@
             @if (!Model.Routes.Any())
             {
                 <tr class="text-center text-secondary">
-                    <td>No routes added to the system</td>
+                    @if (!string.IsNullOrEmpty(Model.SearchRoute))
+                    {
+                        <td>Route not found</td>
+                    }
+                    else
+                    {
+                        <td>No routes in the system</td>
+                    }
                 </tr>
             }
             @for (int i = 0; i < Model.Routes.Count; i++)
@@ -56,34 +55,46 @@
                 <tr class="text-center">
                     <td style="word-wrap: break-word">@routeModel.Name</td>
                     <td>
-                        <a asp-controller="Route" asp-action="Details" asp-route-routeId="@routeModel.Id" class="btn btn-info">Details</a>
+                        <a asp-controller="Route" 
+                           asp-action="Details"
+                           asp-route-routeId="@routeModel.Id"
+                           class="btn btn-info">Details</a>
                     </td>
                 </tr>
             }
             </tbody>
         </table>
-        <div class="container mt-3 mb-5">
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a asp-controller="Route"
-                       asp-action="All"
-                       asp-route-searchRoute="@Model.SearchRoute"
-                       asp-route-currentPage="@previousPage" 
-                       class="btn btn-sm btn-outline-light text-secondary @previousButtonClassDisabled" 
-                       style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
-                </li>
-                <li class="page-item">
-                    <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
-                </li>
-                <li class="page-item">
-                    <a asp-controller="Route" 
-                       asp-action="All" 
-                       asp-route-searchRoute="@Model.SearchRoute"
-                       asp-route-currentPage="@(Model.CurrentPage + 1)"
-                       class="btn btn-sm btn-outline-light text-secondary @nextButtonClassDisabled"
-                       style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
-                </li>
-            </ul>
-        </div>
+        @if (Model.Routes.Any())
+        {
+            <div class="container mt-3 mb-5">
+                <ul class="pagination justify-content-center">
+                    @if (Model.CurrentPage != 1)
+                    {
+                        <li class="page-item">
+                            <a asp-controller="Route"
+                               asp-action="All"
+                               asp-route-searchRoute="@Model.SearchRoute"
+                               asp-route-currentPage="@previousPage"
+                               class="btn btn-sm btn-outline-light text-secondary"
+                               style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <span class="text-secondary text-center">[@Model.CurrentPage - @maxPage]</span>
+                    </li>
+                    @if (Model.CurrentPage != maxPage)
+                    {
+                        <li class="page-item">
+                            <a asp-controller="Route"
+                               asp-action="All"
+                               asp-route-searchRoute="@Model.SearchRoute"
+                               asp-route-currentPage="@(Model.CurrentPage + 1)"
+                               class="btn btn-sm btn-outline-light text-secondary"
+                               style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
     </div>
 </section>

@@ -75,7 +75,10 @@
                                              @if (DateTime.UtcNow > Model.EndDate)
                                              {
                                                  <td>
-                                                     <a asp-controller="Event" asp-action="DownloadActivity" asp-route-participantId="@participant.Id" class="btn btn-info">Download</a>
+                                                     <a asp-controller="Event"
+                                                        asp-action="DownloadActivity"
+                                                        asp-route-participantId="@participant.Id"
+                                                        class="btn btn-info">Download</a>
                                                  </td>
                                              }
                                          </tr>

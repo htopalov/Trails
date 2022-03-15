@@ -16,14 +16,6 @@
     }
 
     var maxPage = Math.Ceiling((double)Model.TotalEvents / Model.EventsPerPage);
-
-    var nextButtonClassDisabled = Model.CurrentPage == maxPage || !Model.Events.Any() 
-        ? "disabled" 
-        : string.Empty;
-
-    var previousButtonClassDisabled = Model.CurrentPage == 1 
-        ? "disabled" 
-        : string.Empty;
 }
 
 <section class="bg-primary text-white mb-0" style="margin-top: 70px;">
@@ -58,7 +50,21 @@
             @if (!Model.Events.Any())
             {
                 <tr class="text-center text-secondary">
-                    <td>You don't have any events yet</td>
+                    @if (!string.IsNullOrEmpty(Model.SearchEvent))
+                    {
+                        <td>Event not found</td>
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(Model.UserId))
+                        {
+                            <td>No events in the system</td>
+                        }
+                        else
+                        {
+                            <td>You don't have any events yet</td>
+                        }
+                    }
                 </tr>
             }
             @for (int i = 0; i < Model.Events.Count; i++)
@@ -70,36 +76,48 @@
                     <td style="white-space: nowrap;">@eventModel.StartDate.ToString("dd-MM-yyyy HH:mm")</td>
                     <td style="white-space: nowrap;">@eventModel.EndDate.ToString("dd-MM-yyyy HH:mm")</td>
                     <td>
-                        <a asp-controller="Event" asp-action="Details" asp-route-eventId="@eventModel.Id" class="btn btn-info">Details</a>
+                        <a asp-controller="Event"
+                           asp-action="Details"
+                           asp-route-eventId="@eventModel.Id"
+                           class="btn btn-info">Details</a>
                     </td>
                 </tr>
             }
             </tbody>
         </table>
-        <div class="container mt-3 mb-5">
-            <ul class="pagination justify-content-center">
+        @if (Model.Events.Any())
+        {
+            <div class="container mt-3 mb-5">
+                <ul class="pagination justify-content-center">
+                @if (Model.CurrentPage != 1)
+                {
+                    <li class="page-item">
+                        <a asp-controller="Event"
+                           asp-action="Events"
+                           asp-route-searchEvent="@Model.SearchEvent"
+                           asp-route-userId="@Model.UserId"
+                           asp-route-currentPage="@previousPage"
+                           class="btn btn-sm btn-outline-light text-secondary"
+                           style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
+                    </li>
+                }
                 <li class="page-item">
-                    <a  asp-controller="Event" 
-                        asp-action="Events" 
-                        asp-route-searchEvent="@Model.SearchEvent"
-                        asp-route-userId="@Model.UserId" 
-                        asp-route-currentPage="@previousPage"
-                        class="btn btn-sm btn-outline-light text-secondary @previousButtonClassDisabled"
-                        style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
+                    <span class="text-secondary text-center">[@Model.CurrentPage - @maxPage]</span>
                 </li>
-                <li class="page-item">
-                    <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
-                </li>
-                <li class="page-item">
-                    <a asp-controller="Event"
-                       asp-action="Events" 
-                       asp-route-searchEvent="@Model.SearchEvent"
-                       asp-route-userId="@Model.UserId"
-                       asp-route-currentPage="@(Model.CurrentPage + 1)"
-                       class="btn btn-sm btn-outline-light text-secondary @nextButtonClassDisabled"
-                       style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
-                </li>
-            </ul>
-        </div>
+                @if (Model.CurrentPage != maxPage)
+                {
+                    <li class="page-item">
+                        <a asp-controller="Event"
+                           asp-action="Events"
+                           asp-route-searchEvent="@Model.SearchEvent"
+                           asp-route-userId="@Model.UserId"
+                           asp-route-currentPage="@(Model.CurrentPage + 1)"
+                           class="btn btn-sm btn-outline-light text-secondary"
+                           style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
+                    </li>
+                }
+                </ul>
+            </div>
+        }
     </div>
 </section>

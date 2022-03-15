@@ -11,27 +11,25 @@
 
     var maxPage = Math.Ceiling((double)Model.TotalBeacons / Model.BeaconsPerPage);
 
-    var nextButtonClassDisabled = Model.CurrentPage == maxPage || !Model.Beacons.Any() 
-                                        ? "disabled" 
-                                        : string.Empty;
-
-    var previousButtonClassDisabled = Model.CurrentPage == 1 
-                                            ? "disabled" 
-                                            : string.Empty;
-
     @for (int i = 0; i < Model.Beacons.Count; i++)
     {
         @await Html.PartialAsync("_BeaconDescriptionPartial", 
             new BeaconDescriptionModel{Counter = i, Description = Model.Beacons[i].Description})
     }
+
+    var list = new List<string>();
 }
 
 <section class="bg-primary text-white mb-0">
     <div class="container" style="overflow:auto">
-        <a class="btn btn-xl btn-outline-light text-secondary mb-3" style="margin-top: 120px;" asp-area="Administration" asp-controller="Beacon" asp-action="Create">
+        <a class="btn btn-xl btn-outline-light text-secondary mb-3" 
+           style="margin-top: 120px;"
+           asp-area="Administration"
+           asp-controller="Beacon"
+           asp-action="Create">
             Add Beacon
         </a>
-        <table class="table table-hover text-secondary mt-3 mb-5">
+        <table class="table table-hover text-secondary mt-3" style="margin-bottom: 72px">
             <thead>
             <tr class="text-center">
                 <th>Imei</th>
@@ -57,26 +55,53 @@
                     <td><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target=@($"#beaconDescription{i}")>More...</button></td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a asp-area="Administration" asp-controller="Beacon" asp-action="Edit" asp-route-id="@beaconModel.Id" class="btn btn-warning">Edit</a>
-                            <a asp-area="Administration" asp-controller="Beacon" asp-action="Delete" asp-route-id="@beaconModel.Id" class="btn btn-danger">Delete</a>
+                            <a asp-area="Administration"
+                               asp-controller="Beacon"
+                               asp-action="Edit"
+                               asp-route-id="@beaconModel.Id"
+                               class="btn btn-warning">Edit</a>
+                            <a asp-area="Administration"
+                               asp-controller="Beacon"
+                               asp-action="Delete"
+                               asp-route-id="@beaconModel.Id"
+                               class="btn btn-danger">Delete</a>
                         </div>
                     </td>
                 </tr>
             }
             </tbody>
         </table>
+    @if (Model.Beacons.Any())
+    {
         <div class="container mt-3 mb-5">
             <ul class="pagination justify-content-center">
+            @if (Model.CurrentPage != 1)
+            {
                 <li class="page-item">
-                    <a asp-area="Administration" asp-controller="Beacon" asp-action="All" asp-route-currentPage="@previousPage" class="btn btn-sm btn-outline-light text-secondary @previousButtonClassDisabled" style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
+                    <a asp-area="Administration"
+                       asp-controller="Beacon"
+                       asp-action="All"
+                       asp-route-currentPage="@previousPage"
+                       class="btn btn-sm btn-outline-light text-secondary"
+                       style="margin-right: 10px; min-width: 80px; max-width: 80px;">Previous</a>
                 </li>
+            }
+            <li class="page-item">
+                <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
+            </li>
+            @if (Model.CurrentPage != maxPage)
+            {
                 <li class="page-item">
-                    <span class="text-secondary text-center">[@Model.CurrentPage / @maxPage]</span>
+                    <a asp-area="Administration"
+                       asp-controller="Beacon"
+                       asp-action="All"
+                       asp-route-currentPage="@(Model.CurrentPage + 1)"
+                       class="btn btn-sm btn-outline-light text-secondary"
+                       style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
                 </li>
-                <li class="page-item">
-                    <a asp-area="Administration" asp-controller="Beacon" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)" class="btn btn-sm btn-outline-light text-secondary @nextButtonClassDisabled" style="margin-left: 10px; min-width: 80px; max-width: 80px;">Next</a>
-                </li>
+            }
             </ul>
         </div>
+    }
     </div>
 </section>

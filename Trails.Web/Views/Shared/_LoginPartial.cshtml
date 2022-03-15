@@ -9,13 +9,20 @@
     @if (!SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a  asp-area="Identity"
+                asp-page="/Account/Register"
+                class="nav-link py-3 px-0 px-lg-3 rounded">Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a asp-area="Identity"
+               asp-page="/Account/Login"
+               class="nav-link py-3 px-0 px-lg-3 rounded">Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Statistics" asp-action="TotalStatistics">Statistics</a>
+            <a asp-area=""
+               asp-controller="Statistics"
+               asp-action="TotalStatistics"
+               class="nav-link py-3 px-0 px-lg-3 rounded">Statistics</a>
         </li>
     }
     else if(SignInManager.IsSignedIn(User))
@@ -23,36 +30,63 @@
         if (!User.IsInRole("Administrator"))
         { 
             <li class="nav-item">
-                <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Event" asp-action="Create">Create Event</a>
+                <a  asp-area=""
+                    asp-controller="Event"
+                    asp-action="Create"
+                    class="nav-link py-3 px-0 px-lg-3 rounded">Create Event</a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Event" asp-action="Events" asp-route-userId="@userId">My Events</a>
+                <a  asp-area=""
+                    asp-controller="Event"
+                    asp-action="Events"
+                    asp-route-userId="@userId"
+                    class="nav-link py-3 px-0 px-lg-3 rounded">My Events</a>
             </li>
         }
         else
         {
             <li class="nav-item">
-                <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Administration" asp-controller="Admin" asp-action="Index">Administration</a>
+                <a  asp-area="Administration"
+                    asp-controller="Admin"
+                    asp-action="Index"
+                    class="nav-link py-3 px-0 px-lg-3 rounded">Administration</a>
             </li>
         }
         <li class="nav-item">
-            <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Event" asp-action="Live">Live</a>
+            <a  asp-area=""
+                asp-controller="Event"
+                asp-action="Live"
+                class="nav-link py-3 px-0 px-lg-3 rounded">Live</a>
         </li>
         <li class="nav-item">
-            <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Event" asp-action="Events">Events</a>
+            <a  asp-area=""
+                asp-controller="Event"
+                asp-action="Events"
+                class="nav-link py-3 px-0 px-lg-3 rounded">Events</a>
         </li>
         <li class="nav-item">
-            <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Route" asp-action="All">Routes</a>
+            <a  asp-area=""
+                asp-controller="Route"
+                asp-action="All"
+                class="nav-link py-3 px-0 px-lg-3 rounded">Routes</a>
         </li>
         <li class="nav-item">
-            <a  class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="Identity" asp-page="/Account/Manage/Index">My Profile</a>
+            <a  asp-area="Identity"
+                asp-page="/Account/Manage/Index"
+                class="nav-link py-3 px-0 px-lg-3 rounded">My Profile</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Statistics" asp-action="TotalStatistics">Statistics</a>
+            <a asp-area=""
+               asp-controller="Statistics"
+               asp-action="TotalStatistics"
+               class="nav-link py-3 px-0 px-lg-3 rounded">Statistics</a>
         </li>
         <li class="nav-item">
-            <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logoutBtn"  type="submit" class="nav-link mt-2 py-1 px-0 px-lg-2 rounded" style="background: transparent">Logout</button>
+            <form  class="form-inline"
+                   asp-area="Identity"
+                   asp-page="/Account/Logout"
+                   asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logoutBtn"  type="submit" class="nav-link mt-2 py-1 px-0 px-lg-2 rounded" style="background: transparent">Logout</button>
             </form>
         </li>
     }
