@@ -74,10 +74,18 @@ namespace Trails.Services.Route
         public async Task<T> GetRouteAsync<T>(string routeId)
             where T : IRouteModel
         {
-            var route = await this.dbContext
+            var queryableRoute = this.dbContext
                 .Routes
-                .Include(r => r.Event)
-                .Include(r => r.RoutePoints)
+                .AsQueryable();
+
+            if (typeof(T) == typeof(RouteDetailsModel))
+            {
+                queryableRoute = queryableRoute
+                    .Include(r => r.Event)
+                    .Include(r => r.RoutePoints);
+            }
+            
+            var route = await queryableRoute
                 .FirstOrDefaultAsync(r => r.Id == routeId);
 
             if (route == null)

@@ -53,40 +53,35 @@ namespace Trails.Services.Event
             return string.Empty;
         }
 
-        public async Task<EventDetailsModel> GetEventAsync(string eventId)
+        public async Task<T> GetEventAsync<T>(string eventId)
+            where T : IEventModel
         {
-            var @event = await this.dbContext
+            var queryableEvent = this.dbContext
                 .Events
-                .Include(e=>e.Creator)
-                .Include(e=>e.Image)
-                .Include(e=>e.Participants)
-                .ThenInclude(p=>p.User)
-                .Include(e=>e.Route)
-                .FirstOrDefaultAsync(e=> e.Id == eventId);
+                .AsQueryable();
+
+            if (typeof(T) == typeof(EventDetailsModel))
+            {
+                queryableEvent = queryableEvent
+                    .Include(e => e.Creator)
+                    .Include(e => e.Image)
+                    .Include(e => e.Participants)
+                    .ThenInclude(p => p.User)
+                    .Include(e => e.Route);
+            }
+
+            var @event = await queryableEvent
+                .FirstOrDefaultAsync(e => e.Id == eventId);
 
             if (@event == null)
             {
-                return null;
+                return default;
             }
 
-            return this.mapper
-                .Map<EventDetailsModel>(@event); ;
-        }
+            var mappedEvent = this.mapper
+                .Map<T>(@event);
 
-        public async Task<EventEditFormModel> GetEventToEditAsync(string eventId)
-        {
-            var @event = await this.dbContext
-                .Events.FindAsync(eventId);
-
-            if (@event == null)
-            {
-                return null;
-            }
-
-            var eventToEdit = this.mapper.
-                Map<EventEditFormModel>(@event);
-
-            return eventToEdit;
+            return mappedEvent;
         }
 
         public async Task<bool> EditEventAsync(string eventId, EventEditFormModel eventEditFormModel)
@@ -105,7 +100,8 @@ namespace Trails.Services.Event
                 return false;
             }
 
-            this.mapper.Map(eventEditFormModel, @event);
+            this.mapper
+                .Map(eventEditFormModel, @event);
 
             @event.IsModifiedByCreator = true;
 
@@ -181,7 +177,7 @@ namespace Trails.Services.Event
                 return false;
             }
 
-            var newParticipant = new Participant
+            var participant = new Participant
             {
                 User = user,
                 Event = eventToParticipate
@@ -189,7 +185,7 @@ namespace Trails.Services.Event
 
             await this.dbContext
                 .Participants
-                .AddAsync(newParticipant);
+                .AddAsync(participant);
 
             var created = await this.dbContext
                 .SaveChangesAsync();
@@ -229,10 +225,10 @@ namespace Trails.Services.Event
                 .Participants
                 .Update(participantToApprove);
 
-            var hasParticipantStateChanged = await this.dbContext
+            var updated = await this.dbContext
                 .SaveChangesAsync();
 
-            return hasParticipantStateChanged > 0;
+            return updated > 0;
         }
 
         public async Task<bool> EditImageAsync(string eventId, EventImageEditModel imageModel)

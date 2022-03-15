@@ -51,7 +51,7 @@ namespace Trails.Web.Controllers
         public async Task<IActionResult> Details(string eventId)
         {
             var @event = await this.eventService
-                .GetEventAsync(eventId);
+                .GetEventAsync<EventDetailsModel>(eventId);
 
             if (@event == null)
             {
@@ -63,10 +63,10 @@ namespace Trails.Web.Controllers
 
         public async Task<IActionResult> Delete(string eventId)
         {
-            var changeState = await this.eventService
+            var hasChangedState = await this.eventService
                 .DeleteEventAsync(eventId);
 
-            if (!changeState)
+            if (!hasChangedState)
             {
                 TempData[TempDataKeyFail] = EventDeleteFail;
                 return RedirectToAction(nameof(Details), new {eventId});
@@ -93,10 +93,10 @@ namespace Trails.Web.Controllers
 
         public async Task<IActionResult> ApproveParticipant(string participantId,string eventId)
         {
-            var participantState = await this.eventService
+            var approveParticipantState = await this.eventService
                 .ApproveParticipantAsync(participantId,eventId);
 
-            if (!participantState)
+            if (!approveParticipantState)
             {
                 TempData[TempDataKeyFail] = ParticipantApproveError;
                 return RedirectToAction(nameof(Details), new {eventId});
@@ -113,10 +113,10 @@ namespace Trails.Web.Controllers
                 return RedirectToAction(nameof(Details), new {eventId});
             }
 
-            var edited = await this.eventService
+            var isEdited = await this.eventService
                 .EditImageAsync(eventId, imageModel);
 
-            if (!edited)
+            if (!isEdited)
             {
                 TempData[TempDataKeyFail] = EventImageEditError;
                 return RedirectToAction(nameof(Details), new { eventId });
@@ -129,7 +129,7 @@ namespace Trails.Web.Controllers
         public async Task<IActionResult> Edit(string eventId)
         {
             var eventToEdit = await this.eventService
-                .GetEventToEditAsync(eventId);
+                .GetEventAsync<EventEditFormModel>(eventId);
 
             if (eventToEdit == null)
             {
@@ -147,10 +147,10 @@ namespace Trails.Web.Controllers
                 return View(eventEditFormModel);
             }
 
-            var updated = await this.eventService
+            var isEdited = await this.eventService
                 .EditEventAsync(eventId, eventEditFormModel);
 
-            if (!updated)
+            if (!isEdited)
             {
                 TempData[TempDataKeyFail] = EventEditFail;
                 return RedirectToAction(nameof(Details), new { eventId });

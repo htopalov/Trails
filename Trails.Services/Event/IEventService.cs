@@ -6,7 +6,7 @@ namespace Trails.Services.Event
     {
         Task<string> CreateEventAsync(EventFormModel eventFormModel);
 
-        Task<EventDetailsModel> GetEventAsync(string eventId);
+        Task<T> GetEventAsync<T>(string eventId) where T : IEventModel;
 
         Task<bool> DeleteEventAsync(string eventId);
 
@@ -15,8 +15,6 @@ namespace Trails.Services.Event
         Task<bool> ApproveParticipantAsync(string participantId,string eventId);
 
         Task<bool> EditImageAsync(string eventId, EventImageEditModel imageModel);
-
-        Task<EventEditFormModel> GetEventToEditAsync(string eventId);
 
         Task<bool> EditEventAsync(string eventId, EventEditFormModel eventEditFormModel);
 
