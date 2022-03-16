@@ -27,6 +27,8 @@ namespace Trails.Models.Event
 
         public string CreatorId { get; set; }
 
+        public string CreatorFullName { get; set; }
+
         public List<Data.DomainModels.Participant> Participants { get; set; }
     }   
 }

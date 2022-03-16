@@ -3,8 +3,6 @@
 
 @{
     var userId = this.userManager.GetUserId(this.User);
-    var creator = await this.userManager.Users.FirstOrDefaultAsync(u => u.Id == Model.CreatorId);
-    var creatorFullname = $"{creator.FirstName} {creator.LastName}";
     var participantModel = Model.Participants.FirstOrDefault(p => p.UserId == userId);
     var terminationDate = Model.StartDate.AddDays(-3);
     var terminationOfBtn = DateTime.UtcNow > terminationDate;
@@ -39,7 +37,7 @@
                             @Model.Name
                         </h4>
                         <h5 class="text-secondary">
-                            created by <strong class="text-secondary text-uppercase">@creatorFullname</strong>
+                            created by <strong class="text-secondary text-uppercase">@Model.CreatorFullName</strong>
                         </h5>
                         <p>
                             <strong class="text-secondary">Start: </strong> <span>@Model.StartDate.ToString("f") </span><strong class="event-date-end">End: </strong><span>@Model.EndDate.ToString("f")</span> <strong class="event-date-end">Apply till: </strong><span>@(terminationOfBtn ? "EXPIRED" : terminationDate.ToString("f"))</span>

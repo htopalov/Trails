@@ -32,6 +32,7 @@ namespace Trails.Infrastructure
 
             this.CreateMap<Event, EventDetailsModel>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(s => ImageProcessor.ProcessImageFromDb(s)))
+                .ForMember(dest=>dest.CreatorFullName, opt => opt.MapFrom(s => $"{s.Creator.FirstName} {s.Creator.LastName}"))
                 .ReverseMap();
 
             this.CreateMap<Event, EventEditFormModel>()
@@ -63,6 +64,8 @@ namespace Trails.Infrastructure
 
             this.CreateMap<Event, UnapprovedEventDetailsModel>()
                 .ForMember(dest=>dest.Creator, opt=>opt.MapFrom(s=> $"{s.Creator.FirstName} {s.Creator.LastName}"))
+                .ForMember(dest=>dest.CreatorPhoneNumber, opt=>opt.MapFrom(s=>s.Creator.PhoneNumber))
+                .ForMember(dest=>dest.CreatorEmail, opt=>opt.MapFrom(s=>s.Creator.Email))
                 .ReverseMap();
 
             this.CreateMap<Event, UnapprovedEventModel>()

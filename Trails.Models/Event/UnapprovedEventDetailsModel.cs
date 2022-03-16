@@ -17,5 +17,9 @@ namespace Trails.Models.Event
         public DateTime EndDate { get; set; }
 
         public string Creator { get; set; }
+
+        public string CreatorPhoneNumber { get; set; }
+
+        public string CreatorEmail { get; set; }
     }
 }
