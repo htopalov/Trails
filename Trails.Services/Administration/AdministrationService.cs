@@ -144,7 +144,7 @@ namespace Trails.Services.Administration
         {
             var @event = await this.dbContext
                 .Events
-                .Include(e=>e.Participants)
+                .Include(e=>e.Participants.Where(p=> string.IsNullOrEmpty(p.BeaconId) && p.IsApproved))
                 .ThenInclude(p=>p.User)
                 .FirstOrDefaultAsync(e=> e.Id == eventId);
 
@@ -153,13 +153,8 @@ namespace Trails.Services.Administration
                 return null;
             }
 
-            var participants = @event
-                .Participants
-                .Where(p => string.IsNullOrEmpty(p.BeaconId) && p.IsApproved)
-                .ToList();
-
             var mappedParticipants = this.mapper
-                .Map<List<ParticipantPreparationModel>>(participants);
+                .Map<List<ParticipantPreparationModel>>(@event.Participants);
 
             return mappedParticipants;
         }
