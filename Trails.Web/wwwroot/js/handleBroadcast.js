@@ -31,7 +31,7 @@
     }
 
     startConnection();
-
+    //when function is minified need to add async to arrow function manually because of buildbundler package not supporting ES6
     connection.onclose(async () => {
         await startConnection();
     });
