@@ -97,5 +97,8 @@ namespace Trails.Web.Controllers
 
         public IActionResult Error()
             => View();
+
+        public IActionResult Faq()
+            => View();
     }
 }
