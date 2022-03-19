@@ -1,0 +1,74 @@
+[
+  {
+    "outputFileName": "wwwroot/js/bundles/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js",
+      "wwwroot/js/spinner.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/bundles/broadcast.min.js",
+    "inputFiles": [
+      "wwwroot/js/setupMapInViewMode.js",
+      "wwwroot/js/setupRouteIcons.js",
+      "wwwroot/js/mapDrawRouteFromGPX.js",
+      "wwwroot/js/randomColorGenerator.js",
+      "wwwroot/js/setupBroadcastClient.js",
+      "wwwroot/js/setupParticipantsPaths.js",
+      "wwwroot/js/setupSidebarAndMapElements.js",
+      "wwwroot/js/broadcastExecuteFunc.js",
+      "wwwroot/js/handleBroadcast.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/bundles/route-create.min.js",
+    "inputFiles": [
+      "wwwroot/js/setupMap.js",
+      "wwwroot/js/mapDrawRoute.js",
+      "wwwroot/js/gpxFileProcessor.js",
+      "wwwroot/js/mapDrawRouteFromGPX.js",
+      "wwwroot/js/setupRouteIcons.js",
+      "wwwroot/js/handleRouteCreate.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/bundles/route-details.min.js",
+    "inputFiles": [
+      "wwwroot/js/mapDrawRouteFromGPX.js",
+      "wwwroot/js/setupRouteIcons.js",
+      "wwwroot/js/setupMapInViewMode.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/bundles/connectivity.min.js",
+    "inputFiles": [
+      "wwwroot/js/getParticipantsAndBeacons.js",
+      "wwwroot/js/connectParticipantToBeacon.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

@@ -46,70 +46,20 @@
 
 @section Scripts
 {
-    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.2.0/Control.FullScreen.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-sidebar-v2-zd@1.0.1/js/leaflet-sidebar.min.js"></script>
-    <script src="~/js/setupMapInViewMode.js"></script>
-    <script src="~/js/setupRouteIcons.js"></script>
-    <script src="~/js/mapDrawRouteFromGPX.js"></script>
-    <script src="~/js/randomColorGenerator.js"></script>
-    <script src="~/js/setupBroadcastClient.js"></script>
-    <script src="~/js/setupParticipantsPaths.js"></script>
-    <script src="~/js/setupSidebarAndMapElements.js"></script>
-    <script src="~/js/broadcastExecuteFunc.js"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.2.0/Control.FullScreen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-mouse-position@1.2.0/src/L.Control.MousePosition.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.visualclick@1.1.4/src/L.VisualClick.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-sidebar-v2-zd@1.0.1/js/leaflet-sidebar.min.js"></script>
+<script src="~/js/bundles/broadcast.min.js"></script>
 
-    <script>
-        let participantPaths = @Html.Raw(JsonConvert.SerializeObject(participantsPaths));
-        let routePoints = @Html.Raw(JsonConvert.SerializeObject(listOfPoints));
-        let startPoint = routePoints[0];
-
-        let pathsGroup = L.layerGroup();
-        let markersGroup = L.layerGroup();
-        let pathColorElements = document.getElementsByClassName('random');
-        let checkBoxes = document.querySelectorAll('input[type="checkbox"]');
-
-        let sidebar = L.control.sidebar({
-            autopan: true,
-            closeButton: true,
-            container: 'sidebar',
-            position: 'left'
-        }).addTo(map);
-
-        drawImportedRoute(routePoints);
-
-        for (let i = 0; i < @(Model.Participants.Count); i++) {
-            setupSidebarAndMapElements(startPoint, pathColorElements[i], pathsGroup, markersGroup, checkBoxes[i]);
-        }
-
-        editableLayers.addLayer(pathsGroup);
-        editableLayers.addLayer(markersGroup);
-
-        pathsGroup.eachLayer(function(layer) {
-            layer.addLatLng(L.latLng(startPoint[0], startPoint[1]));
-        });
-
-        for (let i = 0; i < participantPaths.length; i++) {
-            if (participantPaths[i].currentParticipantPathPoints.length > 0) {
-                setupParticipantsExistingPaths(participantPaths[i], pathsGroup, markersGroup);
-            }
-        }
-
-        startConnection();
-
-        connection.onclose(async () => {
-            await startConnection();
-        });
-
-        connection.on("BroadcastData",
-            (data) => {
-                if (data['eventId'] === '@(Model.Id)') {
-                    onBroadcast(data, pathsGroup, markersGroup);
-                }
-            });
-    </script>
+<script>
+    let participantPaths = @Html.Raw(JsonConvert.SerializeObject(participantsPaths));
+    let routePoints = @Html.Raw(JsonConvert.SerializeObject(listOfPoints));
+    let startPoint = routePoints[0];
+    handleBroadcast(participantPaths, routePoints, startPoint, @Model.Participants.Count, '@Model.Id');
+</script>
 }
