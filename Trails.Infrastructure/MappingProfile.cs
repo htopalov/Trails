@@ -32,7 +32,8 @@ namespace Trails.Infrastructure
                 .ForMember(dest => dest.CreatorFullName,
                     opt => opt.MapFrom(s => $"{s.Creator.FirstName} {s.Creator.LastName}"));
 
-            this.CreateMap<Event, EventEditFormModel>();
+            this.CreateMap<Event, EventEditFormModel>()
+                .ReverseMap();
 
             this.CreateMap<Route, RouteDetailsModel>()
                 .ForMember(dest => dest.RoutePoints, opt => opt.MapFrom(s => s.RoutePoints.OrderBy(p => p.OrderNumber)))

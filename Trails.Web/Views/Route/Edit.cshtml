@@ -36,4 +36,9 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('submitButton').addEventListener('click', () => {
+            showSpinner();
+        });
+    </script>
 }

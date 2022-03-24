@@ -57,7 +57,7 @@ builder
 
 builder
     .Services
-    .Configure<DataProtectionTokenProviderOptions>(opts => 
+    .Configure<DataProtectionTokenProviderOptions>(opts =>
         opts.TokenLifespan = TimeSpan.FromHours(1));
 
 builder
@@ -65,14 +65,6 @@ builder
     .Configure<RouteOptions>(opt =>
     {
         opt.LowercaseUrls = true;
-    });
-
-builder
-    .Services
-    .Configure<CookiePolicyOptions>(opt =>
-    {
-        opt.CheckConsentNeeded = context => true;
-        opt.MinimumSameSitePolicy = SameSiteMode.Strict;
     });
 
 builder
@@ -87,12 +79,22 @@ builder
     .Services
     .AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.HttpOnly = true;
-    options.Cookie.MaxAge = TimeSpan.FromDays(1);
-    options.SlidingExpiration = true;
-});
+builder
+    .Services
+    .Configure<CookiePolicyOptions>(opt =>
+    {
+        opt.CheckConsentNeeded = context => true;
+        opt.MinimumSameSitePolicy = SameSiteMode.Strict;
+    });
+
+builder
+    .Services
+    .ConfigureApplicationCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.Cookie.MaxAge = TimeSpan.FromDays(1);
+        options.SlidingExpiration = true;
+    });
 
 builder
     .Services
@@ -105,8 +107,7 @@ builder
 
 var app = builder.Build();
 
-//TODO: UNCOMMENT WHEN DEPLOYING 
-//app.DatabaseSetup();
+app.DatabaseSetup();
 
 if (app.Environment.IsDevelopment())
 {

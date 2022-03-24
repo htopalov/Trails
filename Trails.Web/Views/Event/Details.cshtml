@@ -111,7 +111,8 @@
                                       asp-action="Details"
                                       asp-route-routeId="@Model.RouteId"
                                       class="text-secondary"
-                                      style="text-decoration: none; cursor: pointer">Details</a></p>
+                                      style="text-decoration: none; cursor: pointer"
+                                      id="routeDetailsBtn">Details</a></p>
                             </div>
                         </div>
                         <div class="row">
@@ -139,10 +140,14 @@
 @section Scripts
 {
     <script>
+        document.getElementById('routeDetailsBtn').addEventListener('click', () => {
+            showSpinner();
+        });
+
         document.querySelector('#closeBtn').addEventListener('click', 
             function() {
-                    window.location.reload();
-                });
+                window.location.reload();
+            });
 
         let approveButtons = document.querySelectorAll('.approve');
         for (let i = 0; i < approveButtons.length; i++) {

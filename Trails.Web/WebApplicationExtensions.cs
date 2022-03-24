@@ -43,9 +43,17 @@ namespace Trails.Web
                 .Configuration
                 .GetValue<string>("AdministratorDetails:Password");
 
-
-            MigrateDatabase(services);
-            SeedAdministrator(services, admin, adminPassword);
+            try
+            {
+                MigrateDatabase(services);
+                SeedAdministrator(services, admin, adminPassword);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+                return app;
+            }
+       
 
             return app;
         }
@@ -55,9 +63,18 @@ namespace Trails.Web
             var data = services
                 .GetRequiredService<TrailsDbContext>();
 
-            data
-                .Database
-                .Migrate();
+            try
+            {
+                data
+                    .Database
+                    .Migrate();
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(e.Message);
+            }
+
+         
         }
 
         private static void SeedAdministrator(IServiceProvider services, User admin, string adminPassword)

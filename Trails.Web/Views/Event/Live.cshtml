@@ -15,7 +15,7 @@
             }
             else
             {
-                foreach (var ev in @Model)
+                foreach (var ev in Model)
                 {
                     <div class="col-md-4 m-auto">
                         <div class="card">
@@ -25,9 +25,10 @@
                             <div class="card-body">
                                 <h5 class="card-title">@ev.Name</h5>
                                 <a asp-controller="Event"
-                                   asp-action="Broadcast"
-                                   asp-route-eventId="@ev.Id"
-                                   class="btn btn-sm bg-warning">Watch</a>
+                           asp-action="Broadcast"
+                           asp-route-eventId="@ev.Id"
+                           class="btn btn-sm bg-warning"
+                           id="watchBtn">Watch</a>
                             </div>
                         </div>
                     </div>
@@ -36,3 +37,12 @@
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+<script>
+    document.getElementById('watchBtn').addEventListener('click', () => {
+    showSpinner();
+    });
+</script>
+}

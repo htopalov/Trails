@@ -44,7 +44,7 @@ namespace Trails.Web.Controllers
                 if (imageFileNames == null)
                 {
                     imageFileNames = Directory
-                        .GetFiles(env.WebRootPath + "\\images")
+                        .GetFiles(env.WebRootPath + "/images")
                         .Select(f => Path.GetFileName(f))
                         .ToArray();
 

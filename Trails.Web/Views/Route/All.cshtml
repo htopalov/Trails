@@ -58,7 +58,8 @@
                         <a asp-controller="Route" 
                            asp-action="Details"
                            asp-route-routeId="@routeModel.Id"
-                           class="btn btn-info">Details</a>
+                           class="btn btn-info"
+                           id="routeDetailsBtn">Details</a>
                     </td>
                 </tr>
             }
@@ -98,3 +99,12 @@
         }
     </div>
 </section>
+
+@section Scripts
+{
+    <script>
+        document.getElementById('routeDetailsBtn').addEventListener('click', () => {
+            showSpinner();
+        });
+    </script>
+}
