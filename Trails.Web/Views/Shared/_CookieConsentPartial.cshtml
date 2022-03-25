@@ -8,20 +8,15 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-success alert-dismissible fade show" style="position: fixed; bottom: 0; right: 0; z-index: 9999" role="alert">
-        Trails uses cookies
-        <button type="button" class="btn btn-outline-success close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
+    <div id="cookieContainer" class="cookie-consent"> <span>This site uses cookies to enhance user experience.</span>
+        <div class="mt-2 d-flex align-items-center justify-content-center g-2"> <button id="allowCookieBtn" class="allow-button mr-1" data-cookie-string="@cookieString">Allow cookies</button></div>
     </div>
     <script>
-        (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-            button.addEventListener("click", function (event) {
-                document.cookie = button.dataset.cookieString;
-                var cookieContainer = document.querySelector("#cookieConsent");
-                cookieContainer.remove();
-            }, false);
-        })();
+        let button = document.getElementById('allowCookieBtn');
+        let cookieContainer = document.getElementById('cookieContainer');
+        button.addEventListener("click", () => {
+            document.cookie = button.dataset.cookieString;
+            cookieContainer.remove();
+        });
     </script>
 }

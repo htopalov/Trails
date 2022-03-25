@@ -87,7 +87,8 @@ namespace Trails.Web.Controllers
 
             if (user == null)
             {
-                RedirectToAction("ResetPasswordConfirmation");
+                TempData[TempDataKeySuccess] = PasswordResetSuccess;
+                return Redirect("/");
             }
             
             var resetPassResult = await this.userManager
@@ -103,10 +104,8 @@ namespace Trails.Web.Controllers
                 return View();
             }
 
-            return RedirectToAction("ResetPasswordConfirmation");
+            TempData[TempDataKeySuccess] = PasswordResetSuccess;
+            return Redirect("/");
         }
-
-        public IActionResult ResetPasswordConfirmation()
-            => View();
     }
 }

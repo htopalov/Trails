@@ -1,12 +1,11 @@
-﻿@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+﻿@inject UserManager<User> UserManager
 
 @{
     var userId = UserManager.GetUserId(User);
 }
 
 <ul class="navbar-nav">
-    @if (!SignInManager.IsSignedIn(User))
+    @if (!User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
             <a  asp-area="Identity"
@@ -25,7 +24,7 @@
                class="nav-link py-3 px-0 px-lg-3 rounded">Statistics</a>
         </li>
     }
-    else if(SignInManager.IsSignedIn(User))
+    else if(User.Identity.IsAuthenticated)
     {
         if (!User.IsInRole("Administrator"))
         { 

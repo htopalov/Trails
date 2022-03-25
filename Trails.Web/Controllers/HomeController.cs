@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Trails.Data.DomainModels;
 using Trails.Models.Contact;
 using Trails.Services.Event;
 using Trails.Services.User;
@@ -9,26 +8,24 @@ using static Trails.Common.NotificationConstants;
 
 namespace Trails.Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private const string AnonymousIndexImageCacheKey = 
             nameof(AnonymousIndexImageCacheKey);
 
         private readonly IWebHostEnvironment env;
-        private readonly SignInManager<User> manager;
         private readonly IEventService eventService;
         private readonly IMemoryCache cache;
         private readonly IEmailService emailService;
 
         public HomeController(
             IWebHostEnvironment env,
-            SignInManager<User> manager,
             IEventService eventService,
             IMemoryCache cache,
             IEmailService emailService)
         {
             this.env = env;
-            this.manager = manager;
             this.eventService = eventService;
             this.cache = cache;
             this.emailService = emailService;
@@ -36,7 +33,7 @@ namespace Trails.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (!manager.IsSignedIn(User))
+            if (!User.Identity.IsAuthenticated)
             {
                 var imageFileNames = this.cache
                     .Get<string[]>(AnonymousIndexImageCacheKey);

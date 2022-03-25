@@ -4,44 +4,46 @@
     ViewData["Title"] = "Home ";
 }
 
-    
-<header class="masthead bg-primary text-white text-center">
-        <div class="container d-flex align-items-center flex-column">
-            <h1 class="masthead-heading text-uppercase mb-0">Trails GPS Tracking System</h1>
-            <p class="masthead-subheading font-weight-light mb-0">Trail running - Offroad Cycling - Orienteering - Speed Hiking - More...</p>
+
+<div class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <h1 class="masthead-heading text-uppercase mb-0">Trails GPS Tracking System</h1>
+        <p class="masthead-subheading font-weight-light mb-0">Trail running - Offroad Cycling - Orienteering - Speed Hiking - More...</p>
+    </div>
+</div>
+<section class="bg-primary text-white mb-0" id="about">
+    <div class="container">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade shadow p-2 mb-1 bg-white rounded" data-bs-ride="carousel" data-bs-touch="false">
+            <div class="carousel-inner">
+                @for (int i = 0; i < Model.Length; i++)
+                {
+                    <div class="carousel-item  @(i == 0 ? "active" : string.Empty)" @(i == 0 ? "data-bs-interval=\"2000\"" : string.Empty)>
+                        <img src="~/images/@Model[i]" class="d-block w-100" alt="...">
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-    </header>
-    <section class="bg-primary text-white mb-0" id="about">
-        <div class="container">
-            <div id="carouselExampleFade" class="carousel slide carousel-fade shadow p-2 mb-1 bg-white rounded" data-bs-ride="carousel" data-bs-touch="false">
-                <div class="carousel-inner">
-                    @for (int i = 0; i < Model.Length; i++)
-                    {
-                        <div class="carousel-item  @(i == 0 ? "active" : string.Empty)" @(i == 0 ? "data-bs-interval=\"2000\"" : string.Empty)>
-                            <img src="~/images/@Model[i]" class="d-block w-100" alt="...">
-                        </div>
-                    }
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+        <h2 class="page-section-heading text-center text-uppercase text-white mt-3">Why Trails ???</h2>
+        <div class="row">
+            <div class="col-lg-4 ms-auto">
+                <p class="lead">Accurate realtime GPS tracking for race events. No matter what location, time and terrain Trails Beacon© is able to broadcast your location live.</p>
             </div>
-            <h2 class="page-section-heading text-center text-uppercase text-white mt-3">Why Trails ???</h2>
-            <div class="row">
-                <div class="col-lg-4 ms-auto">
-                    <p class="lead">Accurate realtime GPS tracking for race events. No matter what location, time and terrain Trails Beacon© is able to broadcast your location live.</p></div>
-                <div class="col-lg-4 me-auto">
-                    <p class="lead">Simply register today, create your event and start following athletes and friends in events you or your community created.</p></div>
-            </div>
-            <div class="text-center mt-4">
-                <a class="btn btn-xl btn-outline-light" style="margin-bottom: 30px" asp-area="Identity" asp-page="/Account/Login">
-                    Start Trails NOW
-                </a>
+            <div class="col-lg-4 me-auto">
+                <p class="lead">Simply register today, create your event and start following athletes and friends in events you or your community created.</p>
             </div>
         </div>
-    </section>
+        <div class="text-center mt-4">
+            <a class="btn btn-xl btn-outline-light" style="margin-bottom: 30px" asp-area="Identity" asp-page="/Account/Login">
+                Start Trails NOW
+            </a>
+        </div>
+    </div>
+</section>

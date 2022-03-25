@@ -39,5 +39,6 @@
         public const string ImageFileExtensionError = "Allowed type of images: jpg, jpeg, png";
         public const string ContactSuccess = "Your message was send.";
         public const string ContactFail = "Your message could not be send.";
+        public const string PasswordResetSuccess = "You password has been changed.";
     }
 }
