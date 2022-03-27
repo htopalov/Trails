@@ -39,6 +39,11 @@ namespace Trails.Data
                 relation.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
+            builder.Entity<Beacon>()
+                .HasMany(b => b.BeaconData)
+                .WithOne(bd => bd.Beacon)
+                .OnDelete(DeleteBehavior.SetNull);
+
         }
     }
 }

@@ -81,14 +81,6 @@ builder
 
 builder
     .Services
-    .Configure<CookiePolicyOptions>(opt =>
-    {
-        opt.CheckConsentNeeded = context => true;
-        opt.MinimumSameSitePolicy = SameSiteMode.Strict;
-    });
-
-builder
-    .Services
     .ConfigureApplicationCookie(options =>
     {
         options.Cookie.HttpOnly = true;

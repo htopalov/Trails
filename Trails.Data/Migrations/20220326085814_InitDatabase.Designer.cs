@@ -12,8 +12,8 @@ using Trails.Data;
 namespace Trails.Data.Migrations
 {
     [DbContext(typeof(TrailsDbContext))]
-    [Migration("20220311205639_MigrateEntities")]
-    partial class MigrateEntities
+    [Migration("20220326085814_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -355,6 +355,9 @@ namespace Trails.Data.Migrations
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(36)");
+
                     b.Property<string>("FinishLocationName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -382,6 +385,8 @@ namespace Trails.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Routes");
                 });
@@ -556,7 +561,7 @@ namespace Trails.Data.Migrations
                     b.HasOne("Trails.Data.DomainModels.Beacon", "Beacon")
                         .WithMany("BeaconData")
                         .HasForeignKey("BeaconId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Trails.Data.DomainModels.Participant", "Participant")
                         .WithMany("BeaconData")
@@ -633,7 +638,14 @@ namespace Trails.Data.Migrations
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Trails.Data.DomainModels.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Creator");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("Trails.Data.DomainModels.RoutePoint", b =>
