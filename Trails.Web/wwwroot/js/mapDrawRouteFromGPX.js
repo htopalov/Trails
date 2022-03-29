@@ -32,9 +32,12 @@ function drawImportedRoute(routePoints) {
 
         let currentAltitude = currentPoint[2].toFixed(2);
         altitudes.push(currentAltitude);
-
-        if (i % 250 === 0) {
+        if (routePoints.length < 1500) {
             yAxisChartData.push(currentAltitude);
+        } else {
+            if (i % 250 === 0) {
+                yAxisChartData.push(currentAltitude);
+            }
         }
     }
 
@@ -60,8 +63,12 @@ function drawImportedRoute(routePoints) {
 
     for (let i = 0; i < rawCoordinates.length - 1; i++) {
         routeLengthForChart += rawCoordinates[i].distanceTo(rawCoordinates[i + 1]);
-        if (i % 250 === 0) {
+        if (rawCoordinates.length < 1500) {
             xAxisChartData.push(`${(routeLengthForChart / 1000).toFixed(2)} km`);
+        } else {
+            if (i % 250 === 0) {
+                xAxisChartData.push(`${(routeLengthForChart / 1000).toFixed(2)} km`);
+            }
         }
     }
 
