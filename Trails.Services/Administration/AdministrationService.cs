@@ -99,7 +99,7 @@ namespace Trails.Services.Administration
             return result > 0;
         }
 
-        public async Task DetachBeaconsFromParticipantsInPassedEventsAsync()
+        public async Task<bool> DetachBeaconsFromParticipantsInPassedEventsAsync()
         {
             var participants = await this.dbContext
                 .Participants
@@ -108,21 +108,25 @@ namespace Trails.Services.Administration
                 .Where(p => p.Event.EndDate < DateTime.UtcNow && p.Beacon != null)
                 .ToListAsync();
 
-            if (participants.Count == 0)
-            {
-                return;
-            }
-
             participants
                 .AsParallel()
                 .ForAll(p => p.Beacon = null);
+           
+            try
+            {
+                this.dbContext
+                    .Participants
+                    .UpdateRange(participants);
 
-            this.dbContext
-                .Participants
-                .UpdateRange(participants);
+                await this.dbContext
+                    .SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-            await this.dbContext
-                .SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<EventPreparationModel>> GetEventsToPrepareAsync()
@@ -164,7 +168,7 @@ namespace Trails.Services.Administration
             var listOfConnectedBeaconIds = await this.dbContext
                 .Participants
                 .Where(p => !string.IsNullOrEmpty(p.BeaconId))
-                .Select(p=> new string(p.BeaconId))
+                .Select(p=> p.BeaconId)
                 .ToListAsync();
 
             var beaconsToConnect = await this.dbContext

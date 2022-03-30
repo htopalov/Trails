@@ -58,8 +58,12 @@ namespace Trails.Web.Areas.Administration.Controllers
 
         public async Task<IActionResult> DetachBeacons()
         {
-            await this.adminService
+            var detached = await this.adminService
                 .DetachBeaconsFromParticipantsInPassedEventsAsync();
+            if (!detached)
+            {
+                return View("Error");
+            }
 
             return NoContent();
         }

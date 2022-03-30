@@ -14,7 +14,7 @@ namespace Trails.Services.Administration
 
         Task<bool> DeclineEventAsync(string eventId);
 
-        Task DetachBeaconsFromParticipantsInPassedEventsAsync();
+        Task<bool> DetachBeaconsFromParticipantsInPassedEventsAsync();
 
         Task<List<EventPreparationModel>> GetEventsToPrepareAsync();
 
