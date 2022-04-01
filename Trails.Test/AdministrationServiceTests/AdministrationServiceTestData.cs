@@ -12,25 +12,25 @@ namespace Trails.Test.AdministrationServiceTests
         public static List<Participant> GetTestParticipants()
             => new()
             {
-                new Participant
+                new ()
                 {
                     Id = "00000000-0000-0000-0000-000000000001",
                     IsApproved = true,
                     EventId = "00000000-0000-0000-0000-000000000009"
                 },
-                new Participant
+                new ()
                 {
                     Id = "00000000-0000-0000-0000-000000000002",
                     IsApproved = true,
                     EventId = "00000000-0000-0000-0000-000000000009"
                 },
-                new Participant
+                new ()
                 {
                     Id = "00000000-0000-0000-0000-000000000003",
                     IsApproved = true,
                     BeaconId = "00000000-1000-0000-0000-000000000001"
                 },
-                new Participant
+                new ()
                 {
                     Id = "00000000-0000-0000-0000-000000000004",
                     IsApproved = false
@@ -40,7 +40,7 @@ namespace Trails.Test.AdministrationServiceTests
         public static List<Beacon> GetTestBeacons()
             => new()
             {
-                new Beacon
+                new ()
                 {
                     Id = "00000000-1000-0000-0000-000000000001",
                     Description = "Description for beacon",
@@ -48,7 +48,7 @@ namespace Trails.Test.AdministrationServiceTests
                     SimCardNumber = "0883456789",
                     KeyHash = "23345fsdgsfd4445gsg"
                 },
-                new Beacon
+                new ()
                 {
                     Id = "00000000-2200-0000-0000-000000000022",
                     Description = "Description for beacon",
@@ -56,7 +56,7 @@ namespace Trails.Test.AdministrationServiceTests
                     SimCardNumber = "0883456711",
                     KeyHash = "23345fsdgggggg5d4445gsg"
                 },
-                new Beacon
+                new ()
                 {
                     Id = "00000000-3300-0000-0000-000000000033",
                     Description = "Description for beacon",
