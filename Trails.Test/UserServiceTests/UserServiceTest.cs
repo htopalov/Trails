@@ -26,7 +26,6 @@ namespace Trails.Test.UserServiceTests
         {
             var result = emailService.PasswordResetMessage(To, Link);
             Assert.AreEqual(ExpectedFromPropertyContent, result.From.Email);
-            Assert.AreEqual(ExpectedMessageSubject, result.Subject);
         }
 
         [Test]
