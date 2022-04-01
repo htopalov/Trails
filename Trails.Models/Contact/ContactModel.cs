@@ -18,7 +18,9 @@ namespace Trails.Models.Contact
         public string Email { get; set; }
 
         [Required]
-        [RegularExpression(PhonePattern)]
+        [RegularExpression(
+            PhonePattern,
+            ErrorMessage = InvalidPhoneNumberFormatError)]
         public string PhoneNumber { get; set; }
 
         [Required]
