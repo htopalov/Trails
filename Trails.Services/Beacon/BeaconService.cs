@@ -97,6 +97,9 @@ namespace Trails.Services.Beacon
                 return false;
             }
 
+            beaconFormModel.Key = SecurityProvider
+                .KeyHasher(beaconFormModel.Key);
+
             this.mapper.Map(beaconFormModel, beacon);
 
             this.dbContext
