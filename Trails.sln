@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.GPXProcessor", "Trai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.Infrastructure", "Trails.Infrastructure\Trails.Infrastructure.csproj", "{B77519A1-116D-4BC3-954B-F2AEB110A229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trails.Test", "Trails.Test\Trails.Test.csproj", "{4EEA59D5-60EE-445E-88E3-84E7AAB67ABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.Test", "Trails.Test\Trails.Test.csproj", "{4EEA59D5-60EE-445E-88E3-84E7AAB67ABC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trails.Test.Web", "Trails.Test.Web\Trails.Test.Web.csproj", "{E19F8339-CE5B-4763-B2B2-EF0E2264E3CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{4EEA59D5-60EE-445E-88E3-84E7AAB67ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EEA59D5-60EE-445E-88E3-84E7AAB67ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EEA59D5-60EE-445E-88E3-84E7AAB67ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19F8339-CE5B-4763-B2B2-EF0E2264E3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19F8339-CE5B-4763-B2B2-EF0E2264E3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19F8339-CE5B-4763-B2B2-EF0E2264E3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19F8339-CE5B-4763-B2B2-EF0E2264E3CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
