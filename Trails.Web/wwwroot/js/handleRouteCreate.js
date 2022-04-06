@@ -47,7 +47,7 @@
                 .then((response) => {
                     hideSpinner();
                     if (response.ok) {
-                        window.location = `/Event/Details?eventId=${eventId}`;
+                        window.location = `/event/events`;
                     } else if (response.status === 400) {
                         window.location.reload();
                     }
