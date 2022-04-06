@@ -134,3 +134,5 @@ app.UseEndpoints(endpoints =>
 
 app.MapRazorPages();
 app.Run();
+
+public partial class Program { }
