@@ -134,7 +134,7 @@ Site guest (**visitor**) options:
 
 ## Project Architecture
 
-![Live Broadcast](https://res.cloudinary.com/dzya2iohi/image/upload/q_100/v1649098453/Untitled_Diagram_3_axiz5d.jpg)
+![Live Broadcast](SampleImages/Untitled_Diagram_3_axiz5d.jpg)
 
 ## Typical Workflow
 
@@ -148,21 +148,21 @@ Administrator's typical workflow includes:
 ## Samples
 
 **Home**
-![Unregistered user](https://res.cloudinary.com/dzya2iohi/image/upload/v1649277292/2022-04-06_23-17-45_1_osuxcn.gif) 
+![Unregistered user](SampleImages/2022-04-06_23-17-45_1_osuxcn.gif) 
 
 **Route details**
-![Route details](https://res.cloudinary.com/dzya2iohi/image/upload/v1649277292/2022-04-06_23-24-57_1_ba9svm.gif) 
+![Route details](SampleImages/2022-04-06_23-24-57_1_ba9svm.gif) 
 
 **Administration**
-![Admin panel](https://res.cloudinary.com/dzya2iohi/image/upload/v1649277099/2022-04-06_23-27-56_z3jf9s.gif) 
+![Admin panel](SampleImages/2022-04-06_23-27-56_z3jf9s.gif) 
 
 **Live Broadcast**
-![Live Broadcast](https://res.cloudinary.com/dzya2iohi/image/upload/v1649359979/2022-04-07_22-27-28_vtasmf.gif) 
+![Live Broadcast](SampleImages/2022-04-07_22-27-28_vtasmf.gif) 
 
 **Beacon**
-![Beacon](https://res.cloudinary.com/dzya2iohi/image/upload/v1649359143/1649358816129_wbsgur.jpg)
+![Beacon](SampleImages/1649358816129_wbsgur.jpg)
 
-![Beacon](https://res.cloudinary.com/dzya2iohi/image/upload/v1649359142/1649358816111_es64xx.jpg)
+![Beacon](SampleImages/1649358816111_es64xx.jpg)
 
 
 
