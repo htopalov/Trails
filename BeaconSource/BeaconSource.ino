@@ -5,7 +5,7 @@ const char gprsPass[] = "VIVACOM"; // GPRS Password
 const char simPIN[]   = "xxxx"; // SIM card PIN
 
 // Server details
-const char server[] = "https://trailslive.azurewebsites.net/"; // Domain
+const char server[] = "https://trailslive.net/"; // Domain
 const int  port = 00; // Server port number
 const char ip[]= "xx.xx.xx.xx"; //Ip address for connection
 
@@ -86,8 +86,7 @@ void loop() {
   SerialMon.print("Connecting to mobile network: ");
   if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
     SerialMon.println(" Fail!");
-    delay(2000);
-    return;
+    esp_deep_sleep_start();
   } else {
     SerialMon.println("Connected to mobile network");
   }
@@ -95,8 +94,7 @@ void loop() {
   SerialMon.print("Connecting to server: ");
   if (!client.connect(ip, port)) {
       SerialMon.println(" Fail!");
-      delay(1000);
-      return;
+      esp_deep_sleep_start();
   } else{
     SerialMon.println("Connected to server");
   }
@@ -123,8 +121,8 @@ void loop() {
 
       // Making a HTTP POST request to server
       SerialMon.println("HTTP POST request to endpoint");
-      client.print(String("POST ") + "https://trailslive.azurewebsites.net/beacon/data" + " HTTP/1.1\r\n");
-      client.print(String("Host: ") + "https://trailslive.azurewebsites.net/" + "\r\n");
+      client.print(String("POST ") + "https://trailslive.net/beacon/data" + " HTTP/1.1\r\n");
+      client.print(String("Host: ") + "https://trailslive.net/" + "\r\n");
       client.println("AuthKey: " + String(authKey));
       client.println("Connection: close");
       client.println("Content-Type: application/json");
