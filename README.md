@@ -1,9 +1,20 @@
 # Trails - Live GPS Tracking System For Sport Events In The Open
 
-## Live at: https://trailslive.azurewebsites.net/
+## Live at: https://trailslive.net/
 
 ## SoftUni Tester Credentials
-....................
+
+User:
+* email: softuni@softuni.bg
+* pass: 123456
+
+Admin:
+* email: admin@trailslive.net
+* pass: 123456
+
+Beacon:
+* Imei: 000000000000000
+* AuthKey: n6qmVk8nZFSerD9Q11CQ5ejSihVSIo9g
 
 ## Author
 
