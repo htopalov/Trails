@@ -1,8 +1,11 @@
 # Trails - Live GPS Tracking System For Sport Events In The Open
 
 ## Live at: https://trailslive.net/
+## Api Endpoint at: https://trailslive.net/beacon/data
 
 ## SoftUni Tester Credentials
+
+*For Api test you can use predefined Postman request included in this repo*
 
 User:
 * email: softuni@softuni.bg

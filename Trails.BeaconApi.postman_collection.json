@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "bda7aeaf-8644-4168-9954-6db9d12ba2a3",
+		"name": "Trails.BeaconApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TrailsApiPostBeaconData",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthKey",
+						"value": "n6qmVk8nZFSerD9Q11CQ5ejSihVSIo9g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"latitude\": 42.6038,\r\n    \"longitude\": 23.40838,\r\n    \"altitude\": 610.2,\r\n    \"speed\": 3.1,\r\n    \"beaconImei\": \"000000000000000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://trailslive.net/beacon/data",
+					"protocol": "https",
+					"host": [
+						"trailslive",
+						"net"
+					],
+					"path": [
+						"beacon",
+						"data"
+					]
+				},
+				"description": "This is simple post request with predefined headers and json body to test TrailsApi endpoint in order to simulate Beacon GPS Device Post request."
+			},
+			"response": []
+		}
+	]
+}
