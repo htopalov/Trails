@@ -7,17 +7,11 @@
 
 *For Api test you can use predefined Postman request included in this repo*
 
+Edit: Beacon and Admin credentials are no longer available
+
 User:
 * email: softuni@softuni.bg
 * pass: 123456
-
-Admin:
-* email: admin@trailslive.net
-* pass: 123456
-
-Beacon:
-* Imei: 000000000000000
-* AuthKey: n6qmVk8nZFSerD9Q11CQ5ejSihVSIo9g
 
 ## Author
 
